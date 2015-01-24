@@ -27,20 +27,11 @@ namespace AIM.Autoplay.Modes
             CustomEvents.Game.OnGameLoad += OnGameLoad;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Game.OnGameUpdate -= Load.OnGameUpdate;
-
-            AutoLevel levelUpSpells = new AutoLevel(Util.Data.AutoLevel.GetSequence());
         }
 
         public override void OnGameLoad(EventArgs args)
         {
-            try
-            {
-                //
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            AutoLevel levelUpSpells = new AutoLevel(Util.Data.AutoLevel.GetSequence());
         }
 
         public override void OnGameUpdate(EventArgs args)

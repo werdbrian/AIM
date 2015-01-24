@@ -17,6 +17,7 @@ namespace AIM.Autoplay.Util
         public Orbwalker()
         {
             Game.PrintChat("AIM Orbwalker Init Successful");
+            Game.PrintChat("Enjoy.");
         }
         public void ExecuteMixedMode(Vector3 pos)
         {

@@ -44,7 +44,6 @@ namespace AIM.Autoplay
 
             Game.PrintChat("AIM {0} Loaded!", Program.Version);
             Game.PrintChat("Don't panic, the bot will stard at 60 seconds in the game.");
-            Game.PrintChat("Sit back and enjoy some free ip. :)");
 
         }
 
