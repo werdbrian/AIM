@@ -33,10 +33,7 @@ namespace AIM.Autoplay.Modes
         {
             try
             {
-                Game.PrintChat("AIM Loaded!");
-                new AutoLevel(Util.Data.AutoLevel.GetSequence());
-                ObjConstants.AssignConstants();
-                ObjHeroes.CreateHeroesList();
+                //
             }
             catch (Exception e)
             {

@@ -38,6 +38,12 @@ namespace AIM.Autoplay
             Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
             Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
             Base.Menu.AddToMainMenu();
+
+            new AutoLevel(Util.Data.AutoLevel.GetSequence());
+
+            //Util.Helpers.FileHandler.DoChecks();
+
+            Game.PrintChat("AIM Loaded!");
         }
 
         public static void OnGameUpdate(EventArgs args)
