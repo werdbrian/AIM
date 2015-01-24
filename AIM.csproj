@@ -111,6 +111,10 @@
     <Compile Include="Plugins\Galio.cs" />
     <Compile Include="Plugins\Gangplank.cs" />
     <Compile Include="Plugins\Garen.cs" />
+    <Compile Include="Plugins\Gragas.cs" />
+    <Compile Include="Plugins\Graves.cs" />
+    <Compile Include="Plugins\Heimerdinger.cs" />
+    <Compile Include="Plugins\Irelia.cs" />
     <Compile Include="Plugins\Poppy.cs" />
     <Compile Include="Plugins\Riven.cs" />
     <Compile Include="Plugins\Sivir.cs" />
