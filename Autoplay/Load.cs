@@ -5,6 +5,7 @@ using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using AIM.Autoplay.Modes;
 using BehaviorSharp;
 using BehaviorSharp.Components.Conditionals;
 using LeagueSharp;
@@ -29,10 +30,14 @@ namespace AIM.Autoplay
             //Draw AIMLoading.jpg
         }
 
-        public static void OnGameLoad(EventArgs args)
+        public void OnGameLoad(EventArgs args)
         {
             _loadTickCount = Environment.TickCount;
-
+            
+            Base.Menu = new Menu("AIM", "AIM", true);
+            Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
+            Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
+            Base.Menu.AddToMainMenu();
         }
 
         public static void OnGameUpdate(EventArgs args)

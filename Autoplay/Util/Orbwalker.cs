@@ -16,11 +16,10 @@ namespace AIM.Autoplay.Util
     {
         public Orbwalker()
         {
-            Game.PrintChat("AIM Init Successfull");
+            Game.PrintChat("AIM Orbwalker Init Successful");
         }
         public void ExecuteMixedMode(Vector3 pos)
         {
-            Console.WriteLine("Mixed Mode");
                 if (ObjectManager.Player.UnderTurret(true))
                 {
                     Obj_AI_Turret nearestTurret = Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(ObjectManager.Player) < 800);

@@ -31,7 +31,6 @@ namespace AIM.Autoplay.Modes
 
         public override void OnGameLoad(EventArgs args)
         {
-            LoadMenu();
             try
             {
                 Game.PrintChat("AIM Loaded!");

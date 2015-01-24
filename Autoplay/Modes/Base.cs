@@ -38,16 +38,7 @@ namespace AIM.Autoplay.Modes
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
         public static bool IsInDanger = false; 
 
-        #region Menu
         public static Menu Menu;
-        public void LoadMenu()
-        {
-            Menu = new Menu("AIM", "AIM", true);
-            Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
-            Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
-            Menu.AddToMainMenu();
-        }
-        #endregion Menu
 
         #region Minions
 
@@ -57,12 +48,10 @@ namespace AIM.Autoplay.Modes
             if (Utility.Map.GetMap().Type == Utility.Map.MapType.SummonersRift)
             {
                 LeadingMinion = ObjMinions.GetLeadMinion(SummonersRift.BottomLane.Bottom_Zone.CenterOfPolygone().To3D());
-                Game.PrintChat("Leading minion assigned");
             }
             else
             {
                 LeadingMinion = ObjMinions.GetLeadMinion();
-                Game.PrintChat("Leading minion assigned");
             }
         }
 
