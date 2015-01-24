@@ -13,7 +13,6 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using AIM.Autoplay.Util.Helpers;
-using AIM.Autoplay.Util.Data;
 using BehaviorSharp.Components.Actions;
 using AutoLevel = LeagueSharp.Common.AutoLevel;
 

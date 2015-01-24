@@ -57,20 +57,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BehaviorSharp">
-      <HintPath>C:\LeagueSharp\\System\BehaviorSharp.dll</HintPath>
+      <HintPath>D:\LeagueSharp\\System\BehaviorSharp.dll</HintPath>
     </Reference>
     <Reference Include="clipper_library">
-      <HintPath>C:\LeagueSharp\\System\clipper_library.dll</HintPath>
+      <HintPath>D:\LeagueSharp\\System\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp, Version=1.0.0.25, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\LeagueSharp\\System\LeagueSharp.dll</HintPath>
+      <HintPath>D:\LeagueSharp\\System\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>C:\LeagueSharp\\System\LeagueSharp.Common.dll</HintPath>
+      <HintPath>D:\LeagueSharp\\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>C:\LeagueSharp\\System\SharpDX.dll</HintPath>
+      <HintPath>D:\LeagueSharp\\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,12 +92,29 @@
     <Compile Include="Autoplay\Util\Objects\Minions.cs" />
     <Compile Include="Autoplay\Util\Objects\Turrets.cs" />
     <Compile Include="Autoplay\Util\Orbwalker.cs" />
+    <Compile Include="Plugins\Aatrox.cs" />
     <Compile Include="Plugins\Ahri.cs" />
     <Compile Include="Plugins\Akali.cs" />
     <Compile Include="Plugins\Anivia.cs" />
     <Compile Include="Plugins\Brand.cs" />
     <Compile Include="Plugins\Caitlyn.cs" />
     <Compile Include="Plugins\Cassiopeia.cs" />
+    <Compile Include="Plugins\Chogath.cs" />
+    <Compile Include="Plugins\Corki.cs" />
+    <Compile Include="Plugins\Darius.cs" />
+    <Compile Include="Plugins\Diana.cs" />
+    <Compile Include="Plugins\Draven.cs" />
+    <Compile Include="Plugins\Drmundo.cs" />
+    <Compile Include="Plugins\Evelynn.cs" />
+    <Compile Include="Plugins\Fiora.cs" />
+    <Compile Include="Plugins\Fizz.cs" />
+    <Compile Include="Plugins\Galio.cs" />
+    <Compile Include="Plugins\Gangplank.cs" />
+    <Compile Include="Plugins\Garen.cs" />
+    <Compile Include="Plugins\Gragas.cs" />
+    <Compile Include="Plugins\Graves.cs" />
+    <Compile Include="Plugins\Heimerdinger.cs" />
+    <Compile Include="Plugins\Irelia.cs" />
     <Compile Include="Plugins\Poppy.cs" />
     <Compile Include="Plugins\Riven.cs" />
     <Compile Include="Plugins\Sivir.cs" />
