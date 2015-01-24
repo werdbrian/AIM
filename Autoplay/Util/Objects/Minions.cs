@@ -19,8 +19,8 @@ namespace AIM.Autoplay.Util.Objects
 
         public void UpdateMinions()
         {
-            AllMinions = ObjectManager.Get<Obj_AI_Minion>().Where(obj => obj.CanMove).ToList();
-            AllyMinions = AllMinions.FindAll(minion => minion.IsAlly);
+            AllMinions = ObjectManager.Get<Obj_AI_Minion>().ToList();
+            AllyMinions = AllMinions.FindAll(minion => minion.IsAlly && minion.CanMove);
             EnemyMinions = AllMinions.FindAll(minion => !minion.IsAlly);
         }
 
