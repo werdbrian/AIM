@@ -15,7 +15,7 @@ using Color = System.Drawing.Color;
 
 #endregion
 
-namespace AIM
+namespace AIM.Autoplay.Behaviors
 {
     internal class Follow
 
@@ -44,7 +44,7 @@ namespace AIM
 
                 //recall logic
             var FollowRecallLogic = new Inverter(new Sequence(FollowTarget.IsPlayerRecalling(),
-            new Inverter(Utils.IsEnemyNear(500)), Health.RecallSequence));
+            new Inverter(Utils.IsEnemyNear(500)), Recalling.RecallSequence));
 
                 // don't move to follow when you are already moving to it
                 var IsOTW =

@@ -1,20 +1,19 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BehaviorSharp;
 using BehaviorSharp.Components.Actions;
 using BehaviorSharp.Components.Composites;
 using BehaviorSharp.Components.Conditionals;
+using BehaviorSharp.Components.Decorators;
 using ClipperLib;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-#endregion
-
-namespace AIM
+namespace AIM.Autoplay.Behaviors
 {
     public static class Utils
     {
@@ -63,21 +62,6 @@ namespace AIM
             //Drawing.DrawLine(from.X, from.Y, to.X, to.Y, width, color);
         }
 
-        public static void SetOrbwalkingMode(this Orbwalking.OrbwalkingMode mode)
-        {
-            Program.Orbwalker.ActiveMode = mode;
-        }
-
-        public static void SetOrbwalkingPoint(this Vector3 position)
-        {
-            Program.Orbwalker.SetOrbwalkingPoint(position);
-        }
-
-        public static bool IsPlayerLowHealth()
-        {
-            return ObjectManager.Player.HealthPercentage() < Program.Menu.Item("LowHealth").GetValue<Slider>().Value;
-        }
-
         public static Conditional IsPlayerFullHealth()
         {
             return new Conditional(() => (int) ObjectManager.Player.HealthPercentage() == 100);
@@ -89,7 +73,7 @@ namespace AIM
                 new Conditional(
                     () =>
                         ObjectManager.Player.HealthPercentage() <
-                        Program.Menu.Item("LowHealth").GetValue<Slider>().Value);
+                        Autoplay.Modes.Base.Menu.Item("LowHealth").GetValue<Slider>().Value);
         }
 
         public static Conditional IsPlayerRecalling()
@@ -109,27 +93,17 @@ namespace AIM
 
         public static Conditional IsEnemyNear(int range)
         {
-            return new Conditional(() => ObjectManager.Player.CountEnemysInRange(range) != 0);
+            return new Conditional(() => ObjectManager.Player.CountEnemiesInRange(range) != 0);
         }
 
         public static Conditional IsAtFountain()
         {
-            return new Conditional(Utility.InFountain);
+            return new Conditional(() => ObjectManager.Player.InFountain());
         }
 
-        public static BehaviorAction StopOrbwalker()
+        public static Conditional NotSafeUnderEnemyTurret(Obj_AI_Turret nearestTurret)
         {
-            return new BehaviorAction(
-                () =>
-                {
-                    Orbwalking.OrbwalkingMode.None.SetOrbwalkingMode();
-                    if (ObjectManager.Player.IsMoving)
-                    {
-                        ObjectManager.Player.IssueOrder(
-                            GameObjectOrder.HoldPosition, ObjectManager.Player.ServerPosition);
-                    }
-                    return BehaviorState.Success;
-                });
+            return new Conditional(() => ObjectManager.Player.UnderTurret(true) && Util.Helpers.MetaHandler.CountNearbyAllyMinions(nearestTurret, 750) <= 2);
         }
 
         public static BehaviorAction Tick(this List<Sequence> list)

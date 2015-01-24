@@ -1,13 +1,28 @@
-﻿#region
+﻿#region LICENSE
+
+// Copyright 2014 - 2014 Support
+// Program.cs is part of Support.
+// Support is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// Support is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with Support. If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+#region
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using BehaviorSharp;
-using BehaviorSharp.Components.Composites;
+using System.Reflection;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
+using AIM.Util;
+using Version = System.Version;
 
 #endregion
 
@@ -15,124 +30,86 @@ namespace AIM
 {
     internal class Program
     {
-        public static Obj_AI_Hero Player = ObjectManager.Player;
-        public static float LastMove = 0;
-        public static Dictionary<SpellSlot, Spell> SpellDictionary = new Dictionary<SpellSlot, Spell>();
-        public static List<Obj_AI_Hero> Allies = new List<Obj_AI_Hero>();
-        public static List<Obj_AI_Hero> Enemies = new List<Obj_AI_Hero>();
-        public static Vector3 Spawn;
-        public static Sequence HealthBehavior;
-        public static List<Sequence> SpellBehavior;
-        public static Sequence ShopBehavior;
-        public static Behavior MainBehavior;
-        public static Orbwalking.Orbwalker Orbwalker;
-        public static Menu Menu;
-        public static Sequence FollowBehavior;
-        public static ChampionData ChampData;
-        public static bool FinishedShopping = false;
-        public static float LastShop = 0;
+        public static Version Version;
 
         private static void Main(string[] args)
         {
-            Console.Clear();
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
-        }
+            new Autoplay.Load();
+            Version = Assembly.GetExecutingAssembly().GetName().Version;
 
-        private static void Game_OnGameLoad(EventArgs args)
-        {
-            try
+            CustomEvents.Game.OnGameLoad += a =>
             {
-                Allies = ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsAlly && !h.IsMe).ToList();
-                Enemies = ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsEnemy).ToList();
-                Spawn =
-                    ObjectManager.Get<GameObject>().First(x => x is Obj_SpawnPoint && x.Team == Player.Team).Position;
-
-                ChampData = Champions.GetChampionData();
-                ChampData.SetAutoLevel();
-
-                //temp fix
-                if (Player.Spellbook.GetSpell(SpellSlot.Q).Level == 0)
+                Helpers.UpdateCheck();
+                try
                 {
-                    Player.Spellbook.LevelUpSpell(SpellSlot.Q);
+                    var type = Type.GetType("AIM.Plugins." + ObjectManager.Player.ChampionName);
+
+                    if (type != null)
+                    {
+                        Protector.Init();
+                        Activator.CreateInstance(type);
+                        return;
+                    }
+                        type = Type.GetType("AIM.Plugins.Default");
+                    if (type != null)
+                    {
+                        Protector.Init();
+                        Activator.CreateInstance(type);
+                        return;
+                    }
+                    return;
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            };
 
-                /*var loadMenu = new BehaviorAction(
-                    () =>
-                    {
-                        Menu = new Menu("AIM", "AIM", true);
+            //Utils.EnableConsoleEditMode();
 
-                        Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
-                        Orbwalker = new Orbwalking.Orbwalker(Menu.SubMenu("Orbwalker"));
-                        Orbwalking.SetMovementDelay(350);
-                        Menu.AddSubMenu(ChampData.GetMenu());
+            //Drawing.OnDraw += a =>
+            //{
+            //    var offset = 0;
+            //    foreach (var buff in ObjectManager.Player.Buffs)
+            //    {
+            //        Drawing.DrawText(100, 100 + offset, Color.Tomato,
+            //            string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6}", buff.Name, buff.DisplayName,
+            //                buff.Type.ToString(), buff.Count, buff.IsActive, buff.StartTime, buff.EndTime));
+            //        offset += 15;
+            //    }
+            //};
 
-                        Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
-                        Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
-                        Menu.AddToMainMenu();
+            //Obj_AI_Base.OnProcessSpellCast += (sender, spell) =>
+            //{
+            //    if (!sender.IsValid<Obj_AI_Hero>())
+            //        return;
 
-                        return BehaviorState.Success;
-                    });
+            //    try
+            //    {
+            //        if (!Orbwalking.IsAutoAttack(spell.SData.Name))
+            //            Console.WriteLine(sender.Name + " | " + spell.SData.Name.ToLower());
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e);
+            //    }
+            //};
 
-                new Behavior(loadMenu).Tick();
-                */
+            //GameObject.OnCreate += (sender, eventArgs) =>
+            //{
+            //    if (!sender.IsValid<Obj_SpellMissile>())
+            //        return;
 
-                Menu = new Menu("AIM", "AIM", true);
-
-                Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
-                Orbwalker = new Orbwalking.Orbwalker(Menu.SubMenu("Orbwalker"));
-                Orbwalking.SetMovementDelay(400);
-                Menu.AddSubMenu(ChampData.GetMenu());
-
-                Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
-                Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
-                Menu.AddToMainMenu();
-
-
-                SetSequences();
-                Game.OnGameUpdate += Game_OnGameUpdate;
-            }
-            catch (Exception e)
-            {
-                Console.Write(e);
-            }
-        }
-
-        private static void Game_OnGameUpdate(EventArgs args)
-        {
-            if (!Menu.Item("Enabled").GetValue<KeyBind>().Active) { }
-            MainBehavior.Tick();
-        }
-
-        private static void SetSequences()
-        {
-            ShopBehavior = Shop.GetSequence();
-            FollowBehavior = Follow.GetSequence();
-            SpellBehavior = ChampData.GetSequence();
-            var AggroBehavior = new List<Sequence> { Follow.GetSequence() };
-            AggroBehavior.AddRange(ChampData.GetSequence());
-            HealthBehavior = Health.GetSequence();
-
-            MainBehavior = new Behavior(
-                new IndexSelector(
-                    () =>
-                    {
-                        if (!LeagueLib.Shop.IsFinishedShopping() && (Player.IsDead || Utility.InShopRange()))
-                        {
-                 //           Console.WriteLine("YESD");
-                            return 0;
-                        }
-
-                        return (Utils.IsPlayerLowHealth()) ? 1 : 2;
-                    }, new Sequence(), HealthBehavior, AggroBehavior.Tick()));
-            
-        }
-
-        public static bool IsBadFollowTarget(Obj_AI_Hero unit)
-        {
-            var BadBuffs = new List<string> { "recall", "teleport" };
-            return !unit.IsValidTarget(float.MaxValue, false) || unit.IsMe ||
-                   unit.Distance(new Vector2(Spawn.X, Spawn.Y)) < 400;// ||
-               //    unit.Buffs.Any(buff => BadBuffs.Any(buffName => buff.Name.ToLower().Contains//(buffName)));
+            //    try
+            //    {
+            //        var miss = (Obj_SpellMissile)sender;
+            //        Console.WriteLine(sender.Name + " | " + miss.SData.Name.ToLower());
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e);
+            //    }
+            //};
         }
     }
 }

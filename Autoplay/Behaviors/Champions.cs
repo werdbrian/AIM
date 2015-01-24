@@ -12,7 +12,7 @@ using LeagueSharp.Common;
 
 #endregion
 
-namespace AIM
+namespace AIM.Autoplay.Behaviors
 {
     internal static class Champions
     {
@@ -95,7 +95,7 @@ namespace AIM
                     () =>
                     {
                         SelectedSpell = SpellDictionary[SpellSlot.Q];
-                        SpellTarget = SimpleTs.GetTarget(SelectedSpell.Range, SimpleTs.DamageType.Magical);
+                        SpellTarget = TargetSelector.GetTarget(SelectedSpell.Range, TargetSelector.DamageType.Magical);
                         return BehaviorState.Success;
                     });
 
@@ -144,7 +144,7 @@ namespace AIM
                     () =>
                     {
                         SelectedSpell = SpellDictionary[SpellSlot.E];
-                        SpellTarget = SimpleTs.GetTarget(SelectedSpell.Range, SimpleTs.DamageType.Magical);
+                        SpellTarget = TargetSelector.GetTarget(SelectedSpell.Range, TargetSelector.DamageType.Magical);
                         return BehaviorState.Success;
                     });
 

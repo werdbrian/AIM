@@ -1,22 +1,23 @@
-﻿#region
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BehaviorSharp;
 using BehaviorSharp.Components.Actions;
 using BehaviorSharp.Components.Composites;
 using BehaviorSharp.Components.Decorators;
 using LeagueSharp;
+using LeagueSharp.Common;
+using Geometry = LeagueSharp.Common.Geometry;
 
-#endregion
-
-namespace AIM
+namespace AIM.Autoplay.Behaviors
 {
-    internal class Health
+    class Safety
     {
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
-        private static Obj_AI_Hero FollowTarget;
-        public static Sequence RecallSequence;
+        private static Util.Objects.Turrets _turrets = new Util.Objects.Turrets();
+        private static Obj_AI_Turret _nearestTurret = _turrets.EnemyTurrets.Find(t => Geometry.Distance(t, Player) < 800);
 
         public static Sequence GetSequence()
         {
@@ -28,12 +29,12 @@ namespace AIM
                     {
                         return BehaviorState.Success;
                     }
-                    pot.UseItem();
+                    Player.Spellbook.CastSpell(pot.SpellSlot);
                     return BehaviorState.Failure;
                 });
 
-            var PrepareRecall = new Sequence(
-                new Inverter(Utils.IsAtFountain()), new Inverter(Utils.IsDead()),
+            var UnderTurret = new Sequence(
+                new Inverter(Utils.NotSafeUnderEnemyTurret(_nearestTurret)), new Inverter(Utils.IsDead()),
                 new Inverter(Utils.IsPlayerRecalling()), Utils.StopOrbwalker());
 
             var CastRecall =

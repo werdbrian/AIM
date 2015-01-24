@@ -11,10 +11,12 @@ using LeagueSharp.Common;
 
 #endregion
 
-namespace AIM
+namespace AIM.Autoplay.Behaviors
 {
     internal static class Shop
     {
+        private static Obj_AI_Hero Player = ObjectManager.Player;
+
         public enum Stage
         { };
 
@@ -28,12 +30,12 @@ namespace AIM
             {
                 _itemList = Program.ChampData.GetItemList();
                 //    var shop = new LeagueLib.Shop();
-                LeagueLib.Shop.AddList(_itemList);
+                //LeagueLib.Shop.AddList(_itemList);
 
                 var CanShop = new Conditional(
                     () =>
                     {
-                        if (!Utility.InShopRange() && !ObjectManager.Player.IsDead)
+                        if (!Player.InShop() && !ObjectManager.Player.IsDead)
                         {
                             Console.WriteLine("Cant Shop");
                             return false;
@@ -47,19 +49,19 @@ namespace AIM
                     () =>
                     {
                         Console.WriteLine("TICK");
-                      // if (LeagueLib.Shop.Tick())
-                      //  {
-                            Console.WriteLine("FINISHED");
-                            Program.FinishedShopping = true;
-                            Program.LastShop = Environment.TickCount;
-                      //  }
+                        // if (LeagueLib.Shop.Tick())
+                        //  {
+                        Console.WriteLine("FINISHED");
+                        Program.FinishedShopping = true;
+                        Program.LastShop = Environment.TickCount;
+                        //  }
                         return BehaviorState.Success;
                     });
 
                 var Finished = new BehaviorAction(
                     () =>
                     {
-                        if ((int) ObjectManager.Player.HealthPercentage() == 100)
+                        if ((int)ObjectManager.Player.HealthPercentage() == 100)
                         {
                             Program.FinishedShopping = true;
                         }
