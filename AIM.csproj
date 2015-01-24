@@ -170,7 +170,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugins\Sona.cs" />
-    <Compile Include="Plugins\Soraka.cs" />
     <Compile Include="Plugins\Taric.cs" />
     <Compile Include="Plugins\Thresh.cs" />
     <Compile Include="Util\Helpers.cs" />
