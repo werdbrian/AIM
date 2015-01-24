@@ -26,7 +26,9 @@ namespace AIM.Autoplay.Modes
             Game.OnGameUpdate += OnGameUpdate;
             CustomEvents.Game.OnGameLoad += OnGameLoad;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
-            Load.ModeLoaded = true;
+            Game.OnGameUpdate -= Load.OnGameUpdate;
+
+            AutoLevel levelUpSpells = new AutoLevel(Util.Data.AutoLevel.GetSequence());
         }
 
         public override void OnGameLoad(EventArgs args)
@@ -48,6 +50,7 @@ namespace AIM.Autoplay.Modes
 
             ImpingAintEasy();
             RefreshMinions();
+            AutoLevel.Enabled(true);
 
             if (ObjectManager.Player.UnderTurret(true))
             {

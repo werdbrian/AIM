@@ -8,20 +8,9 @@ namespace AIM.Autoplay.Util.Data
     {
         public Constants()
         {
-            Blue = 200;
-            Purple = -200;
-            if (Objects.Heroes.Me.Team == GameObjectTeam.Order)
-            {
-                AggressiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
-                DefensiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
-            }
-            if (Objects.Heroes.Me.Team == GameObjectTeam.Chaos)
-            {
-                AggressiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
-                DefensiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
-            }
             AssignConstants();
         }
+
         private int Blue = 200;
         private int Purple = -200;
         public Vector2 BotLanePos { get; private set; }
