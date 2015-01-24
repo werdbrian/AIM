@@ -28,7 +28,7 @@ namespace AIM.Autoplay.Util
                 else
                 {
                     var spellbook = ObjectManager.Player.Spellbook;
-                    if (!spellbook.IsChanneling && !spellbook.IsAutoAttacking && !spellbook.IsCharging &&
+                    if (!spellbook.IsChanneling && !spellbook.IsCharging &&
                         !spellbook.IsCastingSpell)
                     {
                         WalkAround(pos);

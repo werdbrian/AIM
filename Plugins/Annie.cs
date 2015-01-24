@@ -43,10 +43,6 @@ namespace AIM.Plugins
     {
         public Annie()
         {
-                                  //this is how you override the Author
-            Author = "imsosharp"; //pls add it before commiting so people stop asking h3h3 about his Urgot assembly Kappa
-                                  //thx
-
             Q = new Spell(SpellSlot.Q, 650);
             W = new Spell(SpellSlot.W, 625);
             E = new Spell(SpellSlot.E);
@@ -69,12 +65,9 @@ namespace AIM.Plugins
                 {
                     W.Cast(Target, true);
                 }
-                if (Config.Item("REnemiesMinAnnie").GetValue<int>() >= R.GetPrediction(Target, true).AoeTargetsHitCount)
+
+                if (R.CastCheck(Target, "ComboR"))
                 {
-                    if (!Config.Item("RNoStunAnnie").GetValue<bool>() && !(GetPassiveStacks() >= 4))
-                    {
-                        return;
-                    }
                     R.Cast(Target, true);
                 }
                 CastE();
@@ -152,8 +145,7 @@ namespace AIM.Plugins
         {
             config.AddBool("ComboQ", "Use Q", true);
             config.AddBool("ComboW", "Use W", true);
-            config.AddBool("RNoStun", "Use R without stun", false);
-            config.AddSlider("REnemiesMin", "Only R if hit", 1, 1, 5);
+            config.AddBool("ComboR", "Use R", true);
         }
 
         public override void InterruptMenu(Menu config)
