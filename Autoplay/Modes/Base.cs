@@ -36,7 +36,8 @@ namespace AIM.Autoplay.Modes
         public static  Turrets ObjTurrets { get; protected set; }
         public static Autoplay.Util.Orbwalker OrbW { get; set; }
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
-        public static bool IsInDanger = false; 
+        public static bool IsInDanger = false;
+        public static AutoLevel AutoLevel;
 
         public static Menu Menu;
 

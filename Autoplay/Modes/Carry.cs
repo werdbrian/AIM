@@ -31,7 +31,12 @@ namespace AIM.Autoplay.Modes
 
         public override void OnGameLoad(EventArgs args)
         {
-            AutoLevel levelUpSpells = new AutoLevel(Util.Data.AutoLevel.GetSequence());
+            InitAutoLevel();
+        }
+
+        public static void InitAutoLevel()
+        {
+            AutoLevel = new AutoLevel(Util.Data.AutoLevel.GetSequence());
         }
 
         public override void OnGameUpdate(EventArgs args)
@@ -41,7 +46,6 @@ namespace AIM.Autoplay.Modes
 
             ImpingAintEasy();
             RefreshMinions();
-            AutoLevel.Enabled(true);
 
             if (ObjectManager.Player.UnderTurret(true))
             {
@@ -59,6 +63,8 @@ namespace AIM.Autoplay.Modes
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            if (sender == null || args == null)
+                return;
             if (sender.IsMe && sender.UnderTurret(true) && args.Target.IsEnemy && args.Target.Type == GameObjectType.obj_AI_Hero)
             {
                 IsInDanger = true;
