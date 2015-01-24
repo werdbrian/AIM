@@ -24,13 +24,20 @@ namespace AIM.Plugins
         }
         public override void OnUpdate(EventArgs args)
         {
-            autoW();
             KS();
 
 
             if (ComboMode)
             {
                 Combo(Target);
+                if (Player.HasBuffOfType(BuffType.Taunt) || Player.HasBuffOfType(BuffType.Stun) || Player.HasBuffOfType(BuffType.Snare) ||
+                Player.HasBuffOfType(BuffType.Polymorph) || Player.HasBuffOfType(BuffType.Blind) || Player.HasBuffOfType(BuffType.Fear) || Player.HasBuffOfType(BuffType.Silence) || Player.HealthPercentage() < 30)
+                {
+                    if (W.IsReady())
+                    {
+                        W.Cast();
+                    }
+                }
             }
 
 
@@ -43,31 +50,17 @@ namespace AIM.Plugins
             {
                 E.Cast();
             }
-            if (Q.IsReady() && Player.Distance(Target) <= Q.Range)
+            if (Q.IsReady() && Target.IsValidTarget(Q.Range))
             {
                 Q.CastOnUnit(Target);
             }
 
-            if (R.IsReady() && Player.Distance(Target) <= R.Range)
+            if (R.IsReady() && Target.IsValidTarget(R.Range))
             {
                 R.CastIfWillHit(Target, 2);
             }
         }
 
-
-        private void autoW()
-        {
-            if (Player.HasBuffOfType(BuffType.Taunt) || Player.HasBuffOfType(BuffType.Stun) || Player.HasBuffOfType(BuffType.Snare) ||
-                Player.HasBuffOfType(BuffType.Polymorph) || Player.HasBuffOfType(BuffType.Blind) || Player.HasBuffOfType(BuffType.Fear) || Player.HasBuffOfType(BuffType.Silence))
-            {
-                if (W.IsReady())
-                {
-                    W.Cast();
-                }
-            }
-            return;
-
-        }
 
         private void KS()
         {

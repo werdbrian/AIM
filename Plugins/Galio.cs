@@ -28,11 +28,6 @@ namespace AIM.Plugins
         }
         public override void OnUpdate(EventArgs args)
         {
-            if (!R.IsCharging)
-            {
-                Orbwalker.SetAttack(true);
-                Orbwalker.SetMovement(true);
-            }
 
             if (ComboMode)
             {
@@ -47,11 +42,6 @@ namespace AIM.Plugins
                 if (R.IsReady())
                 {
                     R.CastIfWillHit(Target, 2);
-                    if (R.IsCharging)
-                    {
-                        Orbwalker.SetAttack(false);
-                        Orbwalker.SetMovement(false);
-                    }
 
                 }
 

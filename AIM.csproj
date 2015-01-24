@@ -92,6 +92,7 @@
     <Compile Include="Autoplay\Util\Objects\Minions.cs" />
     <Compile Include="Autoplay\Util\Objects\Turrets.cs" />
     <Compile Include="Autoplay\Util\Orbwalker.cs" />
+    <Compile Include="Plugins\Aatrox.cs" />
     <Compile Include="Plugins\Ahri.cs" />
     <Compile Include="Plugins\Akali.cs" />
     <Compile Include="Plugins\Anivia.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Plugins\Galio.cs" />
     <Compile Include="Plugins\Gangplank.cs" />
     <Compile Include="Plugins\Garen.cs" />
-    <Compile Include="Plugins\Gnar.cs" />
     <Compile Include="Plugins\Poppy.cs" />
     <Compile Include="Plugins\Riven.cs" />
     <Compile Include="Plugins\Sivir.cs" />
