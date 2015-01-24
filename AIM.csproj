@@ -92,9 +92,12 @@
     <Compile Include="Autoplay\Util\Objects\Minions.cs" />
     <Compile Include="Autoplay\Util\Objects\Turrets.cs" />
     <Compile Include="Autoplay\Util\Orbwalker.cs" />
+    <Compile Include="Plugins\Ahri.cs" />
+    <Compile Include="Plugins\Akali.cs" />
     <Compile Include="Plugins\Anivia.cs" />
     <Compile Include="Plugins\Brand.cs" />
     <Compile Include="Plugins\Caitlyn.cs" />
+    <Compile Include="Plugins\Cassiopeia.cs" />
     <Compile Include="Plugins\Poppy.cs" />
     <Compile Include="Plugins\Riven.cs" />
     <Compile Include="Plugins\Sivir.cs" />

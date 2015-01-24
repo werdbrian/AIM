@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -39,11 +40,11 @@ namespace AIM.Autoplay
             Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
             Base.Menu.AddToMainMenu();
 
-            new AutoLevel(Util.Data.AutoLevel.GetSequence());
+            Util.Helpers.FileHandler.DoChecks();
 
-            //Util.Helpers.FileHandler.DoChecks();
+            Game.PrintChat("AIM {0} Loaded!", Program.Version);
+            Game.PrintChat("Don't panic, the bot will stard at 60 seconds in the game.");
 
-            Game.PrintChat("AIM Loaded!");
         }
 
         public static void OnGameUpdate(EventArgs args)
