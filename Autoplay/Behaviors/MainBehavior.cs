@@ -30,6 +30,6 @@ namespace AIM.Autoplay.Behaviors
                     return 2;
                 }
                 return 3;
-            }, new Sequence(),  Sequences.LanePush, Sequences.CollectHealthPack, Sequences.StayWithinExpRange));
+            }, new Sequence(),  new Sequences().LanePush, new Sequences().CollectHealthPack, new Sequences().StayWithinExpRange));
     }
 }
