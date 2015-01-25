@@ -14,21 +14,25 @@ namespace AIM.Plugins
             Q.SetSkillshot(0.25f, 90f, 1350f, false, SkillshotType.SkillshotLine);
 
             W = new Spell(SpellSlot.W, 593);
+
+            R = new Spell(SpellSlot.R);
         }
 
         public override void OnAfterAttack(AttackableUnit unit, AttackableUnit target)
         {
-            var t = target as Obj_AI_Hero;
-            if (t != null && unit.IsMe)
+            if (!unit.IsMe || !(target is Obj_AI_Hero))
             {
-                if (W.IsReady())
-                {
-                    W.Cast();
-                }
-                if (R.IsReady())
-                {
-                    R.Cast();
-                }
+                return;
+            }
+
+            if (W.IsReady())
+            {
+                W.Cast();
+            }
+
+            if (R.IsReady())
+            {
+                R.Cast();
             }
         }
 
@@ -36,22 +40,28 @@ namespace AIM.Plugins
         {
             if (Q.IsReady())
             {
-                foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsValidTarget(Q.Range)))
+                if (
+                    ObjectManager.Get<Obj_AI_Hero>()
+                        .Where(h => h.IsValidTarget(Q.Range))
+                        .Any(enemy => Q.CastIfHitchanceEquals(enemy, HitChance.Immobile)))
                 {
-                    Q.CastIfHitchanceEquals(enemy, HitChance.Immobile);
+                    return;
                 }
             }
 
-            if (ComboMode)
+            if (!ComboMode)
             {
-                if (Q.CastCheck(Target, "ComboQ"))
-                {
-                    Q.Cast(Target);
-                }
-                if (R.IsReady() && Player.CountEnemiesInRange(600) > 2)
-                {
-                    R.Cast();
-                }
+                return;
+            }
+
+            if (Q.CastCheck(Target, "ComboQ"))
+            {
+                Q.Cast(Target);
+            }
+
+            if (R.IsReady() && Player.CountEnemiesInRange(600) > 2)
+            {
+                R.Cast();
             }
         }
 
