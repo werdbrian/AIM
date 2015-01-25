@@ -23,14 +23,16 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.Linq;
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace AIM.Evade
 {
     #region
 
-    using System.Collections.Generic;
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
+    
 
     #endregion
 

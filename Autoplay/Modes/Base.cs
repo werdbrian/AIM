@@ -39,14 +39,9 @@ namespace AIM.Autoplay.Modes
         public void RefreshMinions()
         {
             ObjMinions.UpdateMinions();
-            if (Utility.Map.GetMap().Type == Utility.Map.MapType.SummonersRift)
-            {
-                LeadingMinion = ObjMinions.GetLeadMinion(SummonersRift.BottomLane.Bottom_Zone.CenterOfPolygone().To3D());
-            }
-            else
-            {
-                LeadingMinion = ObjMinions.GetLeadMinion();
-            }
+            LeadingMinion = Utility.Map.GetMap().Type == Utility.Map.MapType.SummonersRift
+                ? ObjMinions.GetLeadMinion(SummonersRift.BottomLane.Bottom_Zone.CenterOfPolygone().To3D())
+                : ObjMinions.GetLeadMinion();
         }
 
         public bool InDangerUnderEnemyTurret()

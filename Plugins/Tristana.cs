@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -20,7 +15,7 @@ namespace AIM.Plugins
             E = new Spell(SpellSlot.E, 703);
             R = new Spell(SpellSlot.R, 703);
 
-            W.SetSkillshot(500,270,1500,false,SkillshotType.SkillshotCone);
+            W.SetSkillshot(500, 270, 1500, false, SkillshotType.SkillshotCone);
         }
 
         public override void OnUpdate(EventArgs args)
@@ -37,14 +32,14 @@ namespace AIM.Plugins
                     E.Cast(Target);
                 }
             }
-        
-
         }
 
         public void KS()
         {
-
-            foreach (Obj_AI_Hero target in ObjectManager.Get<Obj_AI_Hero>().Where(x => Player.Distance(x) < R.Range && x.IsValidTarget() && x.IsEnemy && !x.IsDead))
+            foreach (
+                var target in
+                    ObjectManager.Get<Obj_AI_Hero>()
+                        .Where(x => Player.Distance(x) < R.Range && x.IsValidTarget() && x.IsEnemy && !x.IsDead))
             {
                 if (target != null)
                 {
@@ -64,13 +59,9 @@ namespace AIM.Plugins
                         W.Cast(Target);
                         return;
                     }
-
-
                 }
             }
         }
-
-
 
         public override void OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell)
         {
@@ -82,11 +73,8 @@ namespace AIM.Plugins
             if (R.CastCheck(unit, "Interrupt.R"))
             {
                 R.Cast(unit);
-                return;
             }
-
         }
-
 
         public override void ComboMenu(Menu config)
         {

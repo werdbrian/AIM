@@ -1,20 +1,16 @@
 ﻿//Get Some Part From xSaliceReligionAIO Credit xSalice
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
     public class Anivia : PluginBase
     {
-
         //R
         public Anivia()
         {
@@ -28,10 +24,8 @@ namespace AIM.Plugins
             R.SetSkillshot(.25f, 200f, float.MaxValue, false, SkillshotType.SkillshotCircle);
         }
 
-
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
                 if (E.CastCheck(Target, "ComboE") && ShouldE(Target))
@@ -50,22 +44,16 @@ namespace AIM.Plugins
                     CastW(Target);
                 }
 
-                if (R.CastCheck(Target, "ComboR") &&
-                    R.GetPrediction(Target).Hitchance >= HitChance.High)
+                if (R.CastCheck(Target, "ComboR") && R.GetPrediction(Target).Hitchance >= HitChance.High)
                 {
                     R.Cast(Target);
                 }
             }
-
-
         }
-
-
 
         private void SmartKs()
         {
-
-            foreach (Obj_AI_Hero target in ObjectManager.Get<Obj_AI_Hero>().Where(x => x.IsValidTarget(1300)))
+            foreach (var target in ObjectManager.Get<Obj_AI_Hero>().Where(x => x.IsValidTarget(1300)))
             {
                 //ER
                 if (Player.Distance(target.ServerPosition) <= R.Range && R.Instance.ToggleState == 1 &&
@@ -118,26 +106,33 @@ namespace AIM.Plugins
 
         private void CastW(Obj_AI_Hero target)
         {
-            PredictionOutput pred = W.GetPrediction(target);
-            var vec = new Vector3(pred.CastPosition.X - Player.ServerPosition.X, 0,
-                pred.CastPosition.Z - Player.ServerPosition.Z);
-            Vector3 castBehind = pred.CastPosition + Vector3.Normalize(vec) * 125;
+            var pred = W.GetPrediction(target);
+            var vec = new Vector3(
+                pred.CastPosition.X - Player.ServerPosition.X, 0, pred.CastPosition.Z - Player.ServerPosition.Z);
+            var castBehind = pred.CastPosition + Vector3.Normalize(vec) * 125;
 
             if (W.IsReady())
+            {
                 W.Cast(castBehind);
+            }
         }
-
 
         private bool ShouldE(Obj_AI_Hero target)
         {
             if (checkChilled(target))
+            {
                 return true;
+            }
 
             if (Player.GetSpellDamage(target, SpellSlot.E) > target.Health)
+            {
                 return true;
+            }
 
             if (R.IsReady() && Player.Distance(target) <= R.Range - 25 && Player.Distance(target.ServerPosition) > 250)
+            {
                 return true;
+            }
 
             return false;
         }
@@ -150,11 +145,12 @@ namespace AIM.Plugins
         private bool ShouldQ()
         {
             if (Environment.TickCount - Q.LastCastAttemptT > 2000)
+            {
                 return true;
+            }
 
             return false;
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -163,8 +159,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
-
     }
 }

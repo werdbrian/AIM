@@ -1,27 +1,21 @@
 ﻿//from AlrikSharp
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
     public class Gragas : PluginBase
     {
         public GameObject Bomb;
-        public Vector3 UltPos;
         public Obj_AI_Hero CurrentQTarget;
+        public Vector3 UltPos;
 
         public Gragas()
         {
-
             Q = new Spell(SpellSlot.Q, 775);
             W = new Spell(SpellSlot.W, 0);
             E = new Spell(SpellSlot.E, 600);
@@ -66,17 +60,18 @@ namespace AIM.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
                 Combo(Target);
             }
-
         }
 
         private void ThrowBarrel(Obj_AI_Hero tar)
         {
-            if (BarrelIsCast) return;
+            if (BarrelIsCast)
+            {
+                return;
+            }
             if (Q.Cast(tar) == Spell.CastStates.SuccessfullyCasted)
             {
                 BarrelIsCast = true;
@@ -95,13 +90,19 @@ namespace AIM.Plugins
             var qRadius = Bomb.BoundingRadius;
             var disTtoQ = t.Distance(qPos);
             var difference = qRadius - disTtoQ;
-            if (disTtoQ > qRadius) return false;
+            if (disTtoQ > qRadius)
+            {
+                return false;
+            }
             return difference > 5 && difference < 40;
         }
 
         private void ExplodeBarrel()
         {
-            if (!BarrelIsCast) return;
+            if (!BarrelIsCast)
+            {
+                return;
+            }
             Q.Cast();
             BarrelIsCast = false;
             CurrentQTarget = null;
@@ -113,7 +114,10 @@ namespace AIM.Plugins
             var qRadius = Bomb.BoundingRadius;
             var disTtoQ = t.Distance(qPos);
 
-            if (disTtoQ > qRadius) return false;
+            if (disTtoQ > qRadius)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -140,7 +144,10 @@ namespace AIM.Plugins
                 }
                 if (SecondQReady() && CurrentQTarget != null)
                 {
-                    if (TargetCloseToQEdge(CurrentQTarget)) ExplodeBarrel();
+                    if (TargetCloseToQEdge(CurrentQTarget))
+                    {
+                        ExplodeBarrel();
+                    }
                     if (CurrentQTarget.IsMoving && TargetIsInQ(CurrentQTarget))
                     {
                         ExplodeBarrel();
@@ -158,7 +165,9 @@ namespace AIM.Plugins
                         if (E.Cast(t) == Spell.CastStates.SuccessfullyCasted)
                         {
                             if (ObjectManager.Player.HasBuff("gragaswself"))
+                            {
                                 ObjectManager.Player.IssueOrder(GameObjectOrder.AttackTo, t);
+                            }
                         }
                     }
                 }
@@ -205,6 +214,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

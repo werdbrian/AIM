@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -15,17 +10,14 @@ namespace AIM.Plugins
     {
         public Garen()
         {
-
             Q = new Spell(SpellSlot.Q);
             W = new Spell(SpellSlot.W);
             E = new Spell(SpellSlot.E, 165);
             R = new Spell(SpellSlot.R, 400);
-
         }
 
         public override void OnAfterAttack(AttackableUnit unit, AttackableUnit target)
         {
-
             if (!unit.IsMe)
             {
                 return;
@@ -39,9 +31,7 @@ namespace AIM.Plugins
                     Q.Cast();
                     Orbwalking.ResetAutoAttackTimer();
                 }
-
             }
-
         }
 
         public override void OnUpdate(EventArgs args)
@@ -49,22 +39,23 @@ namespace AIM.Plugins
             KS();
             if (ComboMode)
             {
-                    if (W.IsReady())
-                    {
-                        W.Cast();
-                    }
-                    if (E.IsReady())
-                    {
-                        E.Cast();
-                    }
+                if (W.IsReady())
+                {
+                    W.Cast();
+                }
+                if (E.IsReady())
+                {
+                    E.Cast();
+                }
             }
-
         }
 
         public void KS()
         {
-
-            foreach (Obj_AI_Hero target in ObjectManager.Get<Obj_AI_Hero>().Where(x => Player.Distance(x) < 900 && x.IsValidTarget() && x.IsEnemy && !x.IsDead))
+            foreach (
+                var target in
+                    ObjectManager.Get<Obj_AI_Hero>()
+                        .Where(x => Player.Distance(x) < 900 && x.IsValidTarget() && x.IsEnemy && !x.IsDead))
             {
                 if (target != null)
                 {
@@ -89,8 +80,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboRKS", "Use R KS", true);
         }
-
     }
 }
-
-

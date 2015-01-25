@@ -20,27 +20,27 @@ namespace AIM.Autoplay.Util.Objects
         public void UpdateMinions()
         {
             AllMinions = ObjectManager.Get<Obj_AI_Minion>().ToList();
-            AllyMinions = AllMinions.FindAll(minion => minion.IsAlly && MinionManager.IsMinion(minion));
-            EnemyMinions = AllMinions.FindAll(minion => minion.IsEnemy);
+            AllyMinions =
+                AllMinions.FindAll(
+                    minion => minion.IsValid && !minion.IsDead && minion.IsAlly && MinionManager.IsMinion(minion));
+            EnemyMinions =
+                AllMinions.FindAll(
+                    minion => minion.IsValid && !minion.IsDead && minion.IsEnemy && MinionManager.IsMinion(minion));
         }
 
-        public Obj_AI_Minion GetLeadMinion()
+        public Obj_AI_Minion GetLeadMinion(Vector3? position = null)
         {
-            var enemyTurretsSortedByDistance =
-                Turrets.EnemyTurrets.OrderByDescending(t => t.Distance(ObjectManager.Player));
-            var closestEnemyTurret = enemyTurretsSortedByDistance.First();
-            var allyMinionsSortedByDistToClosestEnemyTurret =
-                AllyMinions.OrderBy(x => x.Distance(closestEnemyTurret.Position));
-            return allyMinionsSortedByDistToClosestEnemyTurret.First();
-        }
+            var pos = position ?? ObjectManager.Player.ServerPosition;
+            var closestTurret = Turrets.EnemyTurrets.OrderBy(t => t.Distance(pos, true)).FirstOrDefault();
 
-        public Obj_AI_Minion GetLeadMinion(Vector3 lane)
-        {
-            var enemyTurretsSortedByDistance = Turrets.EnemyTurrets.OrderByDescending(t => t.Distance(lane));
-            var closestEnemyTurret = enemyTurretsSortedByDistance.First();
-            var allyMinionsSortedByDistToClosestEnemyTurret =
-                AllyMinions.OrderBy(x => x.Distance(closestEnemyTurret.Position));
-            return allyMinionsSortedByDistToClosestEnemyTurret.First();
+            if (closestTurret == null)
+            {
+                // need to add more logic here
+                // like minions closest to enemy nexus or inhib
+                return null;
+            }
+
+            return AllyMinions.OrderBy(x => x.Distance(closestTurret.Position, true)).FirstOrDefault();
         }
     }
 }

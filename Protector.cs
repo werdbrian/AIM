@@ -36,7 +36,6 @@ using SpellData = LeagueSharp.SpellData;
 
 namespace AIM
 {
-
     internal class ProtectorSpell
     {
         public string Name { get; set; }

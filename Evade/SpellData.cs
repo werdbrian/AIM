@@ -23,11 +23,13 @@
 
 #endregion
 
+using LeagueSharp;
+
 namespace AIM.Evade
 {
     #region
 
-    using LeagueSharp;
+    
 
     #endregion
 

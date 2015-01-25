@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -26,10 +20,8 @@ namespace AIM.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
-
                 if (E.CastCheck(Target, "ComboE"))
                 {
                     E.CastIfHitchanceEquals(Target, HitChance.High);
@@ -62,12 +54,9 @@ namespace AIM.Plugins
                     Q.Cast(Target);
                 }
             }
-
-
         }
 
-
-        bool IsRActive()
+        private bool IsRActive()
         {
             return ObjectManager.Player.HasBuff("AhriTumble", true);
         }
@@ -82,11 +71,8 @@ namespace AIM.Plugins
             if (E.CastCheck(unit, "Interrupt.E"))
             {
                 E.CastIfHitchanceEquals(unit, HitChance.Medium);
-                return;
             }
-
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -95,8 +81,6 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
 
         public override void InterruptMenu(Menu config)
         {

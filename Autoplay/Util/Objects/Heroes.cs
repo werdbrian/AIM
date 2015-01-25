@@ -21,14 +21,14 @@ namespace AIM.Autoplay.Util.Objects
         {
             AllHeroes = ObjectManager.Get<Obj_AI_Hero>().ToList();
             AllyHeroes = AllHeroes.FindAll(hero => hero.IsAlly);
-            EnemyHeroes = AllHeroes.FindAll(hero => !hero.IsAlly);
+            EnemyHeroes = AllHeroes.FindAll(hero => hero.IsEnemy);
         }
 
         public void SortHeroesListByDistance()
         {
-            AllHeroes = AllHeroes.OrderBy(hero => hero.Distance(Me)).ToList();
-            AllyHeroes = AllyHeroes.OrderBy(hero => hero.Distance(Me)).ToList();
-            EnemyHeroes = EnemyHeroes.OrderBy(hero => hero.Distance(Me)).ToList();
+            AllHeroes = AllHeroes.OrderBy(hero => hero.Distance(Me, true)).ToList();
+            AllyHeroes = AllyHeroes.OrderBy(hero => hero.Distance(Me, true)).ToList();
+            EnemyHeroes = EnemyHeroes.OrderBy(hero => hero.Distance(Me, true)).ToList();
         }
 
         public void RemoveFromHeroList(Obj_AI_Hero hero)

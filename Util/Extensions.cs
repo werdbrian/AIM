@@ -23,13 +23,15 @@
 
 #endregion
 
+using System.Linq;
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace AIM.Util
 {
     #region
 
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
+    
 
     #endregion
 

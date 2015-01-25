@@ -1,14 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -28,7 +21,7 @@ namespace AIM.Plugins
         {
             if (ComboMode)
             {
-                if (Target.IsValidTarget(Q.Range) && Q.IsReady() &&Q.GetPrediction(Target).Hitchance >= HitChance.High)
+                if (Target.IsValidTarget(Q.Range) && Q.IsReady() && Q.GetPrediction(Target).Hitchance >= HitChance.High)
                 {
                     Q.CastIfHitchanceEquals(Target, HitChance.High);
                 }
@@ -38,8 +31,7 @@ namespace AIM.Plugins
                     R.Cast(Target);
                 }
 
-                if (Target.IsValidTarget(W.Range) && W.IsReady() &&
-                    !Q.IsReady())
+                if (Target.IsValidTarget(W.Range) && W.IsReady() && !Q.IsReady())
                 {
                     W.Cast();
                 }
@@ -50,11 +42,9 @@ namespace AIM.Plugins
                 if (Target.IsValidTarget(R.Range) && R.IsReady() && !W.IsReady() && !Q.IsReady())
                 {
                     R.Cast(Target);
-                }      
+                }
             }
-
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -63,8 +53,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
-
     }
 }

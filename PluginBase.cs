@@ -35,9 +35,8 @@ using Version = System.Version;
 
 namespace AIM
 {
-    #region
 
-    
+    #region
 
     #endregion
 
@@ -114,7 +113,7 @@ namespace AIM
         /// </summary>
         public bool HarassMana
         {
-            get { return Player.Mana > Player.MaxMana * ConfigValue<Slider>("HarassMana").Value / 100; }
+            get { return Player.ManaPercentage() > ConfigValue<Slider>("HarassMana").Value; }
         }
 
         /// <summary>

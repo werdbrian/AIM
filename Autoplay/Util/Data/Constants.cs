@@ -1,4 +1,5 @@
-﻿using LeagueSharp;
+﻿using AIM.Autoplay.Util.Objects;
+using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
@@ -6,13 +7,15 @@ namespace AIM.Autoplay.Util.Data
 {
     public class Constants
     {
+        private readonly int Blue = 200;
+        private readonly int Purple = -200;
+        public Utility.Map Map;
+
         public Constants()
         {
             AssignConstants();
         }
 
-        private int Blue = 200;
-        private int Purple = -200;
         public Vector2 BotLanePos { get; private set; }
         public Vector2 TopLanePos { get; private set; }
         public int AggressiveAdditioner { get; set; }
@@ -34,17 +37,15 @@ namespace AIM.Autoplay.Util.Data
             get { return 0.6f; }
         }
 
-        public Utility.Map Map;
-
         public void AssignConstants()
         {
             Map = Utility.Map.GetMap();
             if (Map.Type != null && Map.Type == Utility.Map.MapType.SummonersRift)
             {
-                Vector2 BotLanePos = new Vector2();
-                Vector2 TopLanePos = new Vector2();
+                var BotLanePos = new Vector2();
+                var TopLanePos = new Vector2();
 
-                if (Objects.Heroes.Me.Team == GameObjectTeam.Order)
+                if (Heroes.Me.Team == GameObjectTeam.Order)
                 {
                     AggressiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
                     DefensiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
@@ -53,7 +54,7 @@ namespace AIM.Autoplay.Util.Data
                     TopLanePos.X = 1302 + Randoms.Rand.Next(-50, 50);
                     TopLanePos.Y = 10249 + Randoms.Rand.Next(-50, 50);
                 }
-                if (Objects.Heroes.Me.Team == GameObjectTeam.Chaos)
+                if (Heroes.Me.Team == GameObjectTeam.Chaos)
                 {
                     AggressiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
                     DefensiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
@@ -65,12 +66,12 @@ namespace AIM.Autoplay.Util.Data
             }
             else
             {
-                if (Objects.Heroes.Me.Team == GameObjectTeam.Order)
+                if (Heroes.Me.Team == GameObjectTeam.Order)
                 {
                     AggressiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
                     DefensiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
                 }
-                if (Objects.Heroes.Me.Team == GameObjectTeam.Chaos)
+                if (Heroes.Me.Team == GameObjectTeam.Chaos)
                 {
                     AggressiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
                     DefensiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);

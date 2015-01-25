@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
 using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
     public class Draven : PluginBase
     {
-        private bool blockR2 = false;
+        private bool blockR2;
+
         public Draven()
         {
             Q = new Spell(SpellSlot.Q);
@@ -23,7 +20,6 @@ namespace AIM.Plugins
             E.SetSkillshot(250f, 130f, 1400f, false, SkillshotType.SkillshotLine);
             R.SetSkillshot(400f, 160f, 2000f, false, SkillshotType.SkillshotLine);
         }
-
 
         public override void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
@@ -41,10 +37,8 @@ namespace AIM.Plugins
             }
         }
 
-
         public override void OnAfterAttack(AttackableUnit unit, AttackableUnit target)
         {
-
             if (!unit.IsMe)
             {
                 return;
@@ -56,12 +50,10 @@ namespace AIM.Plugins
                 W.Cast();
                 Q.Cast();
             }
-
         }
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (R.Instance.Cooldown > 0)
             {
                 blockR2 = false;
@@ -79,16 +71,14 @@ namespace AIM.Plugins
                     R.Cast(Target);
                 }
             }
-
-
         }
-
-
 
         public void KS()
         {
-
-            foreach (Obj_AI_Hero target in ObjectManager.Get<Obj_AI_Hero>().Where(x => Player.Distance(x) < 2000 && x.IsValidTarget() && x.IsEnemy && !x.IsDead))
+            foreach (
+                var target in
+                    ObjectManager.Get<Obj_AI_Hero>()
+                        .Where(x => Player.Distance(x) < 2000 && x.IsValidTarget() && x.IsEnemy && !x.IsDead))
             {
                 if (target != null)
                 {
@@ -103,8 +93,6 @@ namespace AIM.Plugins
                             return;
                         }
                     }
-
-
                 }
             }
         }
@@ -116,6 +104,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

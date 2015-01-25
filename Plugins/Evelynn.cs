@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -25,10 +19,8 @@ namespace AIM.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
-
                 if (Player.CountEnemiesInRange(Q.Range) > 0)
                 {
                     Q.Cast();
@@ -47,10 +39,7 @@ namespace AIM.Plugins
                     R.CastIfWillHit(Target, 2);
                 }
             }
-
-
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -59,6 +48,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

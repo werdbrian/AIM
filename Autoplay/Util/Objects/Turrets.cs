@@ -20,15 +20,15 @@ namespace AIM.Autoplay.Util.Objects
         public void UpdateTurrets()
         {
             AllTurrets = ObjectManager.Get<Obj_AI_Turret>().ToList();
-            AllyTurrets = AllTurrets.FindAll(turret => turret.IsAlly);
-            EnemyTurrets = AllTurrets.FindAll(turret => !turret.IsAlly);
+            AllyTurrets = AllTurrets.FindAll(turret => turret.IsValid && !turret.IsDead && turret.IsAlly);
+            EnemyTurrets = AllTurrets.FindAll(turret => turret.IsValid && !turret.IsDead && turret.IsEnemy);
         }
 
         public void SortTurretsByDistance()
         {
-            AllTurrets = AllTurrets.OrderBy(turret => turret.Distance(Heroes.Me)).ToList();
-            AllyTurrets = AllyTurrets.OrderBy(turret => turret.Distance(Heroes.Me)).ToList();
-            EnemyTurrets = EnemyTurrets.OrderBy(turret => turret.Distance(Heroes.Me)).ToList();
+            AllTurrets = AllTurrets.OrderBy(turret => turret.Distance(Heroes.Me, true)).ToList();
+            AllyTurrets = AllyTurrets.OrderBy(turret => turret.Distance(Heroes.Me, true)).ToList();
+            EnemyTurrets = EnemyTurrets.OrderBy(turret => turret.Distance(Heroes.Me, true)).ToList();
         }
     }
 }

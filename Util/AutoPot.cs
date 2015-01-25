@@ -9,23 +9,9 @@ using LeagueSharp.Common;
 
 namespace AIM.Util
 {
-    class PotionManager
+    internal class PotionManager
     {
-        private Menu ExtrasMenu;
-        private enum PotionType
-        {
-            Health, Mana
-        };
-
-        private class Potion
-        {
-            public string Name { get; set; }
-            public int MinCharges { get; set; }
-            public ItemId ItemId { get; set; }
-            public int Priority { get; set; }
-            public List<PotionType> TypeList { get; set; }
-        }
-
+        private readonly Menu ExtrasMenu;
         private List<Potion> potions;
 
         public PotionManager(Menu extrasMenu)
@@ -39,7 +25,7 @@ namespace AIM.Util
                     MinCharges = 1,
                     ItemId = (ItemId) 2041,
                     Priority = 1,
-                    TypeList = new List<PotionType> {PotionType.Health, PotionType.Mana}
+                    TypeList = new List<PotionType> { PotionType.Health, PotionType.Mana }
                 },
                 new Potion
                 {
@@ -47,7 +33,7 @@ namespace AIM.Util
                     MinCharges = 0,
                     ItemId = (ItemId) 2003,
                     Priority = 2,
-                    TypeList = new List<PotionType> {PotionType.Health}
+                    TypeList = new List<PotionType> { PotionType.Health }
                 },
                 new Potion
                 {
@@ -55,7 +41,7 @@ namespace AIM.Util
                     MinCharges = 0,
                     ItemId = (ItemId) 2010,
                     Priority = 4,
-                    TypeList = new List<PotionType> {PotionType.Health, PotionType.Mana}
+                    TypeList = new List<PotionType> { PotionType.Health, PotionType.Mana }
                 },
                 new Potion
                 {
@@ -63,7 +49,7 @@ namespace AIM.Util
                     MinCharges = 0,
                     ItemId = (ItemId) 2004,
                     Priority = 3,
-                    TypeList = new List<PotionType> {PotionType.Mana}
+                    TypeList = new List<PotionType> { PotionType.Mana }
                 }
             };
             Load();
@@ -96,7 +82,9 @@ namespace AIM.Util
         private void OnGameUpdate(EventArgs args)
         {
             if (ObjectManager.Player.HasBuff("Recall") || ObjectManager.Player.InFountain())
+            {
                 return;
+            }
 
             try
             {
@@ -106,7 +94,9 @@ namespace AIM.Util
                     {
                         var healthSlot = GetPotionSlot(PotionType.Health);
                         if (!IsBuffActive(PotionType.Health))
+                        {
                             ObjectManager.Player.Spellbook.CastSpell(healthSlot.SpellSlot);
+                        }
                     }
                 }
                 if (ExtrasMenu.Item("ManaPotion").GetValue<bool>())
@@ -115,33 +105,32 @@ namespace AIM.Util
                     {
                         var manaSlot = GetPotionSlot(PotionType.Mana);
                         if (!IsBuffActive(PotionType.Mana))
+                        {
                             ObjectManager.Player.Spellbook.CastSpell(manaSlot.SpellSlot);
+                        }
                     }
                 }
             }
 
-            catch (Exception)
-            {
-
-            }
+            catch (Exception) {}
         }
 
         private InventorySlot GetPotionSlot(PotionType type)
         {
             return (from potion in potions
-                    where potion.TypeList.Contains(type)
-                    from item in ObjectManager.Player.InventoryItems
-                    where item.Id == potion.ItemId && item.Charges >= potion.MinCharges
-                    select item).FirstOrDefault();
+                where potion.TypeList.Contains(type)
+                from item in ObjectManager.Player.InventoryItems
+                where item.Id == potion.ItemId && item.Charges >= potion.MinCharges
+                select item).FirstOrDefault();
         }
 
         private bool IsBuffActive(PotionType type)
         {
             return (from potion in potions
-                    where potion.TypeList.Contains(type)
-                    from buff in ObjectManager.Player.Buffs
-                    where buff.Name == potion.Name && buff.IsActive
-                    select potion).Any();
+                where potion.TypeList.Contains(type)
+                from buff in ObjectManager.Player.Buffs
+                where buff.Name == potion.Name && buff.IsActive
+                select potion).Any();
         }
 
         private static float GetPlayerHealthPercentage()
@@ -152,6 +141,21 @@ namespace AIM.Util
         private static float GetPlayerManaPercentage()
         {
             return ObjectManager.Player.Mana * 100 / ObjectManager.Player.MaxMana;
+        }
+
+        private enum PotionType
+        {
+            Health,
+            Mana
+        };
+
+        private class Potion
+        {
+            public string Name { get; set; }
+            public int MinCharges { get; set; }
+            public ItemId ItemId { get; set; }
+            public int Priority { get; set; }
+            public List<PotionType> TypeList { get; set; }
         }
     }
 }

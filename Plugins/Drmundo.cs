@@ -1,14 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -42,13 +35,12 @@ namespace AIM.Plugins
                     Q.CastIfHitchanceEquals(Target, HitChance.Low);
                 }
             }
-
         }
 
         //from mundo TheKushStyle
         private void Combo(Obj_AI_Hero target)
         {
-            bool ActiveW = false;
+            var ActiveW = false;
             if (Player.HasBuff("BurningAgony"))
             {
                 ActiveW = true;
@@ -60,7 +52,7 @@ namespace AIM.Plugins
 
             if (Q.CastCheck(target, "ComboQ"))
             {
-                Q.CastIfHitchanceEquals(Target, HitChance.Low); 
+                Q.CastIfHitchanceEquals(Target, HitChance.Low);
             }
 
             if (target.IsValidTarget() && W.IsReady() && Player.Distance(target) <= W.Range && !ActiveW)
@@ -76,7 +68,6 @@ namespace AIM.Plugins
             {
                 E.Cast();
             }
-
         }
 
         public override void ComboMenu(Menu config)
@@ -86,8 +77,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
-
     }
 }

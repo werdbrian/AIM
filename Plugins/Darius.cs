@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -19,12 +14,10 @@ namespace AIM.Plugins
             W = new Spell(SpellSlot.W, 145);
             E = new Spell(SpellSlot.E, 550);
             R = new Spell(SpellSlot.R, 460);
-
         }
 
         public override void OnAfterAttack(AttackableUnit unit, AttackableUnit target)
         {
-
             if (!unit.IsMe)
             {
                 return;
@@ -38,9 +31,7 @@ namespace AIM.Plugins
                     W.Cast();
                     Orbwalking.ResetAutoAttackTimer();
                 }
-
             }
-
         }
 
         public override void OnUpdate(EventArgs args)
@@ -48,7 +39,6 @@ namespace AIM.Plugins
             ExecuteKillsteal();
             if (ComboMode)
             {
-
                 if (E.CastCheck(Target, "ComboE"))
                 {
                     E.Cast(Target);
@@ -61,28 +51,29 @@ namespace AIM.Plugins
                 {
                     W.Cast();
                 }
-
             }
         }
 
         public void ExecuteKillsteal()
         {
-
-            foreach (Obj_AI_Hero target in ObjectManager.Get<Obj_AI_Hero>().Where(x => Player.Distance(x) < R.Range && x.IsEnemy && !x.IsDead))
+            foreach (
+                var target in
+                    ObjectManager.Get<Obj_AI_Hero>().Where(x => Player.Distance(x) < R.Range && x.IsEnemy && !x.IsDead))
             {
-
                 if (R.IsReady() && Player.Distance(target) <= R.Range && R.IsKillable(target))
                 {
                     CastR(target);
                 }
-
             }
         }
 
         // R Calculate Credit TC-Crew
         public void CastR(Obj_AI_Base target)
         {
-            if (!target.IsValidTarget(R.Range) || !R.IsReady()) return;
+            if (!target.IsValidTarget(R.Range) || !R.IsReady())
+            {
+                return;
+            }
 
             if (!(ObjectManager.Player.GetSpellDamage(target, SpellSlot.Q, 1) > target.Health))
             {
@@ -90,16 +81,15 @@ namespace AIM.Plugins
                 {
                     if (buff.Name == "dariushemo")
                     {
-                        if (ObjectManager.Player.GetSpellDamage(target, SpellSlot.R, 1) *
-                            (1 + buff.Count / 5) - 1 > (target.Health))
+                        if (ObjectManager.Player.GetSpellDamage(target, SpellSlot.R, 1) * (1 + buff.Count / 5) - 1 >
+                            (target.Health))
                         {
                             R.CastOnUnit(target, true);
                         }
                     }
                 }
             }
-            else if (ObjectManager.Player.GetSpellDamage(target, SpellSlot.R, 1) - 15 >
-                     (target.Health))
+            else if (ObjectManager.Player.GetSpellDamage(target, SpellSlot.R, 1) - 15 > (target.Health))
             {
                 R.CastOnUnit(target, true);
             }
