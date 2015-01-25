@@ -5,7 +5,6 @@ using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Objects;
 using LeagueSharp;
 using LeagueSharp.Common;
-using AutoLevel = LeagueSharp.Common.AutoLevel;
 
 namespace AIM.Autoplay.Modes
 {
@@ -13,9 +12,9 @@ namespace AIM.Autoplay.Modes
     {
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
         public static bool IsInDanger = false;
-        public static AutoLevel AutoLevel;
         public static Menu Menu;
-        public Obj_AI_Minion LeadingMinion;
+        public static Obj_AI_Minion LeadingMinion;
+        public static Obj_AI_Minion ClosestEnemyMinion;
 
         protected Base()
         {
@@ -42,9 +41,10 @@ namespace AIM.Autoplay.Modes
             LeadingMinion = Utility.Map.GetMap().Type == Utility.Map.MapType.SummonersRift
                 ? ObjMinions.GetLeadMinion(SummonersRift.BottomLane.Bottom_Zone.CenterOfPolygone().To3D())
                 : ObjMinions.GetLeadMinion();
+            ClosestEnemyMinion = ObjMinions.GetClosestEnemyMinion();
         }
 
-        public bool InDangerUnderEnemyTurret()
+        public static bool InDangerUnderEnemyTurret()
         {
             var nearestTurret = Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(Player) < 800);
             if (nearestTurret != null)

@@ -72,11 +72,11 @@ namespace AIM.Plugins
                         (IsAblazed(target)) || // Ablazed
                         (Player.GetSpellDamage(target, SpellSlot.Q) > target.Health) || // Killable
                         (useW && !useE && !W.IsReady() &&
-                         W.IsReady((int)(Player.Spellbook.GetSpell(SpellSlot.Q).Cooldown * 1000))) ||
+                         W.IsReady((int) (Player.Spellbook.GetSpell(SpellSlot.Q).Cooldown * 1000))) ||
                         // Cooldown substraction W ready
                         ((useE && !useW || useW && useE) && !E.IsReady() &&
-                         E.IsReady((int)(Player.Spellbook.GetSpell(SpellSlot.Q).Cooldown * 1000))))
-                    // Cooldown substraction E ready
+                         E.IsReady((int) (Player.Spellbook.GetSpell(SpellSlot.Q).Cooldown * 1000))))
+                        // Cooldown substraction E ready
                     {
                         // Cast Q on high hitchance
                         Q.CastIfHitchanceEquals(target, HitChance.High);
@@ -90,8 +90,8 @@ namespace AIM.Plugins
                         (IsAblazed(target)) || // Ablazed
                         (Player.GetSpellDamage(target, SpellSlot.W) > target.Health) || // Killable
                         (target.ServerPosition.Distance(Player.Position, true) > E.Range * E.Range) ||
-                        (!E.IsReady() && E.IsReady((int)(Player.Spellbook.GetSpell(SpellSlot.W).Cooldown * 1000))))
-                    // Cooldown substraction E ready
+                        (!E.IsReady() && E.IsReady((int) (Player.Spellbook.GetSpell(SpellSlot.W).Cooldown * 1000))))
+                        // Cooldown substraction E ready
                     {
                         // Cast W on high hitchance
                         W.CastIfHitchanceEquals(target, HitChance.High);

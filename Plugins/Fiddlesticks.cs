@@ -45,7 +45,6 @@ namespace AIM.Plugins
             W = new Spell(SpellSlot.W, 575);
             E = new Spell(SpellSlot.E, 750);
             R = new Spell(SpellSlot.R, 800);
-            
         }
 
         public override void OnUpdate(EventArgs args)
@@ -57,19 +56,9 @@ namespace AIM.Plugins
                     Q.CastOnUnit(Target);
                 }
 
-                if (W.IsReady() && Target.IsValidTarget(W.Range) && (Target.HasBuffOfType(BuffType.Fear) || Player.HealthPercentage() <= 80 || W.IsKillable(Target)))
-                {
-                    W.CastOnUnit(Target);
-                }
-
                 if (E.CastCheck(Target, "Combo.E"))
                 {
                     E.CastOnUnit(Target);
-                }
-
-                if (R.IsReady() && Player.CountEnemiesInRange(1000) >1 && Player.HealthPercentage() > 30)
-                {
-                    R.Cast(Target.Position);
                 }
             }
 

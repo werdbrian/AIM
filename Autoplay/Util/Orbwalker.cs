@@ -10,6 +10,7 @@ namespace AIM.Autoplay.Util
 {
     public class Orbwalker
     {
+        public static bool Stop = false;
         public Orbwalker()
         {
             Game.PrintChat("AIM Orbwalker Init Successful");
@@ -37,7 +38,7 @@ namespace AIM.Autoplay.Util
             {
                 var spellbook = Player.Spellbook;
 
-                if (spellbook.IsChanneling || spellbook.IsCharging || spellbook.IsCastingSpell)
+                if (spellbook.IsChanneling || spellbook.IsCharging || spellbook.IsCastingSpell || Stop)
                 {
                     return;
                 }
@@ -91,7 +92,7 @@ namespace AIM.Autoplay.Util
             Variables.StepTime = Environment.TickCount;
         }
 
-        private void WalkAround(Obj_AI_Hero follow)
+        public void WalkAround(Obj_AI_Hero follow)
         {
             Randoms.RandRange = Randoms.Rand.Next(-367, 376);
             Randoms.RandSeconds = Randoms.Rand.Next(500, 3500);
