@@ -21,7 +21,7 @@ namespace AIM.Autoplay.Util.Data
         public int AggressiveAdditioner { get; set; }
         public int DefensiveAdditioner { get; set; }
         public int AggressiveMultiplier { get; set; }
-        public int DefensiveMultiplier { get; set; }
+        public int DefensiveMutiplier { get; set; }
         public int LoadedTickCount { get; internal set; }
 
         public float LowHealthRatio
@@ -52,7 +52,7 @@ namespace AIM.Autoplay.Util.Data
                     AggressiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
                     DefensiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
                     AggressiveMultiplier = 200;
-                    DefensiveMultiplier = -200;
+                    DefensiveMutiplier = -200;
                     BotLanePos.X = 11376 + Randoms.Rand.Next(-50, 50);
                     BotLanePos.Y = 1062 + Randoms.Rand.Next(-50, 50);
                     TopLanePos.X = 1302 + Randoms.Rand.Next(-50, 50);
@@ -63,7 +63,7 @@ namespace AIM.Autoplay.Util.Data
                     AggressiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
                     DefensiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
                     AggressiveMultiplier = -200;
-                    DefensiveMultiplier = 200;
+                    DefensiveMutiplier = 200;
                     BotLanePos.X = 13496 + Randoms.Rand.Next(-50, 50);
                     BotLanePos.Y = 4218 + Randoms.Rand.Next(-50, 50);
                     TopLanePos.X = 4849 + Randoms.Rand.Next(-50, 50);

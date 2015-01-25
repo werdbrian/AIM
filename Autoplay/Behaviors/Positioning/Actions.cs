@@ -16,7 +16,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
 {
     internal class Actions
     {
-        internal BehaviorAction PushLane = new BehaviorAction(
+        internal static BehaviorAction PushLane = new BehaviorAction(
             () =>
             {
                 try
@@ -48,7 +48,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 return BehaviorState.Failure;
             });
 
-        internal BehaviorAction StayWithinExpRange = new BehaviorAction(
+        internal static BehaviorAction StayWithinExpRange = new BehaviorAction(
             () =>
             {
                 var objConstants = new Constants();
@@ -64,23 +64,22 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 if (Modes.Base.ClosestEnemyMinion != null)
                 {
                     var orbwalkingPos = new Vector2();
-                    var expRange = 800 + Randoms.Rand.Next(-100, 100);
+                    var expRange = 1100 + Randoms.Rand.Next(-100, 100);
                     orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X +
                                       (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange
-                                          ? expRange + Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me)// * objConstants.DefensiveMultiplier
-                                          : expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me));// * objConstants.DefensiveMultiplier);
+                                          ? expRange + Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me)
+                                          : expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me));
                     orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y +
                                       (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange
                                           ? expRange + Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me)
-                                          //) * objConstants.DefensiveMultiplier
-                                          : expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me));// * objConstants.DefensiveMultiplier);
+                                          : expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me));
                     Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
                 return BehaviorState.Failure;
             });
 
-        internal BehaviorAction KillEnemy = new BehaviorAction(
+        internal static BehaviorAction KillEnemy = new BehaviorAction(
             () =>
             {
                 var spells = new List<SpellSlot> { SpellSlot.Q, SpellSlot.W, SpellSlot.E };
@@ -96,7 +95,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 Heroes.Me.IssueOrder(GameObjectOrder.AutoAttack, killableEnemy);
                 return BehaviorState.Running;
             });
-        internal BehaviorAction CollectHealthRelic = new BehaviorAction(
+        internal static BehaviorAction CollectHealthRelic = new BehaviorAction(
             () =>
             {
                 if (Heroes.Me.Position != Relics.ClosestRelic().Position)

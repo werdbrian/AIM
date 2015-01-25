@@ -17,11 +17,13 @@ namespace AIM.Autoplay.Behaviors
             () =>
             {
                 var heroes = new Heroes();
+                var minions = new Minions();
+
                 if (Heroes.Me.IsDead)
                 {
                     return 0;
                 }
-                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible))
+                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible) || !minions.EnemyMinions.Any(m => m.IsVisible))
                 {
                     return 1;
                 }
