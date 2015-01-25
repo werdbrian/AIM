@@ -20,12 +20,7 @@ namespace AIM.Autoplay.Modes
 
         public override void OnGameLoad(EventArgs args)
         {
-            InitAutoLevel();
-        }
-
-        public static void InitAutoLevel()
-        {
-            AutoLevel = new AutoLevel(Util.Data.AutoLevel.GetSequence());
+            new AutoLevel(Util.Data.AutoLevel.GetSequence());
         }
 
         public override void OnGameUpdate(EventArgs args)

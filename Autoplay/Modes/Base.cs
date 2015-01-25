@@ -5,7 +5,6 @@ using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Objects;
 using LeagueSharp;
 using LeagueSharp.Common;
-using AutoLevel = LeagueSharp.Common.AutoLevel;
 
 namespace AIM.Autoplay.Modes
 {
@@ -13,7 +12,6 @@ namespace AIM.Autoplay.Modes
     {
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
         public static bool IsInDanger = false;
-        public static AutoLevel AutoLevel;
         public static Menu Menu;
         public static Obj_AI_Minion LeadingMinion;
         public static Obj_AI_Minion ClosestEnemyMinion;
