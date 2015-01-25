@@ -16,7 +16,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
 {
     internal class Actions
     {
-        internal static BehaviorAction PushLane = new BehaviorAction(
+        internal BehaviorAction PushLane = new BehaviorAction(
             () =>
             {
                 try
@@ -48,7 +48,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 return BehaviorState.Failure;
             });
 
-        internal static BehaviorAction StayWithinExpRange = new BehaviorAction(
+        internal BehaviorAction StayWithinExpRange = new BehaviorAction(
             () =>
             {
                 var objConstants = new Constants();
@@ -79,7 +79,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 return BehaviorState.Failure;
             });
 
-        internal static BehaviorAction KillEnemy = new BehaviorAction(
+        internal BehaviorAction KillEnemy = new BehaviorAction(
             () =>
             {
                 var spells = new List<SpellSlot> { SpellSlot.Q, SpellSlot.W, SpellSlot.E };
@@ -95,7 +95,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 Heroes.Me.IssueOrder(GameObjectOrder.AutoAttack, killableEnemy);
                 return BehaviorState.Running;
             });
-        internal static BehaviorAction CollectHealthRelic = new BehaviorAction(
+        internal BehaviorAction CollectHealthRelic = new BehaviorAction(
             () =>
             {
                 if (Heroes.Me.Position != Relics.ClosestRelic().Position)
