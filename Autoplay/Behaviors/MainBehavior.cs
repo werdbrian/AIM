@@ -21,8 +21,7 @@ namespace AIM.Autoplay.Behaviors
                 {
                     return 0;
                 }
-                if (!(Heroes.EnemiesInRange(1400) < 2 && Heroes.AlliesInRange(1400) > 2) &&
-                   !Heroes.AllyHeroes.All(h => h.InFountain()))
+                if (!Heroes.AllyHeroes.All(h => h.InFountain()))
                 {
                     return 1;
                 }

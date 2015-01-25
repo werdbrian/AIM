@@ -67,12 +67,12 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     var expRange = 1100 + Randoms.Rand.Next(-100, 100);
                     orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X +
                                       (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange
-                                          ? expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me)
-                                          : 0);
+                                          ? expRange + Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) * objConstants.DefensiveMutiplier
+                                          : expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) * objConstants.DefensiveMutiplier);
                     orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y +
                                       (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange
-                                          ? expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me)
-                                          : 0);
+                                          ? expRange + Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) * objConstants.DefensiveMutiplier
+                                          : expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) * objConstants.DefensiveMutiplier);
                     Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
