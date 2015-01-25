@@ -21,7 +21,7 @@ namespace AIM.Autoplay.Behaviors
                 {
                     return 0;
                 }
-                if (heroes.AllyHeroes.All(h => h.InFountain()))
+                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level > 17)
                 {
                     return 1;
                 }
