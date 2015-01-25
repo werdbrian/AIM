@@ -56,21 +56,25 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BehaviorSharp">
-      <HintPath>D:\LeagueSharp\\System\BehaviorSharp.dll</HintPath>
+    <Reference Include="BehaviorSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\LeagueSharpLoader\bin\Release\System\BehaviorSharp.dll</HintPath>
     </Reference>
-    <Reference Include="clipper_library">
-      <HintPath>D:\LeagueSharp\\System\clipper_library.dll</HintPath>
+    <Reference Include="clipper_library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\LeagueSharpLoader\bin\Release\System\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp, Version=1.0.0.25, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\LeagueSharp\\System\LeagueSharp.dll</HintPath>
+      <HintPath>..\..\..\Desktop\LeagueSharpLoader\bin\Release\System\LeagueSharp.dll</HintPath>
     </Reference>
-    <Reference Include="LeagueSharp.Common">
-      <HintPath>D:\LeagueSharp\\System\LeagueSharp.Common.dll</HintPath>
+    <Reference Include="LeagueSharp.Common, Version=1.0.0.26, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\LeagueSharpLoader\bin\Release\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>D:\LeagueSharp\\System\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\LeagueSharpLoader\bin\Release\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -104,7 +108,7 @@
     <Compile Include="Plugins\Darius.cs" />
     <Compile Include="Plugins\Diana.cs" />
     <Compile Include="Plugins\Draven.cs" />
-    <Compile Include="Plugins\Drmundo.cs" />
+    <Compile Include="Plugins\DrMundo.cs" />
     <Compile Include="Plugins\Evelynn.cs" />
     <Compile Include="Plugins\Fiora.cs" />
     <Compile Include="Plugins\Fizz.cs" />

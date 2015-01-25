@@ -5,9 +5,9 @@ using LeagueSharp.Common;
 
 namespace AIM.Plugins
 {
-    public class Drmundo : PluginBase
+    public class DrMundo : PluginBase
     {
-        public Drmundo()
+        public DrMundo()
         {
             Q = new Spell(SpellSlot.Q, 930);
             W = new Spell(SpellSlot.W, 320);
