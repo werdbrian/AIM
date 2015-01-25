@@ -15,7 +15,8 @@ namespace AIM.Autoplay.Modes
         public static bool IsInDanger = false;
         public static AutoLevel AutoLevel;
         public static Menu Menu;
-        public Obj_AI_Minion LeadingMinion;
+        public static Obj_AI_Minion LeadingMinion;
+        public static Obj_AI_Minion ClosestEnemyMinion;
 
         protected Base()
         {
@@ -42,9 +43,10 @@ namespace AIM.Autoplay.Modes
             LeadingMinion = Utility.Map.GetMap().Type == Utility.Map.MapType.SummonersRift
                 ? ObjMinions.GetLeadMinion(SummonersRift.BottomLane.Bottom_Zone.CenterOfPolygone().To3D())
                 : ObjMinions.GetLeadMinion();
+            ClosestEnemyMinion = ObjMinions.GetClosestEnemyMinion();
         }
 
-        public bool InDangerUnderEnemyTurret()
+        public static bool InDangerUnderEnemyTurret()
         {
             var nearestTurret = Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(Player) < 800);
             if (nearestTurret != null)

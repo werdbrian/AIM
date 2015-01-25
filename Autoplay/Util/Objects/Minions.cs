@@ -42,5 +42,12 @@ namespace AIM.Autoplay.Util.Objects
 
             return AllyMinions.OrderBy(x => x.Distance(closestTurret.Position, true)).FirstOrDefault();
         }
+
+        public Obj_AI_Minion GetClosestEnemyMinion(Vector3? position = null)
+        {
+            var pos = position ?? ObjectManager.Player.ServerPosition;
+
+            return EnemyMinions.OrderBy(x => x.Distance(pos, true)).FirstOrDefault();
+        }
     }
 }

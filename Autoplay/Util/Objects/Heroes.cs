@@ -37,5 +37,25 @@ namespace AIM.Autoplay.Util.Objects
             AllyHeroes.Remove(hero);
             EnemyHeroes.Remove(hero);
         }
+
+        public int EnemiesInRange(int range)
+        {
+            return EnemyHeroes.Count(h => h.Distance(Me) < range);
+        }
+
+        public int EnemiesInRange(Obj_AI_Base obj, int range)
+        {
+            return EnemyHeroes.Count(h => h.Distance(Me) < range);
+        }
+
+        public int AlliesInRange(int range)
+        {
+            return AllyHeroes.Count(h => h.Distance(Me) < range);
+        }
+
+        public int AlliesInRange(Obj_AI_Base obj, int range)
+        {
+            return AllyHeroes.Count(h => h.Distance(Me) < range);
+        }
     }
 }

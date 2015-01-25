@@ -77,39 +77,7 @@ namespace AIM.Autoplay.Modes
             new AutoLevel(Util.Data.AutoLevel.GetSequence());
             MetaHandler.DoChecks(); //#TODO rewrite MetaHandler with BehaviorSharp
 
-            #region OrbwalkAtLeadingMinionLocation
-
-            new BehaviorAction(
-                () =>
-                {
-                    try
-                    {
-                        if (IsInDanger)
-                        {
-                            var orbwalkingPos = new Vector2();
-                            orbwalkingPos.X = ObjectManager.Player.Position.X + ObjConstants.DefensiveAdditioner;
-                            orbwalkingPos.Y = ObjectManager.Player.Position.Y + ObjConstants.DefensiveAdditioner;
-                            ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
-                            return BehaviorState.Success;
-                        }
-                        if (LeadingMinion != null && !IsInDanger)
-                        {
-                            var orbwalkingPos = new Vector2();
-                            orbwalkingPos.X = LeadingMinion.Position.X + ObjConstants.DefensiveAdditioner;
-                            orbwalkingPos.Y = LeadingMinion.Position.Y + ObjConstants.DefensiveAdditioner;
-                            OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
-                            return BehaviorState.Success;
-                        }
-                        return BehaviorState.Failure;
-                    }
-                    catch (NullReferenceException e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                    return BehaviorState.Failure;
-                }).Tick();
-
-            #endregion OrbwalkAtLeadingMinionLocation
+            Behaviors.MainBehavior.Root.Tick();
         }
     }
 }
