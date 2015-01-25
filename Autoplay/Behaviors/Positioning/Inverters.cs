@@ -11,6 +11,6 @@ namespace AIM.Autoplay.Behaviors.Positioning
 {
     internal class Inverters
     {
-        internal static Inverter LowHealth = new Inverter(Conditionals.LowHealth);
+        internal Inverter LowHealth = new Inverter(new Conditionals().LowHealth);
     }
 }

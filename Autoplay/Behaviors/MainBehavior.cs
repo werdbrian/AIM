@@ -16,12 +16,12 @@ namespace AIM.Autoplay.Behaviors
         internal static Behavior Root = new Behavior(new IndexSelector(
             () =>
             {
-                var Heroes = new Heroes();
+                var heroes = new Heroes();
                 if (Heroes.Me.IsDead)
                 {
                     return 0;
                 }
-                if (!Heroes.AllyHeroes.All(h => h.InFountain()))
+                if (heroes.AllyHeroes.All(h => h.InFountain()))
                 {
                     return 1;
                 }
@@ -30,6 +30,6 @@ namespace AIM.Autoplay.Behaviors
                     return 2;
                 }
                 return 3;
-            }, new Sequence(), Sequences.StayWithinExpRange, Sequences.CollectHealthPack, Sequences.LanePush));
+            }, new Sequence(),  Sequences.LanePush, Sequences.CollectHealthPack, Sequences.StayWithinExpRange));
     }
 }
