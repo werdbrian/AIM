@@ -21,11 +21,11 @@ namespace AIM.Autoplay.Behaviors
                 {
                     return 0;
                 }
-                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level > 17)
+                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible))
                 {
                     return 1;
                 }
-                if (Heroes.Me.HealthPercentage() < Modes.Base.Menu.Item("LowHealth").GetValue<Slider>().Value)
+                if (Heroes.Me.HealthPercentage() < Modes.Base.Menu.Item("LowHealth").GetValue<Slider>().Value && Relics.ClosestRelic() != null)
                 {
                     return 2;
                 }
