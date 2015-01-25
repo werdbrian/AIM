@@ -61,7 +61,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
-                if (Modes.Base.LeadingMinion != null)
+                if (Modes.Base.ClosestEnemyMinion != null)
                 {
                     var orbwalkingPos = new Vector2();
                     var expRange = 1100 + Randoms.Rand.Next(-100, 100);
