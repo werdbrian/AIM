@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -27,7 +21,6 @@ namespace AIM.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
                 if (Q.CastCheck(Target, "ComboQ"))
@@ -53,8 +46,6 @@ namespace AIM.Plugins
                     R.Cast(Target);
                 }
             }
-
-
         }
 
         public override void OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell)
@@ -67,11 +58,8 @@ namespace AIM.Plugins
             if (Q.CastCheck(unit, "Interrupt.Q"))
             {
                 Q.Cast(unit);
-                return;
             }
-
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -80,8 +68,6 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
 
         public override void InterruptMenu(Menu config)
         {

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -21,7 +15,7 @@ namespace AIM.Plugins
             R = new Spell(SpellSlot.R, 1300f);
 
             Q.SetSkillshot(0.3f, 120f, 1000f, false, SkillshotType.SkillshotCircle);
-            E.SetSkillshot(0f, (float)(45 * Math.PI / 180), 1500, false, SkillshotType.SkillshotCone);
+            E.SetSkillshot(0f, (float) (45 * Math.PI / 180), 1500, false, SkillshotType.SkillshotCone);
             R.SetSkillshot(0.2f, 40f, 2000f, true, SkillshotType.SkillshotLine);
         }
 
@@ -58,6 +52,5 @@ namespace AIM.Plugins
             config.AddBool("HarassE", "Use E", true);
             config.AddBool("HarassR", "Use R", true);
         }
-
     }
 }

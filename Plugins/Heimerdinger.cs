@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
     public class Heimerdinger : PluginBase
     {
         public Vector2 pos;
-        public bool Rcast = false;
+        public bool Rcast;
 
         public Heimerdinger()
         {
@@ -27,9 +22,9 @@ namespace AIM.Plugins
             W.SetSkillshot(250f, 200, 1400, true, SkillshotType.SkillshotLine);
             E.SetSkillshot(0.51f, 120, 1200, false, SkillshotType.SkillshotCircle);
         }
+
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
                 if (R.IsReady() && !Rcast)
@@ -51,14 +46,13 @@ namespace AIM.Plugins
                 }
                 if (Q.IsReady() && Player.CountEnemiesInRange(1300) >= 2)
                 {
-                    Random rnd = new Random();
+                    var rnd = new Random();
                     pos.X = Player.Position.X + rnd.Next(-50, 50);
                     pos.Y = Player.Position.Y + rnd.Next(-50, 50);
                     Q.Cast(pos.To3D());
                     Rcast = false;
                 }
             }
-
         }
 
         public override void ComboMenu(Menu config)
@@ -68,6 +62,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

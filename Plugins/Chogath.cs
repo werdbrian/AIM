@@ -1,14 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -27,11 +21,8 @@ namespace AIM.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-
-
             if (ComboMode)
             {
-
                 if (Q.CastCheck(Target, "ComboQ"))
                 {
                     W.Cast(Target);
@@ -53,13 +44,18 @@ namespace AIM.Plugins
                     {
                         count = buffs.Count;
                     }
-                    foreach (var minion in allMinions.Where(minion => minion.IsValidTarget(R.Range) && (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.R) > minion.Health)).Where(minion => count < 6))
+                    foreach (
+                        var minion in
+                            allMinions.Where(
+                                minion =>
+                                    minion.IsValidTarget(R.Range) &&
+                                    (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.R) > minion.Health))
+                                .Where(minion => count < 6))
+                    {
                         R.CastOnUnit(minion);
+                    }
                 }
-
             }
-
-
         }
 
         //From TC-Crew
@@ -74,16 +70,28 @@ namespace AIM.Plugins
             }
 
             if (R.IsReady())
-                foreach (var minion in allMinions.Where(minion => minion.IsValidTarget(R.Range) && (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.R) > minion.Health)).Where(minion => count < 6))
+            {
+                foreach (
+                    var minion in
+                        allMinions.Where(
+                            minion =>
+                                minion.IsValidTarget(R.Range) &&
+                                (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.R) > minion.Health))
+                            .Where(minion => count < 6))
+                {
                     R.CastOnUnit(minion);
+                }
+            }
 
 
             foreach (var champion in from champion in ObjectManager.Get<Obj_AI_Hero>()
-                                     where champion.IsValidTarget(Q.Range)
-                                     let qPrediction = Q.GetPrediction(champion)
-                                     where (qPrediction.Hitchance == HitChance.Immobile)
-                                     select champion)
+                where champion.IsValidTarget(Q.Range)
+                let qPrediction = Q.GetPrediction(champion)
+                where (qPrediction.Hitchance == HitChance.Immobile)
+                select champion)
+            {
                 Q.Cast(champion, true, true);
+            }
         }
 
         public override void OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell)
@@ -101,11 +109,8 @@ namespace AIM.Plugins
             if (W.CastCheck(unit, "Interrupt.W"))
             {
                 W.Cast(unit);
-                return;
             }
-
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -114,8 +119,6 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
 
         public override void InterruptMenu(Menu config)
         {

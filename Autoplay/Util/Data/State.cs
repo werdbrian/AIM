@@ -9,7 +9,8 @@ namespace AIM.Autoplay.Util.Data
 {
     public class State
     {
-        static readonly Constants Constants = new Constants();
+        private static readonly Constants Constants = new Constants();
+
         public static bool IsBotSafe()
         {
             var map = Constants.Map;
@@ -27,10 +28,12 @@ namespace AIM.Autoplay.Util.Data
             }
             if (Heroes.Me.Mana < Heroes.Me.MaxMana * Constants.LowManaRatio)
             {
-                return Heroes.Me.Health > Heroes.Me.MaxHealth * Constants.LowHealthIfLowManaRatio && !Heroes.Me.IsRecalling() && !(Heroes.Me.Gold > Randoms.NeededGoldToBack && !MetaHandler.HasSixItems());
+                return Heroes.Me.Health > Heroes.Me.MaxHealth * Constants.LowHealthIfLowManaRatio &&
+                       !Heroes.Me.IsRecalling() &&
+                       !(Heroes.Me.Gold > Randoms.NeededGoldToBack && !MetaHandler.HasSixItems());
             }
-            return (Heroes.Me.Health > Heroes.Me.MaxHealth * Constants.LowHealthRatio) && !Heroes.Me.IsRecalling() && !(Heroes.Me.Gold > Randoms.NeededGoldToBack && !MetaHandler.HasSixItems());
-
+            return (Heroes.Me.Health > Heroes.Me.MaxHealth * Constants.LowHealthRatio) && !Heroes.Me.IsRecalling() &&
+                   !(Heroes.Me.Gold > Randoms.NeededGoldToBack && !MetaHandler.HasSixItems());
         }
     }
 }

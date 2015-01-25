@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
     public class Galio : PluginBase
     {
-
         public Galio()
         {
-
             //spelldata from Mechanics-StackOverflow Galio
             Q = new Spell(SpellSlot.Q, 940);
             W = new Spell(SpellSlot.W, 800);
@@ -26,9 +18,9 @@ namespace AIM.Plugins
             Q.SetSkillshot(0.25f, 150, 1250, false, SkillshotType.SkillshotCircle);
             E.SetSkillshot(0.25f, 90, 1250, false, SkillshotType.SkillshotLine);
         }
+
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
                 if (Q.CastCheck(Target, "ComboQ"))
@@ -42,12 +34,8 @@ namespace AIM.Plugins
                 if (R.IsReady())
                 {
                     R.CastIfWillHit(Target, 2);
-
                 }
-
             }
-
-
         }
 
         public override void ComboMenu(Menu config)
@@ -57,6 +45,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

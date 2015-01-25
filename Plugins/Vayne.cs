@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -18,36 +12,35 @@ namespace AIM.Plugins
             Q = new Spell(SpellSlot.Q);
             E = new Spell(SpellSlot.E);
             R = new Spell(SpellSlot.R);
-
         }
 
         public override void OnUpdate(EventArgs args)
         {
-            if (ComboMode)
+            if (!ComboMode)
             {
-                if (E.CastCheck(Target, "ComboE"))
-                {
-                    E.Cast(Target);
-                }
-                if (Orbwalking.InAutoAttackRange(Target) && Player.HealthPercentage() > 20)
-                {
-                    if (R.IsReady())
-                    {
-                        R.Cast();
-                    }
-                    if (Q.IsReady())
-                    {
-                        Q.Cast();
-                    }
-
-                    Player.IssueOrder(GameObjectOrder.AttackUnit, Target);
-
-
-                }
+                return;
             }
 
-        }
+            if (E.CastCheck(Target, "ComboE"))
+            {
+                E.Cast(Target);
+            }
 
+            if (!Orbwalking.InAutoAttackRange(Target) || Player.HealthPercentage() <= 20)
+            {
+                return;
+            }
+
+            if (R.IsReady())
+            {
+                R.Cast();
+            }
+
+            if (Q.IsReady())
+            {
+                Q.Cast();
+            }
+        }
 
         public override void ComboMenu(Menu config)
         {

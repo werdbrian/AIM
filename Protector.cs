@@ -23,23 +23,19 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AIM.Evade;
+using AIM.Util;
+using LeagueSharp;
+using LeagueSharp.Common;
+using SharpDX;
+using Collision = AIM.Evade.Collision;
+using SpellData = LeagueSharp.SpellData;
+
 namespace AIM
 {
-    #region
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using SharpDX;
-    using AIM.Evade;
-    using AIM.Util;
-    using Collision = AIM.Evade.Collision;
-    using SpellData = LeagueSharp.SpellData;
-
-    #endregion
-
     internal class ProtectorSpell
     {
         public string Name { get; set; }
@@ -105,7 +101,6 @@ namespace AIM
         }
 
         public static event OnSkillshotProtectionH OnSkillshotProtection;
-
         public static event OnTargetedProtectionH OnTargetedProtection;
 
         public static void Init()
@@ -601,7 +596,8 @@ namespace AIM
                             {
                                 var v = minion.ServerPosition.To2D() - skillshot.Unit.ServerPosition.To2D();
                                 if (minion.Name == "Seed" && edge1.CrossProduct(v) > 0 && v.CrossProduct(edge2) > 0 &&
-                                    minion.Distance(skillshot.Unit, false) < 800 && (minion.Team != ObjectManager.Player.Team))
+                                    minion.Distance(skillshot.Unit, false) < 800 &&
+                                    (minion.Team != ObjectManager.Player.Team))
                                 {
                                     var start = minion.ServerPosition.To2D();
                                     var end = skillshot.Unit.ServerPosition.To2D()
@@ -722,7 +718,6 @@ namespace AIM
                 Console.WriteLine(e);
             }
         }
-
 
         /// <summary>
         ///     Returns true if the point is not inside the detected skillshots.

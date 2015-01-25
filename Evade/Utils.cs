@@ -23,17 +23,19 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using LeagueSharp;
+using LeagueSharp.Common;
+using SharpDX;
+using Color = System.Drawing.Color;
+
 namespace AIM.Evade
 {
     #region
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using SharpDX;
-    using Color = System.Drawing.Color;
+    
 
     #endregion
 

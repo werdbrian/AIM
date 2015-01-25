@@ -1,14 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -27,12 +20,11 @@ namespace AIM.Plugins
             E.SetTargetted(0.2f, float.MaxValue);
 
             R = new Spell(SpellSlot.R, 800);
-            R.SetSkillshot(0.6f, (float)(80 * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
+            R.SetSkillshot(0.6f, (float) (80 * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
         }
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (ComboMode)
             {
                 if (E.CastCheck(Target, "ComboE") && Target.HasBuffOfType(BuffType.Poison))
@@ -55,7 +47,8 @@ namespace AIM.Plugins
                 {
                     R.CastIfWillHit(Target, 2);
                 }
-            } if (HarassMode)
+            }
+            if (HarassMode)
             {
                 if (E.CastCheck(Target, "ComboE") && Target.HasBuffOfType(BuffType.Poison))
                 {
@@ -68,7 +61,6 @@ namespace AIM.Plugins
             }
         }
 
-
         public override void OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell)
         {
             if (spell.DangerLevel < InterruptableDangerLevel.High || unit.IsAlly)
@@ -79,11 +71,8 @@ namespace AIM.Plugins
             if (R.CastCheck(unit, "Interrupt.R"))
             {
                 R.Cast(unit);
-                return;
             }
-
         }
-
 
         public override void ComboMenu(Menu config)
         {
@@ -92,8 +81,6 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
-
 
         public override void InterruptMenu(Menu config)
         {

@@ -27,15 +27,17 @@
 
 #endregion
 
+using System;
+using System.Linq;
+using AIM.Util;
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace AIM.Plugins
 {
     #region
 
-    using System;
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using AIM.Util;
+    
 
     #endregion
 

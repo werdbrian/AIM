@@ -23,11 +23,13 @@
 
 #endregion
 
+using System.Collections.Generic;
+
 namespace AIM.Util
 {
     #region
 
-    using System.Collections.Generic;
+    
 
     #endregion
 

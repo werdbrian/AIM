@@ -23,20 +23,22 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AIM.Evade;
+using AIM.Util;
+using LeagueSharp;
+using LeagueSharp.Common;
+using SharpDX;
+using ActiveGapcloser = AIM.Util.ActiveGapcloser;
+using SpellData = LeagueSharp.SpellData;
+
 namespace AIM.Plugins
 {
     #region
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using SharpDX;
-    using AIM.Evade;
-    using AIM.Util;
-    using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-    using SpellData = LeagueSharp.SpellData;
+    
 
     #endregion
 

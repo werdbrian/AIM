@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
 using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -24,11 +19,12 @@ namespace AIM.Plugins
             E.SetSkillshot(0.25f, 80f, 1600f, true, SkillshotType.SkillshotLine);
         }
 
-
-        public override void OnEnemyGapcloser(ActiveGapcloser gapcloser) 
+        public override void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (E.IsReady() && gapcloser.Sender.IsValidTarget(E.Range))
+            {
                 E.CastOnUnit(gapcloser.Sender);
+            }
         }
 
         public override void OnUpdate(EventArgs args)
@@ -38,17 +34,13 @@ namespace AIM.Plugins
 
             if (ComboMode)
             {
-
-
-
                 //Auto W (Stun/Snare/Taunt)
                 if (W.IsReady())
                 {
                     t = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
                     if (t.IsValidTarget(W.Range) &&
                         (t.HasBuffOfType(BuffType.Stun) || t.HasBuffOfType(BuffType.Snare) ||
-                        t.HasBuffOfType(BuffType.Taunt) || t.HasBuff("zhonyasringshield") ||
-                        t.HasBuff("Recall")))
+                         t.HasBuffOfType(BuffType.Taunt) || t.HasBuff("zhonyasringshield") || t.HasBuff("Recall")))
                     {
                         W.Cast(t.Position);
                     }
@@ -69,18 +61,13 @@ namespace AIM.Plugins
                 if (R.IsReady())
                 {
                     t = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
-                    if (t != null && t.Health <= R.GetDamage(t) &&
-                        !Orbwalking.InAutoAttackRange(t))
+                    if (t != null && t.Health <= R.GetDamage(t) && !Orbwalking.InAutoAttackRange(t))
                     {
                         R.CastOnUnit(t);
                     }
                 }
             }
-
-
         }
-
-
 
         public override void ComboMenu(Menu config)
         {
@@ -89,6 +76,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

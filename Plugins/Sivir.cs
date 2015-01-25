@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using AIM.Evade;
-using AIM.Util;
-using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -19,53 +14,56 @@ namespace AIM.Plugins
             Q.SetSkillshot(0.25f, 90f, 1350f, false, SkillshotType.SkillshotLine);
 
             W = new Spell(SpellSlot.W, 593);
+
+            R = new Spell(SpellSlot.R);
         }
 
-
-        public override void OnAfterAttack(AttackableUnit unit, AttackableUnit target) 
+        public override void OnAfterAttack(AttackableUnit unit, AttackableUnit target)
         {
-
-            var t = target as Obj_AI_Hero;
-            if (t != null && unit.IsMe){
-                if (W.IsReady())
-                {
-                    W.Cast();
-                    
-                }
-                if (R.IsReady())
-                {
-                    R.Cast();
-                }
+            if (!unit.IsMe || !(target is Obj_AI_Hero))
+            {
+                return;
             }
 
+            if (W.IsReady())
+            {
+                W.Cast();
+            }
+
+            if (R.IsReady())
+            {
+                R.Cast();
+            }
         }
 
         public override void OnUpdate(EventArgs args)
         {
-
             if (Q.IsReady())
             {
-                foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsValidTarget(Q.Range)))
+                if (
+                    ObjectManager.Get<Obj_AI_Hero>()
+                        .Where(h => h.IsValidTarget(Q.Range))
+                        .Any(enemy => Q.CastIfHitchanceEquals(enemy, HitChance.Immobile)))
                 {
-                    Q.CastIfHitchanceEquals(enemy, HitChance.Immobile);
+                    return;
                 }
             }
 
-            if (ComboMode)
+            if (!ComboMode)
             {
-                if (Q.CastCheck(Target, "ComboQ"))
-                {
-                    Q.Cast(Target);
-                }
-                if(R.IsReady() && Player.CountEnemiesInRange(600) > 2){
-                    R.Cast();
-                }
+                return;
             }
 
+            if (Q.CastCheck(Target, "ComboQ"))
+            {
+                Q.Cast(Target);
+            }
 
+            if (R.IsReady() && Player.CountEnemiesInRange(600) > 2)
+            {
+                R.Cast();
+            }
         }
-
-
 
         public override void ComboMenu(Menu config)
         {
@@ -74,6 +72,5 @@ namespace AIM.Plugins
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
         }
-
     }
 }

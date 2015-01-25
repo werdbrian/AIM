@@ -1,6 +1,7 @@
 ﻿/* Original at:
  * https://github.com/trees-software/LeagueSharp/blob/master/AutoLevelSpells/Program.cs 
  */
+
 #region
 
 using LeagueSharp;
