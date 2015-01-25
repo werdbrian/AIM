@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -9,13 +8,14 @@ namespace AIM.Autoplay.Util.Objects
 {
     public class Minions
     {
+        public List<Obj_AI_Minion> AllMinions;
+        public List<Obj_AI_Minion> AllyMinions;
+        public List<Obj_AI_Minion> EnemyMinions;
+
         public Minions()
         {
             UpdateMinions();
         }
-        public List<Obj_AI_Minion> AllMinions;
-        public List<Obj_AI_Minion> AllyMinions;
-        public List<Obj_AI_Minion> EnemyMinions;
 
         public void UpdateMinions()
         {
@@ -26,9 +26,11 @@ namespace AIM.Autoplay.Util.Objects
 
         public Obj_AI_Minion GetLeadMinion()
         {
-            var enemyTurretsSortedByDistance = Turrets.EnemyTurrets.OrderByDescending(t => t.Distance(ObjectManager.Player));
+            var enemyTurretsSortedByDistance =
+                Turrets.EnemyTurrets.OrderByDescending(t => t.Distance(ObjectManager.Player));
             var closestEnemyTurret = enemyTurretsSortedByDistance.First();
-            var allyMinionsSortedByDistToClosestEnemyTurret = AllyMinions.OrderBy(x => x.Distance(closestEnemyTurret.Position));
+            var allyMinionsSortedByDistToClosestEnemyTurret =
+                AllyMinions.OrderBy(x => x.Distance(closestEnemyTurret.Position));
             return allyMinionsSortedByDistToClosestEnemyTurret.First();
         }
 
@@ -36,7 +38,8 @@ namespace AIM.Autoplay.Util.Objects
         {
             var enemyTurretsSortedByDistance = Turrets.EnemyTurrets.OrderByDescending(t => t.Distance(lane));
             var closestEnemyTurret = enemyTurretsSortedByDistance.First();
-            var allyMinionsSortedByDistToClosestEnemyTurret = AllyMinions.OrderBy(x => x.Distance(closestEnemyTurret.Position));
+            var allyMinionsSortedByDistToClosestEnemyTurret =
+                AllyMinions.OrderBy(x => x.Distance(closestEnemyTurret.Position));
             return allyMinionsSortedByDistToClosestEnemyTurret.First();
         }
     }

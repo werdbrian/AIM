@@ -25,6 +25,8 @@ namespace AIM.Autoplay
 
         public void OnGameLoad(EventArgs args)
         {
+            Utils.ClearConsole();
+
             _loadTickCount = Environment.TickCount;
 
             Base.Menu = new Menu("AIM", "AIM", true);
@@ -66,7 +68,8 @@ namespace AIM.Autoplay
 
         public static bool UsePorosnax()
         {
-            return SpellSlot.Trinket.IsReady() && ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Trinket);
+            var trinket = ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Trinket);
+            return trinket != null && trinket.IsReady() && ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Trinket);
         }
     }
 }

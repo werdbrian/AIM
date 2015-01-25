@@ -19,9 +19,10 @@
 
 using System;
 using System.Reflection;
+using AIM.Autoplay;
+using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using AIM.Util;
 using Version = System.Version;
 
 #endregion
@@ -34,7 +35,7 @@ namespace AIM
 
         private static void Main(string[] args)
         {
-            new Autoplay.Load();
+            new Load();
             Version = Assembly.GetExecutingAssembly().GetName().Version;
 
             CustomEvents.Game.OnGameLoad += a =>
@@ -50,14 +51,13 @@ namespace AIM
                         Activator.CreateInstance(type);
                         return;
                     }
-                        type = Type.GetType("AIM.Plugins.Default");
+                    type = Type.GetType("AIM.Plugins.Default");
                     if (type != null)
                     {
                         Protector.Init();
                         Activator.CreateInstance(type);
                         return;
                     }
-                    return;
                 }
                 catch (Exception e)
                 {

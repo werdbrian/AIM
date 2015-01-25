@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using LeagueSharp;
-using SharpDX;
 using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Objects;
+using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 
 namespace AIM.Autoplay.Util
 {
@@ -19,36 +15,39 @@ namespace AIM.Autoplay.Util
             Game.PrintChat("AIM Orbwalker Init Successful");
             Game.PrintChat("Enjoy.");
         }
+
         public void ExecuteMixedMode(Vector3 pos)
         {
-                if (ObjectManager.Player.UnderTurret(true))
+            if (ObjectManager.Player.UnderTurret(true))
+            {
+                var nearestTurret = Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(ObjectManager.Player) < 800);
+                if (nearestTurret != null)
                 {
-                    Obj_AI_Turret nearestTurret = Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(ObjectManager.Player) < 800);
-                    if (nearestTurret != null) ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, nearestTurret);
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, nearestTurret);
                 }
-                else
+            }
+            else
+            {
+                var spellbook = ObjectManager.Player.Spellbook;
+                if (!spellbook.IsChanneling && !spellbook.IsCharging && !spellbook.IsCastingSpell)
                 {
-                    var spellbook = ObjectManager.Player.Spellbook;
-                    if (!spellbook.IsChanneling && !spellbook.IsCharging &&
-                        !spellbook.IsCastingSpell)
+                    WalkAround(pos);
+                    if (!CanLastHit())
                     {
-                        WalkAround(pos);
-                        if (!CanLastHit())
+                        var target = TargetSelector.GetTarget(
+                            ObjectManager.Player.AttackRange, TargetSelector.DamageType.Physical);
+                        if (target != null && target.IsValid && !target.IsDead && State.IsBotSafe() &&
+                            !target.UnderTurret(true) && !Variables.OverrideAttackUnitAction)
                         {
-                            Obj_AI_Hero target = TargetSelector.GetTarget(
-                                ObjectManager.Player.AttackRange, TargetSelector.DamageType.Physical);
-                            if (target != null && target.IsValid && !target.IsDead && State.IsBotSafe() &&
-                                !target.UnderTurret(true) && !Variables.OverrideAttackUnitAction)
-                            {
-                                ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, target);
-                            }
-                        }
-                        else
-                        {
-                            LastHit();
+                            ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, target);
                         }
                     }
+                    else
+                    {
+                        LastHit();
+                    }
                 }
+            }
         }
 
         private void WalkAround(Vector3 pos)
@@ -59,13 +58,13 @@ namespace AIM.Autoplay.Util
             {
                 if (ObjectManager.Player.Team == GameObjectTeam.Order)
                 {
-                    int orbwalkingAdditionInteger = Randoms.RandRange * (-1);
+                    var orbwalkingAdditionInteger = Randoms.RandRange * (-1);
                     Variables.OrbwalkingPos.X = pos.X + orbwalkingAdditionInteger;
                     Variables.OrbwalkingPos.Y = pos.Y + orbwalkingAdditionInteger;
                 }
                 else
                 {
-                    int orbwalkingAdditionInteger = Randoms.RandRange;
+                    var orbwalkingAdditionInteger = Randoms.RandRange;
                     Variables.OrbwalkingPos.X = pos.X + orbwalkingAdditionInteger;
                     Variables.OrbwalkingPos.Y = pos.Y + orbwalkingAdditionInteger;
                 }
@@ -75,7 +74,6 @@ namespace AIM.Autoplay.Util
                     Variables.StepTime = Environment.TickCount;
                 }
             }
-
         }
 
         private void WalkAround(Obj_AI_Hero follow)
@@ -86,13 +84,13 @@ namespace AIM.Autoplay.Util
             {
                 if (ObjectManager.Player.Team == GameObjectTeam.Order)
                 {
-                    int orbwalkingAdditionInteger = Randoms.RandRange * (-1);
+                    var orbwalkingAdditionInteger = Randoms.RandRange * (-1);
                     Variables.OrbwalkingPos.X = follow.Position.X + orbwalkingAdditionInteger;
                     Variables.OrbwalkingPos.Y = follow.Position.Y + orbwalkingAdditionInteger;
                 }
                 else
                 {
-                    int orbwalkingAdditionInteger = Randoms.RandRange;
+                    var orbwalkingAdditionInteger = Randoms.RandRange;
                     Variables.OrbwalkingPos.X = follow.Position.X + orbwalkingAdditionInteger;
                     Variables.OrbwalkingPos.Y = follow.Position.Y + orbwalkingAdditionInteger;
                 }
@@ -101,16 +99,19 @@ namespace AIM.Autoplay.Util
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Variables.OrbwalkingPos.To3D());
                     Variables.StepTime = Environment.TickCount;
                 }
-
             }
         }
 
         public bool CanLastHit()
         {
-            if (ObjectManager.Get<Obj_AI_Minion>().Any(minion =>
-                                minion.IsValidTarget() && ObjectManager.Player.Distance(minion) < ObjectManager.Player.AttackRange &&
-                                minion.Health <
-                                2 * (ObjectManager.Player.BaseAttackDamage + ObjectManager.Player.FlatPhysicalDamageMod)))
+            if (
+                ObjectManager.Get<Obj_AI_Minion>()
+                    .Any(
+                        minion =>
+                            minion.IsValidTarget() &&
+                            ObjectManager.Player.Distance(minion) < ObjectManager.Player.AttackRange &&
+                            minion.Health <
+                            2 * (ObjectManager.Player.BaseAttackDamage + ObjectManager.Player.FlatPhysicalDamageMod)))
             {
                 return true;
             }
@@ -120,14 +121,18 @@ namespace AIM.Autoplay.Util
         public void LastHit()
         {
             var target =
-                    ObjectManager.Get<Obj_AI_Minion>()
-                        .FirstOrDefault(
-                            minion =>
-                                minion.IsValidTarget() && ObjectManager.Player.Distance(minion) < ObjectManager.Player.AttackRange &&
-                                minion.Health <
-                                2 * (ObjectManager.Player.BaseAttackDamage + ObjectManager.Player.FlatPhysicalDamageMod));
+                ObjectManager.Get<Obj_AI_Minion>()
+                    .FirstOrDefault(
+                        minion =>
+                            minion.IsValidTarget() &&
+                            ObjectManager.Player.Distance(minion) < ObjectManager.Player.AttackRange &&
+                            minion.Health <
+                            2 * (ObjectManager.Player.BaseAttackDamage + ObjectManager.Player.FlatPhysicalDamageMod));
 
-            if (target != null) ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+            if (target != null)
+            {
+                ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+            }
         }
     }
 }

@@ -7,16 +7,15 @@ namespace AIM.Autoplay.Util.Objects
 {
     public class Turrets
     {
+        public static List<Obj_AI_Turret> AllTurrets;
+        public static List<Obj_AI_Turret> AllyTurrets;
+        public static List<Obj_AI_Turret> EnemyTurrets;
 
         public Turrets()
         {
             UpdateTurrets();
             SortTurretsByDistance();
         }
-
-        public static List<Obj_AI_Turret> AllTurrets;
-        public static List<Obj_AI_Turret> AllyTurrets;
-        public static List<Obj_AI_Turret> EnemyTurrets;
 
         public void UpdateTurrets()
         {

@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Channels;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using AIM.Autoplay.Util.Data;
-using AIM.Autoplay.Util.Objects;
+using AIM.Autoplay.Util.Helpers;
 using BehaviorSharp;
+using BehaviorSharp.Components.Actions;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using AIM.Autoplay.Util.Helpers;
-using BehaviorSharp.Components.Actions;
-using AutoLevel = LeagueSharp.Common.AutoLevel;
 
 namespace AIM.Autoplay.Modes
 {
-    class Carry : Base
+    internal class Carry : Base
     {
-        public Carry():base()
+        public Carry()
         {
             Game.OnGameUpdate += OnGameUpdate;
             CustomEvents.Game.OnGameLoad += OnGameLoad;
@@ -46,37 +36,36 @@ namespace AIM.Autoplay.Modes
             ImpingAintEasy();
             RefreshMinions();
 
-            if (ObjectManager.Player.UnderTurret(true))
-            {
-                if (InDangerUnderEnemyTurret())
-                {
-                    IsInDanger = true;
-                }
-            }
-            if (!ObjectManager.Player.UnderTurret(true))
-            {
-                IsInDanger = false;
-            }
-
+            IsInDanger = ObjectManager.Player.UnderTurret(true) && InDangerUnderEnemyTurret();
         }
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender == null || args == null)
+            if (sender == null || !sender.IsValid || args == null)
+            {
                 return;
-            if (sender.IsMe && sender.UnderTurret(true) && args.Target.IsEnemy && args.Target.Type == GameObjectType.obj_AI_Hero)
+            }
+
+            var target = args.Target as Obj_AI_Hero;
+
+            if (target == null || !target.IsValid)
+            {
+                return;
+            }
+
+            if (sender.IsMe && sender.UnderTurret(true) && target.IsEnemy)
             {
                 IsInDanger = true;
             }
 
-            if (sender is Obj_AI_Turret && args.Target.IsMe)
+            if (sender is Obj_AI_Turret && target.IsMe)
             {
                 IsInDanger = true;
             }
 
-            if (sender is Obj_AI_Minion && args.Target.IsMe)
+            if (sender is Obj_AI_Minion && target.IsMe)
             {
-                Vector2 orbwalkingPos = new Vector2();
+                var orbwalkingPos = new Vector2();
                 orbwalkingPos.X = ObjectManager.Player.Position.X + ObjConstants.DefensiveAdditioner;
                 orbwalkingPos.Y = ObjectManager.Player.Position.Y + ObjConstants.DefensiveAdditioner;
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
@@ -87,7 +76,9 @@ namespace AIM.Autoplay.Modes
         {
             new AutoLevel(Util.Data.AutoLevel.GetSequence());
             MetaHandler.DoChecks(); //#TODO rewrite MetaHandler with BehaviorSharp
+
             #region OrbwalkAtLeadingMinionLocation
+
             new BehaviorAction(
                 () =>
                 {
@@ -95,7 +86,7 @@ namespace AIM.Autoplay.Modes
                     {
                         if (IsInDanger)
                         {
-                            Vector2 orbwalkingPos = new Vector2();
+                            var orbwalkingPos = new Vector2();
                             orbwalkingPos.X = ObjectManager.Player.Position.X + ObjConstants.DefensiveAdditioner;
                             orbwalkingPos.Y = ObjectManager.Player.Position.Y + ObjConstants.DefensiveAdditioner;
                             ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
@@ -103,7 +94,7 @@ namespace AIM.Autoplay.Modes
                         }
                         if (LeadingMinion != null && !IsInDanger)
                         {
-                            Vector2 orbwalkingPos = new Vector2();
+                            var orbwalkingPos = new Vector2();
                             orbwalkingPos.X = LeadingMinion.Position.X + ObjConstants.DefensiveAdditioner;
                             orbwalkingPos.Y = LeadingMinion.Position.Y + ObjConstants.DefensiveAdditioner;
                             OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
@@ -116,8 +107,8 @@ namespace AIM.Autoplay.Modes
                         Console.WriteLine(e);
                     }
                     return BehaviorState.Failure;
-
                 }).Tick();
+
             #endregion OrbwalkAtLeadingMinionLocation
         }
     }
