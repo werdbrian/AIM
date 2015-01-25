@@ -64,7 +64,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 if (Modes.Base.ClosestEnemyMinion != null)
                 {
                     var orbwalkingPos = new Vector2();
-                    var expRange = 1100 + Randoms.Rand.Next(-100, 100);
+                    var expRange = 800 + Randoms.Rand.Next(-100, 100);
                     orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X +
                                       (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange
                                           ? expRange +
