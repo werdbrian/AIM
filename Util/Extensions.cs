@@ -129,7 +129,7 @@ namespace AIM.Util
             bool team = true)
         {
             return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team) &&
-                   PluginBase.Config.Item(menu + ObjectManager.Player.ChampionName).GetValue<bool>();
+                   PluginBase.Config.Item(menu + ObjectManager.Player.ChampionName).GetValue<bool>() && !ObjectManager.Player.UnderTurret(true);
         }
 
         public static bool CastCheck(this Spell spell, Obj_AI_Base target, bool range = true, bool team = true)
