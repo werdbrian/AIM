@@ -16,25 +16,29 @@ namespace AIM.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-            if (ComboMode)
+            if (!ComboMode)
             {
-                if (E.CastCheck(Target, "ComboE"))
-                {
-                    E.Cast(Target);
-                }
-                if (Orbwalking.InAutoAttackRange(Target) && Player.HealthPercentage() > 20)
-                {
-                    if (R.IsReady())
-                    {
-                        R.Cast();
-                    }
-                    if (Q.IsReady())
-                    {
-                        Q.Cast();
-                    }
+                return;
+            }
 
-                    Player.IssueOrder(GameObjectOrder.AttackUnit, Target);
-                }
+            if (E.CastCheck(Target, "ComboE"))
+            {
+                E.Cast(Target);
+            }
+
+            if (!Orbwalking.InAutoAttackRange(Target) || Player.HealthPercentage() <= 20)
+            {
+                return;
+            }
+
+            if (R.IsReady())
+            {
+                R.Cast();
+            }
+
+            if (Q.IsReady())
+            {
+                Q.Cast();
             }
         }
 
