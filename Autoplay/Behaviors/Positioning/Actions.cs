@@ -70,7 +70,6 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.AggressiveAdditioner;
                         orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.AggressiveAdditioner;
                         Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
-                        Console.WriteLine("Too far away from exp range");
                         return BehaviorState.Running;
                     }
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750)
@@ -78,14 +77,12 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + Randoms.Rand.Next(300, 900) * objConstants.DefensiveAdditioner;
                         orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + Randoms.Rand.Next(300, 900) * objConstants.DefensiveAdditioner;
                         Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
-                        Console.WriteLine("In Danger Zone");
                         return BehaviorState.Running;
                     }
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 750 &&
                         Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 1300)
                     {
                         Utility.DelayAction.Add(6000, () => Modes.Base.OrbW.WalkAround(Heroes.Me));
-                        Game.PrintChat("I'm safe");
                         return BehaviorState.Success;
                     }
                 }
