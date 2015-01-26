@@ -82,7 +82,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 750 &&
                         Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 1300)
                     {
-                        Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                        Modes.Base.OrbW.ExecuteMixedMode(Heroes.Me.Position);
                         return BehaviorState.Success;
                     }
                 }
