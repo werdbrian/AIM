@@ -63,21 +63,30 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 }
                 if (Modes.Base.ClosestEnemyMinion != null)
                 {
+                    //this is a temp workaround untill the planned smart positioning
                     var orbwalkingPos = new Vector2();
-                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 1100)
+                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 1300)
                     {
-                        orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + (900 * objConstants.AggressiveMultiplier);
-                        orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + (900 * objConstants.AggressiveMultiplier);
+                        orbwalkingPos.X = (Modes.Base.ClosestEnemyMinion.Position.X + Randoms.Rand.Next(300,900)) * objConstants.AggressiveMultiplier;
+                        orbwalkingPos.Y = (Modes.Base.ClosestEnemyMinion.Position.Y + Randoms.Rand.Next(300, 900)) * objConstants.AggressiveMultiplier;
+                        Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
+                        return BehaviorState.Running;
                     }
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750)
                     {
-                        orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + (800 * objConstants.DefensiveMutiplier);
-                        orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + (800 * objConstants.DefensiveMutiplier);
+                        orbwalkingPos.X = (Modes.Base.ClosestEnemyMinion.Position.X + Randoms.Rand.Next(300, 900)) * objConstants.DefensiveMultiplier;
+                        orbwalkingPos.Y = (Modes.Base.ClosestEnemyMinion.Position.Y + Randoms.Rand.Next(300, 900)) * objConstants.DefensiveMultiplier;
+                        Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
+                        return BehaviorState.Running;
                     }
-                    Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
-                    return BehaviorState.Success;
+                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 750 &&
+                        Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 1300)
+                    {
+                        Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                        return BehaviorState.Success;
+                    }
                 }
-                return BehaviorState.Success;
+                return BehaviorState.Failure;
             });
 
         internal BehaviorAction KillEnemy = new BehaviorAction(
