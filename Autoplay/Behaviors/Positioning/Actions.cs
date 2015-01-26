@@ -82,7 +82,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 750 &&
                         Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 1300)
                     {
-                        Modes.Base.OrbW.WalkAround(Heroes.Me);
+                        Utility.DelayAction.Add(6000, () => Modes.Base.OrbW.WalkAround(Heroes.Me));
                         return BehaviorState.Success;
                     }
                 }
