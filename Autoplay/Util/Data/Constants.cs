@@ -7,8 +7,8 @@ namespace AIM.Autoplay.Util.Data
 {
     public class Constants
     {
-        private readonly int Blue = 400;
-        private readonly int Purple = -400;
+        private readonly int Blue = 800;
+        private readonly int Purple = -800;
         public Utility.Map Map;
 
         public Constants()
