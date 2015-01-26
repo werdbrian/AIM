@@ -49,8 +49,8 @@ namespace AIM.Autoplay.Util.Data
 
                 if (Heroes.Me.Team == GameObjectTeam.Order)
                 {
-                    AggressiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
-                    DefensiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
+                    AggressiveAdditioner = Blue + Randoms.Rand.Next(-76, 276);
+                    DefensiveAdditioner = Purple + Randoms.Rand.Next(-267, 67);
                     AggressiveMultiplier = 1;
                     DefensiveMultiplier = -1;
                     BotLanePos.X = 11376 + Randoms.Rand.Next(-50, 50);
@@ -60,8 +60,8 @@ namespace AIM.Autoplay.Util.Data
                 }
                 if (Heroes.Me.Team == GameObjectTeam.Chaos)
                 {
-                    AggressiveAdditioner = Purple + Randoms.Rand.Next(-67, 67);
-                    DefensiveAdditioner = Blue + Randoms.Rand.Next(-76, 76);
+                    AggressiveAdditioner = Purple + Randoms.Rand.Next(-267, 67);
+                    DefensiveAdditioner = Blue + Randoms.Rand.Next(-76, 276);
                     AggressiveMultiplier = -1;
                     DefensiveMultiplier = 1;
                     BotLanePos.X = 13496 + Randoms.Rand.Next(-50, 50);
