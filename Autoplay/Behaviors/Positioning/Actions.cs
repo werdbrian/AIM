@@ -69,14 +69,18 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     {
                         orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.AggressiveAdditioner;
                         orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.AggressiveAdditioner;
-                        Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
+                        Utility.DelayAction.Add(
+                            Randoms.Rand.Next(1000, 2000),
+                            () => Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D()));
                         return BehaviorState.Running;
                     }
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750)
                     {
                         orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.DefensiveAdditioner;
                         orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.DefensiveAdditioner;
-                        Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
+                        Utility.DelayAction.Add(
+                            Randoms.Rand.Next(1000, 2000),
+                            () => Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D()));
                         return BehaviorState.Running;
                     }
                     if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 750 &&
