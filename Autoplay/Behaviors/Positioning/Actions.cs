@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AIM.Autoplay.Modes;
 using AIM.Autoplay.Util;
 using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Objects;
@@ -59,7 +58,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     var orbwalkingPos = new Vector2();
                     orbwalkingPos.X = ObjectManager.Player.ServerPosition.X + objConstants.DefensiveAdditioner;
                     orbwalkingPos.Y = ObjectManager.Player.ServerPosition.Y + objConstants.DefensiveAdditioner;
-                    Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
                 if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750 ||
@@ -68,12 +67,10 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     var orbwalkingPos = new Vector2();
                     orbwalkingPos.X = ObjectManager.Player.ServerPosition.X + objConstants.DefensiveAdditioner;
                     orbwalkingPos.Y = ObjectManager.Player.ServerPosition.Y + objConstants.DefensiveAdditioner;
-                    Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
-
-                Base.OrbW.ExecuteMixedMode(Heroes.Me.ServerPosition);
-                return BehaviorState.Success;
+                Modes.Base.OrbW.ExecuteMixedMode(Heroes.Me.ServerPosition);
             });
 
         internal BehaviorAction KillEnemy = new BehaviorAction(
