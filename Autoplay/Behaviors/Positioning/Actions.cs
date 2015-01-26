@@ -74,7 +74,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + (800 * objConstants.DefensiveMutiplier);
                         orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + (800 * objConstants.DefensiveMutiplier);
                     }
-                    Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                    Modes.Base.OrbW.WalkAround(orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
                 return BehaviorState.Failure;
