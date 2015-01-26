@@ -77,7 +77,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
-                return BehaviorState.Failure;
+                return BehaviorState.Success;
             });
 
         internal BehaviorAction KillEnemy = new BehaviorAction(
