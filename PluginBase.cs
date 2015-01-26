@@ -59,7 +59,7 @@ namespace AIM
             InitPluginEvents();
             InitPrivateEvents();
 
-            Helpers.PrintMessage(string.Format("{0} by {1} v.{2} loaded!", ChampionName, Author, Version));
+            Helpers.PrintMessage(string.Format("AIM {0} v.{1} loaded!", ChampionName, Version));
         }
 
         /// <summary>
