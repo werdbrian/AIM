@@ -71,6 +71,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     return BehaviorState.Success;
                 }
                 Modes.Base.OrbW.ExecuteMixedMode(Heroes.Me.ServerPosition);
+                return BehaviorState.Success;
             });
 
         internal BehaviorAction KillEnemy = new BehaviorAction(
