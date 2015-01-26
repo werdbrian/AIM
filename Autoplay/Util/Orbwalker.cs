@@ -61,9 +61,9 @@ namespace AIM.Autoplay.Util
             }
         }
 
-        public void WalkAround(Vector3 pos)
+        private static void WalkAround(Vector3 pos)
         {
-            Randoms.RandRange = Randoms.Rand.Next(-100, 100);
+            Randoms.RandRange = Randoms.Rand.Next(-267, 276);
             Randoms.RandSeconds = Randoms.Rand.Next(1000, 4000);
 
             if (Environment.TickCount - Variables.StepTime < Randoms.RandSeconds || Variables.OverrideAttackUnitAction)
