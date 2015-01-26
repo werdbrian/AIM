@@ -47,7 +47,7 @@ namespace AIM.Autoplay.Util.Objects
         {
             var pos = position ?? ObjectManager.Player.ServerPosition;
 
-            return EnemyMinions.OrderBy(x => x.Distance(pos, true)).FirstOrDefault();
+            return EnemyMinions.OrderBy(x => x.Distance(pos, true)).FirstOrDefault(minion => minion.IsValid && !minion.IsDead && minion.IsEnemy && MinionManager.IsMinion(minion));
         }
     }
 }
