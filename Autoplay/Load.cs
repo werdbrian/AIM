@@ -37,7 +37,7 @@ namespace AIM.Autoplay
             FileHandler.DoChecks();
 
             Game.PrintChat("AIM {0} Loaded!", Program.Version);
-            Game.PrintChat("Don't panic, the bot will stard at 60 seconds in the game.");
+            Game.PrintChat("Don't panic, the bot will start at 60 seconds in the game.");
         }
 
         public static void OnGameUpdate(EventArgs args)
@@ -62,7 +62,8 @@ namespace AIM.Autoplay
             }
             else
             {
-                Console.WriteLine("Map not yet supported, use AutoSharpporting ;)");
+                //Console.WriteLine("Map not yet supported, use AutoSharpporting ;)");
+                new Carry();
             }
         }
 

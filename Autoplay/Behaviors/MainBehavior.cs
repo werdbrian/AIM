@@ -23,7 +23,7 @@ namespace AIM.Autoplay.Behaviors
                 {
                     return 0;
                 }
-                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible) || !minions.EnemyMinions.Any(m => m.IsVisible))
+                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible) || (float)(Heroes.Me.DoubleKills+Heroes.Me.Assists)/((Heroes.Me.Deaths == 0) ? 1:Heroes.Me.Deaths) > 2.5f || !minions.EnemyMinions.Any(m => m.IsVisible))
                 {
                     return 1;
                 }
