@@ -64,15 +64,16 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 if (Modes.Base.ClosestEnemyMinion != null)
                 {
                     var orbwalkingPos = new Vector2();
-                    var expRange = 1100 + Randoms.Rand.Next(-100, 100);
-                    orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X +
-                                      (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange * objConstants.DefensiveMutiplier
-                                          ? expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me)
-                                          : - expRange * objConstants.DefensiveMutiplier);
-                    orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y +
-                                      (Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) < expRange
-                                          ? expRange - Modes.Base.ClosestEnemyMinion.Distance(Heroes.Me) * objConstants.DefensiveMutiplier
-                                          : - expRange * objConstants.DefensiveMutiplier);
+                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 1100)
+                    {
+                        orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + (900 * objConstants.AggressiveMultiplier);
+                        orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + (900 * objConstants.AggressiveMultiplier);
+                    }
+                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750)
+                    {
+                        orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + (800 * objConstants.DefensiveMutiplier);
+                        orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + (800 * objConstants.DefensiveMutiplier);
+                    }
                     Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
