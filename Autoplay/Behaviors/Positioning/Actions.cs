@@ -56,44 +56,21 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 if (isInDanger)
                 {
                     var orbwalkingPos = new Vector2();
-                    orbwalkingPos.X = ObjectManager.Player.Position.X + objConstants.DefensiveAdditioner;
-                    orbwalkingPos.Y = ObjectManager.Player.Position.Y + objConstants.DefensiveAdditioner;
+                    orbwalkingPos.X = ObjectManager.Player.ServerPosition.X + objConstants.DefensiveAdditioner;
+                    orbwalkingPos.Y = ObjectManager.Player.ServerPosition.Y + objConstants.DefensiveAdditioner;
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                     return BehaviorState.Success;
                 }
-                if (Modes.Base.ClosestEnemyMinion != null)
+                if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750 ||
+                    Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 1300)
                 {
-                    //this is a temp workaround untill the planned smart positioning
                     var orbwalkingPos = new Vector2();
-                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 1300)
-                    {
-                        orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.AggressiveAdditioner;
-                        orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.AggressiveAdditioner;
-                        Console.WriteLine("too far from exp range, go to X {0} Y {1}", orbwalkingPos.X, orbwalkingPos.Y);
-                        Utility.DelayAction.Add(
-                            Randoms.Rand.Next(1000, 2000),
-                            () => Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D()));
-                        return BehaviorState.Running;
-                    }
-                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 750)
-                    {
-                        orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.DefensiveAdditioner;
-                        orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.DefensiveAdditioner;
-                        Console.WriteLine("In Dangerzone, move to: X {0} Y {1}", orbwalkingPos.X, orbwalkingPos.Y);
-                        Utility.DelayAction.Add(
-                            Randoms.Rand.Next(1000, 2000),
-                            () => Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D()));
-                        return BehaviorState.Running;
-                    }
-                    if (Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) > 750 &&
-                        Heroes.Me.Distance(Modes.Base.ClosestEnemyMinion) < 1300)
-                    {
-                        Utility.DelayAction.Add(6000, () => Modes.Base.OrbW.WalkAround(Heroes.Me));
-                        Game.PrintChat("Safe");
-                        return BehaviorState.Success;
-                    }
+                    orbwalkingPos.X = ObjectManager.Player.ServerPosition.X + objConstants.DefensiveAdditioner;
+                    orbwalkingPos.Y = ObjectManager.Player.ServerPosition.Y + objConstants.DefensiveAdditioner;
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
+                    return BehaviorState.Running;
                 }
-                return BehaviorState.Failure;
+                return BehaviorState.Success;
             });
 
         internal BehaviorAction KillEnemy = new BehaviorAction(
