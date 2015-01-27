@@ -20,7 +20,7 @@ namespace AIM.Plugins
             E.SetTargetted(0.2f, float.MaxValue);
 
             R = new Spell(SpellSlot.R, 800);
-            R.SetSkillshot(0.6f, (float) (80 * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
+            R.SetSkillshot(0.6f, (float)(80 * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
         }
 
         public override void OnUpdate(EventArgs args)
@@ -39,11 +39,7 @@ namespace AIM.Plugins
                 {
                     W.Cast(Target, UsePackets);
                 }
-                if (E.CastCheck(Target, "ComboE"))
-                {
-                    E.CastOnUnit(Target);
-                }
-                if (R.CastCheck(Target, "ComboR"))
+                if (R.IsReady() && Target.IsValidTarget(R.Range))
                 {
                     R.CastIfWillHit(Target, 2);
                 }

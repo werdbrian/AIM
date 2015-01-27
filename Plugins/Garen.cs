@@ -39,11 +39,11 @@ namespace AIM.Plugins
             KS();
             if (ComboMode)
             {
-                if (W.IsReady())
+                if (W.IsReady() && Player.CountEnemiesInRange(E.Range) > 0)
                 {
                     W.Cast();
                 }
-                if (E.IsReady())
+                if (E.IsReady() && Player.CountEnemiesInRange(E.Range) > 0)
                 {
                     E.Cast();
                 }

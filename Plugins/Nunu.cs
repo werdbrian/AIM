@@ -34,7 +34,7 @@ namespace AIM.Plugins
 {
     #region
 
-    
+
 
     #endregion
 
@@ -76,6 +76,10 @@ namespace AIM.Plugins
                 if (E.IsReady() && Target.IsValidTarget(E.Range) && ConfigValue<bool>("Combo.E"))
                 {
                     E.CastOnUnit(Target);
+                }
+                if (R.IsReady() && Player.CountEnemiesInRange(R.Range) > 2)
+                {
+                    R.Cast();
                 }
             }
 

@@ -125,10 +125,13 @@
     <Compile Include="Plugins\Graves.cs" />
     <Compile Include="Plugins\Heimerdinger.cs" />
     <Compile Include="Plugins\Irelia.cs" />
+    <Compile Include="Plugins\Karthus.cs" />
+    <Compile Include="Plugins\Leblanc.cs" />
+    <Compile Include="Plugins\Malzahar.cs" />
     <Compile Include="Plugins\Poppy.cs" />
     <Compile Include="Plugins\Riven.cs" />
     <Compile Include="Plugins\Sivir.cs" />
-    <Compile Include="Plugins\Warwick.cs" />
+    <Compile Include="Plugins\Skarner.cs" />
     <Compile Include="Plugins\Amumu.cs" />
     <Compile Include="Plugins\Ashe.cs" />
     <Compile Include="Plugins\Default.cs" />

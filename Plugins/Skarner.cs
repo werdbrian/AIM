@@ -5,37 +5,42 @@ using LeagueSharp.Common;
 
 namespace AIM.Plugins
 {
-    public class Warwick : PluginBase
+    public class Skarner : PluginBase
     {
-        public Warwick()
+        public Skarner()
         {
-            Q = new Spell(SpellSlot.Q, 400);
-            W = new Spell(SpellSlot.W, 1000);
-            E = new Spell(SpellSlot.E, 1500);
-            R = new Spell(SpellSlot.R, 700);
+            Q = new Spell(SpellSlot.Q, 350);
+            W = new Spell(SpellSlot.W, 0);
+            E = new Spell(SpellSlot.E, 1000);
+            R = new Spell(SpellSlot.R, 350);
+
+
+            E.SetSkillshot(0.50f, 60, 1200, false, SkillshotType.SkillshotLine);
         }
 
         public override void OnUpdate(EventArgs args)
         {
             if (ComboMode)
             {
-                if (Q.CastCheck(Target, "ComboQ"))
+                if (Q.IsReady() && Player.CountEnemiesInRange(Q.Range) > 0)
                 {
-                    Q.Cast(Target);
-                }
-                if (R.CastCheck(Target, "ComboR") && R.IsKillable(Target))
-                {
-                    R.Cast(Target);
-                }
-                if (Player.HealthPercentage() > 20 && Player.Distance(Target) < 300)
-                {
+                    Q.Cast();
                     if (W.IsReady())
                     {
                         W.Cast();
                     }
                 }
+                if (E.CastCheck(Target, "ComboE"))
+                {
+                    E.Cast(Target);
+                }
+                if (R.IsReady() && Target.IsValidTarget(R.Range))
+                {
+                    R.Cast(Target);
+                }
             }
         }
+
 
         public override void OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell)
         {
@@ -43,7 +48,8 @@ namespace AIM.Plugins
             {
                 return;
             }
-            if (R.CastCheck(unit, "Interrupt.R"))
+
+            if (R.IsReady() && unit.IsValidTarget(R.Range))
             {
                 R.Cast(unit);
             }
@@ -55,11 +61,6 @@ namespace AIM.Plugins
             config.AddBool("ComboW", "Use W", true);
             config.AddBool("ComboE", "Use E", true);
             config.AddBool("ComboR", "Use R", true);
-        }
-
-        public override void InterruptMenu(Menu config)
-        {
-            config.AddBool("Interrupt.R", "Use R to Interrupt Spells", true);
         }
     }
 }
