@@ -37,7 +37,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         var orbwalkingPos = new Vector2();
                         orbwalkingPos.X = Modes.Base.LeadingMinion.Position.X + (objConstants.DefensiveAdditioner/8f) + Randoms.Rand.Next(-100, 100);
                         orbwalkingPos.Y = Modes.Base.LeadingMinion.Position.Y + (objConstants.DefensiveAdditioner/8f) + Randoms.Rand.Next(-100, 100);
-                        Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D());
+                        Utility.DelayAction.Add(new Random(Environment.TickCount).Next(500, 1500), () => Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D()));
                         Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
                         return BehaviorState.Success;
                     }
@@ -67,9 +67,9 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 if (Modes.Base.ClosestEnemyMinion != null)
                 {
                     var orbwalkingPos = new Vector2();
-                    orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.DefensiveAdditioner + Randoms.Rand.Next(-100, 100);
-                    orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.DefensiveAdditioner + Randoms.Rand.Next(-100, 100);
-                    Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D());
+                    orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.DefensiveAdditioner + Randoms.Rand.Next(-150, 150);
+                    orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.DefensiveAdditioner + Randoms.Rand.Next(-150, 150);
+                    Utility.DelayAction.Add(new Random(Environment.TickCount).Next(500, 1500), () => Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D()));
                     Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
                     return BehaviorState.Success;
                 }

@@ -370,7 +370,7 @@ namespace AIM.Autoplay.Util
         /// </summary>
         public static void Orbwalk(AttackableUnit target,
             Vector3 position,
-            float extraWindup = 90,
+            float extraWindup = 130,
             float holdAreaRadius = 0,
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
@@ -398,8 +398,7 @@ namespace AIM.Autoplay.Util
 
                 if (CanMove(extraWindup))
                 {
-                    Utility.DelayAction.Add(
-                        new Random(Environment.TickCount).Next(500, 1250), () => MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance));
+                    MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance);
                 }
             }
             catch (Exception e)
