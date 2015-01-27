@@ -26,7 +26,8 @@ namespace AIM.Autoplay.Modes
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
             Humanizer = new Humanizer(Menu);
-            Orbwalker = Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
+            Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
+            Orbwalker = Menu.SubMenu("Orbwalker");
             OrbW = new Orbwalking.Orbwalker(Orbwalker);
         }
 
