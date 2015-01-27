@@ -24,6 +24,11 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 {
                     var objConstants = new Constants();
                     var isInDanger = ObjectManager.Player.UnderTurret(true) && Modes.Base.InDangerUnderEnemyTurret();
+                    if (Heroes.Me.UnderTurret(true))
+                    {
+                        var turret = Turrets.EnemyTurrets.OrderBy(t => t.Distance(Heroes.Me)).FirstOrDefault();
+                        Modes.Base.OrbW.ForceTarget(turret);
+                    }
                     if (isInDanger)
                     {
                         var orbwalkingPos = new Vector2();
@@ -31,6 +36,8 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         orbwalkingPos.Y = ObjectManager.Player.Position.Y + (objConstants.DefensiveAdditioner);
                         ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                         Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.None;
+                        Modes.Base.OrbW.SetAttack(false);
+                        Modes.Base.OrbW.SetMovement(false);
                         return BehaviorState.Success;
                     }
                     if (Modes.Base.LeadingMinion != null)
@@ -40,6 +47,8 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         orbwalkingPos.Y = Modes.Base.LeadingMinion.Position.Y + (objConstants.DefensiveAdditioner/8f) + Randoms.Rand.Next(-100, 100);
                         Utility.DelayAction.Add(new Random(Environment.TickCount).Next(500, 1500), () => Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D()));
                         Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
+                        Modes.Base.OrbW.SetAttack(true);
+                        Modes.Base.OrbW.SetMovement(true);
                         return BehaviorState.Success;
                     }
                     return BehaviorState.Failure;
@@ -56,6 +65,11 @@ namespace AIM.Autoplay.Behaviors.Positioning
             {
                 var objConstants = new Constants();
                 var isInDanger = ObjectManager.Player.UnderTurret(true) && Modes.Base.InDangerUnderEnemyTurret();
+                if (Heroes.Me.UnderTurret(true))
+                {
+                    var turret = Turrets.EnemyTurrets.OrderBy(t => t.Distance(Heroes.Me)).FirstOrDefault();
+                    Modes.Base.OrbW.ForceTarget(turret);
+                }
                 if (isInDanger)
                 {
                     var orbwalkingPos = new Vector2();
@@ -63,6 +77,8 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     orbwalkingPos.Y = ObjectManager.Player.ServerPosition.Y + objConstants.DefensiveAdditioner;
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                     Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.None;
+                    Modes.Base.OrbW.SetAttack(false);
+                    Modes.Base.OrbW.SetMovement(false);
                     return BehaviorState.Success;
                 }
 
@@ -73,6 +89,8 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.DefensiveAdditioner + Randoms.Rand.Next(-150, 150);
                     Utility.DelayAction.Add(new Random(Environment.TickCount).Next(500, 1500), () => Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D()));
                     Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
+                    Modes.Base.OrbW.SetAttack(true);
+                    Modes.Base.OrbW.SetMovement(true);
                     return BehaviorState.Success;
                 }
                 return BehaviorState.Success;
