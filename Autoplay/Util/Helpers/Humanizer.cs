@@ -30,7 +30,7 @@ namespace AIM.Autoplay.Util.Helpers
 
             _menu.SubMenu("Humanizer").AddSubMenu(new Menu("Health", "Health"));
 
-            var spells = _menu.SubMenu("Humanizer").AddSubMenu(new Menu("Spells", "Spells"));
+            var spells = _menu.SubMenu("humanizer").AddSubMenu(new Menu("Spells", "Spells"));
 
             for (var i = 0; i < 3; i++)
             {
@@ -41,7 +41,7 @@ namespace AIM.Autoplay.Util.Helpers
                 menu.AddItem(new MenuItem("Delay" + i, "Cast Delay", true).SetValue(new Slider(80, 0, 400)));
             }
 
-            var move = _menu.SubMenu("Humanizer").AddSubMenu(new Menu("Movement", "Movement"));
+            var move = _menu.SubMenu("humanizer").AddSubMenu(new Menu("Movement", "Movement"));
             move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
             move.AddItem(new MenuItem("MovementDelay", "Movement Delay")).SetValue(new Slider(80, 0, 400));
 
