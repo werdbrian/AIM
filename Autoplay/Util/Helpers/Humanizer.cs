@@ -11,10 +11,9 @@ namespace AIM.Autoplay.Util.Helpers
 {
     public class Humanizer
     {
-        private static Menu _menu;
-        public Humanizer(Menu menu)
+        public static Menu Menu;
+        public Humanizer()
         {
-            _menu = menu;
             Load();
         }
         public static float LastMove;
@@ -25,12 +24,10 @@ namespace AIM.Autoplay.Util.Helpers
 
         private static void Load()
         {
+            Menu = new Menu("Humanizer", "humanizer");
+            Menu.AddSubMenu(new Menu("Health", "Health"));
 
-            _menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
-
-            _menu.SubMenu("humanizer").AddSubMenu(new Menu("Health", "Health"));
-
-            var spells = _menu.SubMenu("humanizer").AddSubMenu(new Menu("Spells", "Spells"));
+            var spells = Menu.AddSubMenu(new Menu("Spells", "Spells"));
 
             for (var i = 0; i < 3; i++)
             {
@@ -41,22 +38,22 @@ namespace AIM.Autoplay.Util.Helpers
                 menu.AddItem(new MenuItem("Delay" + i, "Cast Delay", true).SetValue(new Slider(80, 0, 400)));
             }
 
-            var move = _menu.SubMenu("humanizer").AddSubMenu(new Menu("Movement", "Movement"));
+            var move = Menu.AddSubMenu(new Menu("Movement", "Movement"));
             move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
             move.AddItem(new MenuItem("MovementDelay", "Movement Delay")).SetValue(new Slider(80, 0, 400));
-
+            Modes.Base.Menu.AddSubMenu(Menu);
             Obj_AI_Base.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
         }
 
         private static void Spellbook_OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
         {
-            if (sender == null || !sender.Owner.IsMe || _menu.Item("Enabled" + (int)args.Slot).GetValue<bool>())
+            if (sender == null || !sender.Owner.IsMe || Menu.Item("Enabled" + (int)args.Slot).GetValue<bool>())
             {
                 return;
             }
 
-            var delay = _menu.Item("Delay" + (int)args.Slot).GetValue<Slider>().Value;
+            var delay = Menu.Item("Delay" + (int)args.Slot).GetValue<Slider>().Value;
 
             if (Environment.TickCount - LastCast[(int)args.Slot] < delay)
             {
@@ -70,12 +67,12 @@ namespace AIM.Autoplay.Util.Helpers
         private static void Obj_AI_Base_OnIssueOrder(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
         {
             if (sender == null || !sender.IsValid || !sender.IsMe || args.Order != GameObjectOrder.MoveTo ||
-                !_menu.Item("MovementEnabled").GetValue<bool>())
+                !Menu.Item("MovementEnabled").GetValue<bool>())
             {
                 return;
             }
 
-            if (Environment.TickCount - LastMove < _menu.Item("MovementDelay").GetValue<Slider>().Value)
+            if (Environment.TickCount - LastMove < Menu.Item("MovementDelay").GetValue<Slider>().Value)
             {
                 args.Process = false;
                 return;
