@@ -398,7 +398,8 @@ namespace AIM.Autoplay.Util
 
                 if (CanMove(extraWindup))
                 {
-                    MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance);
+                    Utility.DelayAction.Add(
+                        new Random(Environment.TickCount).Next(500, 1250), () => MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance));
                 }
             }
             catch (Exception e)
