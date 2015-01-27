@@ -28,7 +28,7 @@ namespace AIM.Autoplay.Util.Helpers
 
             _menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
 
-            _menu.SubMenu("Humanizer").AddSubMenu(new Menu("Health", "Health"));
+            _menu.SubMenu("humanizer").AddSubMenu(new Menu("Health", "Health"));
 
             var spells = _menu.SubMenu("humanizer").AddSubMenu(new Menu("Spells", "Spells"));
 
