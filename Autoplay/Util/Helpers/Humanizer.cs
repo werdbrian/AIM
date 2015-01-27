@@ -15,7 +15,7 @@ namespace AIM.Autoplay.Util.Helpers
         public Humanizer(Menu menu)
         {
             _menu = menu;
-            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+            Load();
         }
         public static float LastMove;
         public static Obj_AI_Base Player = ObjectManager.Player;
@@ -23,7 +23,7 @@ namespace AIM.Autoplay.Util.Helpers
         public static List<float> LastCast = new List<float>();
 
 
-        private static void Game_OnGameLoad(EventArgs args)
+        private static void Load()
         {
 
             _menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
