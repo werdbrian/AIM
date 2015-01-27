@@ -33,8 +33,14 @@ namespace AIM.Autoplay
 
             Base.Menu = new Menu("AIM", "AIM", true);
 
+            //AIM Settings
             Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
             Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
+            
+            //Humanizer
+            var move = Base.Menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
+            move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
+            move.AddItem(new MenuItem("MovementDelay", "Movement Delay")).SetValue(new Slider(400, 0, 1000));
 
             Base.Menu.AddToMainMenu();
 

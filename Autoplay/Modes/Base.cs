@@ -13,6 +13,7 @@ namespace AIM.Autoplay.Modes
     public abstract class Base
     {
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
+        public static int LastMove;
         public static bool IsInDanger = false;
         public static Menu Menu;
         public static Menu Orbwalker;
@@ -25,10 +26,11 @@ namespace AIM.Autoplay.Modes
             ObjHeroes = new Heroes();
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
-            Humanizer = new Humanizer();
-            Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
-            Orbwalker = Menu.SubMenu("Orbwalker");
+            Orbwalker = Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
             OrbW = new Orbwalking.Orbwalker(Orbwalker);
+
+            Obj_AI_Base.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
+
         }
 
         public static Constants ObjConstants { get; protected set; }
@@ -36,11 +38,27 @@ namespace AIM.Autoplay.Modes
         public static Minions ObjMinions { get; protected set; }
         public static Turrets ObjTurrets { get; protected set; }
         public static Orbwalking.Orbwalker OrbW { get; set; }
-        public static Humanizer Humanizer { get; set; }
         public virtual void OnGameLoad(EventArgs args) {}
         public virtual void OnGameUpdate(EventArgs args) {}
 
         #region Minions
+
+        private static void Obj_AI_Base_OnIssueOrder(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
+        {
+            if (sender == null || !sender.IsValid || !sender.IsMe || args.Order != GameObjectOrder.MoveTo ||
+                !Menu.Item("MovementEnabled").GetValue<bool>())
+            {
+                return;
+            }
+
+            if (Environment.TickCount - LastMove < Menu.Item("MovementDelay").GetValue<Slider>().Value)
+            {
+                args.Process = false;
+                return;
+            }
+
+            LastMove = Environment.TickCount;
+        }
 
         public void RefreshMinions()
         {
