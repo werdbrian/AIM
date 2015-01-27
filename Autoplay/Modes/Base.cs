@@ -5,6 +5,7 @@ using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Objects;
 using LeagueSharp;
 using LeagueSharp.Common;
+using Orbwalking = AIM.Autoplay.Util.Orbwalking;
 
 namespace AIM.Autoplay.Modes
 {
@@ -22,14 +23,14 @@ namespace AIM.Autoplay.Modes
             ObjHeroes = new Heroes();
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
-            OrbW = new Orbwalker();
+            OrbW = new Orbwalking.Orbwalker(Menu);
         }
 
         public static Constants ObjConstants { get; protected set; }
         public static Heroes ObjHeroes { get; protected set; }
         public static Minions ObjMinions { get; protected set; }
         public static Turrets ObjTurrets { get; protected set; }
-        public static Orbwalker OrbW { get; set; }
+        public static Orbwalking.Orbwalker OrbW { get; set; }
         public virtual void OnGameLoad(EventArgs args) {}
         public virtual void OnGameUpdate(EventArgs args) {}
 

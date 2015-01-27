@@ -11,6 +11,7 @@ using BehaviorSharp.Components.Actions;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using Orbwalking = AIM.Autoplay.Util.Orbwalking;
 
 namespace AIM.Autoplay.Behaviors.Positioning
 {
@@ -26,17 +27,18 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     if (isInDanger)
                     {
                         var orbwalkingPos = new Vector2();
-                        orbwalkingPos.X = ObjectManager.Player.Position.X + (objConstants.DefensiveAdditioner/4f);
-                        orbwalkingPos.Y = ObjectManager.Player.Position.Y + (objConstants.DefensiveAdditioner/4f);
+                        orbwalkingPos.X = ObjectManager.Player.Position.X + (objConstants.DefensiveAdditioner);
+                        orbwalkingPos.Y = ObjectManager.Player.Position.Y + (objConstants.DefensiveAdditioner);
                         ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
                         return BehaviorState.Success;
                     }
                     if (Modes.Base.LeadingMinion != null)
                     {
                         var orbwalkingPos = new Vector2();
-                        orbwalkingPos.X = Modes.Base.LeadingMinion.Position.X + (objConstants.DefensiveAdditioner/4f);
-                        orbwalkingPos.Y = Modes.Base.LeadingMinion.Position.Y + (objConstants.DefensiveAdditioner/4f);
-                        Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                        orbwalkingPos.X = Modes.Base.LeadingMinion.Position.X + (objConstants.DefensiveAdditioner/8f);
+                        orbwalkingPos.Y = Modes.Base.LeadingMinion.Position.Y + (objConstants.DefensiveAdditioner/8f);
+                        Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D());
+                        Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
                         return BehaviorState.Success;
                     }
                     return BehaviorState.Failure;
@@ -67,7 +69,8 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     var orbwalkingPos = new Vector2();
                     orbwalkingPos.X = Modes.Base.ClosestEnemyMinion.Position.X + objConstants.DefensiveAdditioner;
                     orbwalkingPos.Y = Modes.Base.ClosestEnemyMinion.Position.Y + objConstants.DefensiveAdditioner;
-                    Modes.Base.OrbW.ExecuteMixedMode(orbwalkingPos.To3D());
+                    Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D());
+                    Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
                     return BehaviorState.Success;
                 }
                 return BehaviorState.Success;
@@ -79,26 +82,41 @@ namespace AIM.Autoplay.Behaviors.Positioning
                 var spells = new List<SpellSlot> { SpellSlot.Q, SpellSlot.W, SpellSlot.E };
                 var heroes = new Heroes();
                 var killableEnemy = heroes.EnemyHeroes.FirstOrDefault(h => h.Health < Heroes.Me.GetComboDamage(h, spells) + Heroes.Me.GetAutoAttackDamage(Heroes.Me));
-                if (killableEnemy == null || killableEnemy.IsDead || !killableEnemy.IsValidTarget() || killableEnemy.IsInvulnerable ||
-                                              killableEnemy.UnderTurret(true) || Heroes.Me.IsDead)
+                if (killableEnemy == null || killableEnemy.IsDead || !killableEnemy.IsValidTarget() ||
+                    killableEnemy.IsInvulnerable || killableEnemy.UnderTurret(true) || Heroes.Me.IsDead)
                 {
-                    Orbwalker.Stop = false;
                     return BehaviorState.Success;
                 }
-                Orbwalker.Stop = true;
-                Heroes.Me.IssueOrder(GameObjectOrder.AutoAttack, killableEnemy);
-                return BehaviorState.Running;
+
+
+                Modes.Base.OrbW.ForceTarget(killableEnemy);
+                    Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Combo;
+                var orbwalkingPos = new Vector3
+                {
+                    X =
+                        killableEnemy.Position.X +
+                        (Heroes.Me.AttackRange - 0.2f * Heroes.Me.AttackRange) *
+                        Modes.Base.ObjConstants.DefensiveMultiplier,
+                    Y =
+                        killableEnemy.Position.Y +
+                        (Heroes.Me.AttackRange - 0.2f * Heroes.Me.AttackRange) *
+                        Modes.Base.ObjConstants.DefensiveMultiplier
+                };
+                    Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos);
+                    return BehaviorState.Success;
             });
         internal BehaviorAction CollectHealthRelic = new BehaviorAction(
             () =>
             {
                 if (Heroes.Me.Position != Relics.ClosestRelic().Position)
                 {
-                    Orbwalker.Stop = true;
                     Heroes.Me.IssueOrder(GameObjectOrder.MoveTo, Relics.ClosestRelic().Position);
+                    Modes.Base.OrbW.SetAttack(false);
+                    Modes.Base.OrbW.SetMovement(false);
                     return BehaviorState.Running;
                 }
-                Orbwalker.Stop = false;
+                Modes.Base.OrbW.SetAttack(true);
+                Modes.Base.OrbW.SetMovement(true);
                 return BehaviorState.Success;
             });
     }
