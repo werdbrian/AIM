@@ -94,6 +94,7 @@
     <Compile Include="Autoplay\Util\Data\Randoms.cs" />
     <Compile Include="Autoplay\Util\Data\State.cs" />
     <Compile Include="Autoplay\Util\Data\Variables.cs" />
+    <Compile Include="Autoplay\Util\Helpers\Humanizer.cs" />
     <Compile Include="Autoplay\Util\Helpers\MetaHandler.cs" />
     <Compile Include="Autoplay\Util\Helpers\FileHandler.cs" />
     <Compile Include="Autoplay\Util\Data\AutoLevel.cs" />

@@ -42,6 +42,7 @@ namespace AIM.Autoplay
 
         public static void OnGameUpdate(EventArgs args)
         {
+            new Humanizer();
             if (Utility.Map.GetMap().Type == Utility.Map.MapType.HowlingAbyss)
             {
                 UsePorosnax();
