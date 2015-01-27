@@ -2,6 +2,7 @@
 using System.Linq;
 using AIM.Autoplay.Util;
 using AIM.Autoplay.Util.Data;
+using AIM.Autoplay.Util.Helpers;
 using AIM.Autoplay.Util.Objects;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -15,7 +16,6 @@ namespace AIM.Autoplay.Modes
         public static bool IsInDanger = false;
         public static Menu Menu;
         public static Menu Orbwalker;
-        public static Menu Humanizer;
         public static Obj_AI_Minion LeadingMinion;
         public static Obj_AI_Minion ClosestEnemyMinion;
 
@@ -25,6 +25,8 @@ namespace AIM.Autoplay.Modes
             ObjHeroes = new Heroes();
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
+            Humanizer = new Humanizer(Menu);
+            Orbwalker = Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
             OrbW = new Orbwalking.Orbwalker(Orbwalker);
         }
 
@@ -33,6 +35,7 @@ namespace AIM.Autoplay.Modes
         public static Minions ObjMinions { get; protected set; }
         public static Turrets ObjTurrets { get; protected set; }
         public static Orbwalking.Orbwalker OrbW { get; set; }
+        public static Humanizer Humanizer { get; set; }
         public virtual void OnGameLoad(EventArgs args) {}
         public virtual void OnGameUpdate(EventArgs args) {}
 

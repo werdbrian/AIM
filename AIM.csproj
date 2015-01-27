@@ -91,6 +91,7 @@
     <Compile Include="Autoplay\Modes\Carry.cs" />
     <Compile Include="Autoplay\Modes\Support.cs" />
     <Compile Include="Autoplay\Util\Data\Constants.cs" />
+    <Compile Include="Autoplay\Util\Data\Menus.cs" />
     <Compile Include="Autoplay\Util\Data\Randoms.cs" />
     <Compile Include="Autoplay\Util\Data\State.cs" />
     <Compile Include="Autoplay\Util\Data\Variables.cs" />

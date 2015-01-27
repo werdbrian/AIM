@@ -1,8 +1,10 @@
 ﻿using System;
 using AIM.Autoplay.Modes;
+using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Helpers;
 using LeagueSharp;
 using LeagueSharp.Common;
+using Orbwalking = AIM.Autoplay.Util.Orbwalking;
 
 namespace AIM.Autoplay
 {
@@ -29,14 +31,7 @@ namespace AIM.Autoplay
 
             _loadTickCount = Environment.TickCount;
 
-            Base.Menu = new Menu("AIM", "AIM", true);
-
-            Base.Orbwalker = new Menu("Orbwalker", "orbwalker");
-            Base.Menu.AddSubMenu(Base.Orbwalker);
-
-            Base.Humanizer = new Menu("Humanizer", "humanizer");
-            new Humanizer();
-            Base.Menu.AddSubMenu(Base.Humanizer);
+            Menus.Menu = new Menu("AIM", "AIM", true);
 
             Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
             Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
