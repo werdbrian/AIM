@@ -31,11 +31,11 @@ namespace AIM.Autoplay
 
             _loadTickCount = Environment.TickCount;
 
-            Menus.Menu = new Menu("AIM", "AIM", true);
+            Base.Menu = new Menu("AIM", "AIM", true);
 
             Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
             Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
-            
+
             Base.Menu.AddToMainMenu();
 
             FileHandler.DoChecks();
