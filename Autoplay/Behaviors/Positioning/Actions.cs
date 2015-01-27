@@ -30,6 +30,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                         orbwalkingPos.X = ObjectManager.Player.Position.X + (objConstants.DefensiveAdditioner);
                         orbwalkingPos.Y = ObjectManager.Player.Position.Y + (objConstants.DefensiveAdditioner);
                         ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
+                        Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.None;
                         return BehaviorState.Success;
                     }
                     if (Modes.Base.LeadingMinion != null)
@@ -61,9 +62,7 @@ namespace AIM.Autoplay.Behaviors.Positioning
                     orbwalkingPos.X = ObjectManager.Player.ServerPosition.X + objConstants.DefensiveAdditioner;
                     orbwalkingPos.Y = ObjectManager.Player.ServerPosition.Y + objConstants.DefensiveAdditioner;
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
-                    //Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.None;
-                    Modes.Base.OrbW.SetAttack(false);
-                    Modes.Base.OrbW.SetMovement(false);
+                    Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.None;
                     return BehaviorState.Success;
                 }
 
