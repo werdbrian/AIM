@@ -30,8 +30,17 @@ namespace AIM.Autoplay
             _loadTickCount = Environment.TickCount;
 
             Base.Menu = new Menu("AIM", "AIM", true);
+
+            Base.Orbwalker = new Menu("Orbwalker", "orbwalker");
+            Base.Menu.AddSubMenu(Base.Orbwalker);
+
+            Base.Humanizer = new Menu("Humanizer", "humanizer");
+            new Humanizer();
+            Base.Menu.AddSubMenu(Base.Humanizer);
+
             Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
             Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
+            
             Base.Menu.AddToMainMenu();
 
             FileHandler.DoChecks();
@@ -42,7 +51,6 @@ namespace AIM.Autoplay
 
         public static void OnGameUpdate(EventArgs args)
         {
-            new Humanizer();
             if (Utility.Map.GetMap().Type == Utility.Map.MapType.HowlingAbyss)
             {
                 UsePorosnax();
@@ -52,7 +60,7 @@ namespace AIM.Autoplay
                     if (!ModeLoaded &&
                         (Environment.TickCount - _loadTickCount > 60000 || ObjectManager.Player.Level > 3))
                     {
-                        var carryMode = new Carry();
+                        new Carry();
                     }
                 }
 

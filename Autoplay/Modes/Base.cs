@@ -14,6 +14,8 @@ namespace AIM.Autoplay.Modes
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
         public static bool IsInDanger = false;
         public static Menu Menu;
+        public static Menu Orbwalker;
+        public static Menu Humanizer;
         public static Obj_AI_Minion LeadingMinion;
         public static Obj_AI_Minion ClosestEnemyMinion;
 
@@ -23,7 +25,7 @@ namespace AIM.Autoplay.Modes
             ObjHeroes = new Heroes();
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
-            OrbW = new Orbwalking.Orbwalker(Menu);
+            OrbW = new Orbwalking.Orbwalker(Orbwalker);
         }
 
         public static Constants ObjConstants { get; protected set; }

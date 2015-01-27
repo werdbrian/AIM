@@ -25,7 +25,7 @@ namespace AIM.Autoplay.Util.Helpers
 
         private static void Game_OnGameLoad(EventArgs args)
         {
-            Menu = new Menu("AIM: Humanizer", "AIM: Humanizer", true);
+            Menu = Modes.Base.Humanizer;
 
             var spells = Menu.AddSubMenu(new Menu("Spells", "Spells"));
 
