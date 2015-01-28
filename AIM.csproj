@@ -114,7 +114,6 @@
     <Compile Include="Plugins\Darius.cs" />
     <Compile Include="Plugins\Diana.cs" />
     <Compile Include="Plugins\Draven.cs" />
-    <Compile Include="Plugins\DrMundo.cs" />
     <Compile Include="Plugins\Evelynn.cs" />
     <Compile Include="Plugins\Fiora.cs" />
     <Compile Include="Plugins\Fizz.cs" />

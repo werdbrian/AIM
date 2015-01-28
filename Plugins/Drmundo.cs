@@ -15,7 +15,6 @@ namespace AIM.Plugins
             R = new Spell(SpellSlot.R, 0);
 
             Q.SetSkillshot(0.50f, 75f, 1500f, true, SkillshotType.SkillshotLine);
-            Game.PrintChat("jajaja");
         }
 
         public override void OnUpdate(EventArgs args)
