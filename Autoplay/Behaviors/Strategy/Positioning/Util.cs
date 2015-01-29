@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AIM.Autoplay.Util.Data;
 using ClipperLib;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -16,7 +17,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
             var allyPaths = new Paths(GetAllyPosList().Count);
             for (int i = 0; i < GetAllyPosList().Count; i++)
             {
-                allyPaths[i].Add(new IntPoint(GetAllyPosList().ToArray()[i].X, GetAllyPosList().ToArray()[i].Y));
+                allyPaths[i].Add(new IntPoint(GetAllyPosList().ToArray()[i].X + Randoms.Rand.Next(-150, 150), GetAllyPosList().ToArray()[i].Y + Randoms.Rand.Next(-150, 150)));
             }
             return allyPaths;
         }

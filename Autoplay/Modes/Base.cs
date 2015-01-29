@@ -73,6 +73,11 @@ namespace AIM.Autoplay.Modes
                     args.Process = false;
                     return;
                 }
+                if (ObjectManager.Get<Obj_AI_Turret>().Any(t => t.IsEnemy && t.Distance(args.TargetPosition) < 800) && MetaHandler.CountNearbyAllyMinions(ObjectManager.Get<Obj_AI_Turret>().FirstOrDefault(t => t.IsEnemy && t.Distance(args.TargetPosition) < 800), 800) <= 2)
+                {
+                    args.Process = false;
+                    return;
+                }
                 LastMove = Environment.TickCount;
             }
 

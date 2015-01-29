@@ -63,8 +63,7 @@ namespace AIM.Autoplay.Util.Helpers
         private static readonly ItemId[] ARAMShopListAD =
         {
             ItemId.Blade_of_the_Ruined_King, ItemId.Infinity_Edge,
-            ItemId.Phantom_Dancer, ItemId.Sanguine_Blade, ItemId.Mercurial_Scimitar, ItemId.Zephyr,
-            ItemId.Maw_of_Malmortius, ItemId.Statikk_Shiv, ItemId.Berserkers_Greaves
+            ItemId.Phantom_Dancer, ItemId.Sanguine_Blade, ItemId.Mercurial_Scimitar, ItemId.Guardian_Angel, ItemId.Banshees_Veil, ItemId.Youmuus_Ghostblade, ItemId.Berserkers_Greaves
         };
 
         private static readonly ItemId[] CrystalScar =
