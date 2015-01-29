@@ -8,7 +8,7 @@ using LeagueSharp.Common;
 
 namespace AIM.Autoplay.Util.Objects
 {
-    class Relics
+    public class Relics
     {
         public static Obj_AI_Base ClosestRelic()
         {

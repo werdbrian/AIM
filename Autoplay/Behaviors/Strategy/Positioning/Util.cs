@@ -9,7 +9,7 @@ using Paths = System.Collections.Generic.List<System.Collections.Generic.List<Cl
 
 namespace AIM.Autoplay.Behaviors.Strategy.Positioning
 {
-    class Util
+    public class Util
     {
         public Paths GetAllyPaths()
         {
@@ -33,12 +33,12 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
 
         public List<Vector2> GetAllyPosList()
         {
-            var allies = ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly).ToList();
+            var allies = ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly && !h.IsDead && !h.InFountain()).ToList();
             return allies.Select(ally => ally.ServerPosition.To2D()).ToList();
         }
         public List<Vector2> GetEnemyPosList()
         {
-            var enemies = ObjectManager.Get<Obj_AI_Hero>().FindAll(h => !h.IsAlly).ToList();
+            var enemies = ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsEnemy && !h.IsDead && h.IsVisible).ToList();
             return enemies.Select(enemy => enemy.ServerPosition.To2D()).ToList();
         }
     }

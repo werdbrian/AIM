@@ -66,50 +66,6 @@ namespace AIM
             };
 
             //Utils.EnableConsoleEditMode();
-
-            //Drawing.OnDraw += a =>
-            //{
-            //    var offset = 0;
-            //    foreach (var buff in ObjectManager.Player.Buffs)
-            //    {
-            //        Drawing.DrawText(100, 100 + offset, Color.Tomato,
-            //            string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6}", buff.Name, buff.DisplayName,
-            //                buff.Type.ToString(), buff.Count, buff.IsActive, buff.StartTime, buff.EndTime));
-            //        offset += 15;
-            //    }
-            //};
-
-            //Obj_AI_Base.OnProcessSpellCast += (sender, spell) =>
-            //{
-            //    if (!sender.IsValid<Obj_AI_Hero>())
-            //        return;
-
-            //    try
-            //    {
-            //        if (!Orbwalking.IsAutoAttack(spell.SData.Name))
-            //            Console.WriteLine(sender.Name + " | " + spell.SData.Name.ToLower());
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(e);
-            //    }
-            //};
-
-            //GameObject.OnCreate += (sender, eventArgs) =>
-            //{
-            //    if (!sender.IsValid<Obj_SpellMissile>())
-            //        return;
-
-            //    try
-            //    {
-            //        var miss = (Obj_SpellMissile)sender;
-            //        Console.WriteLine(sender.Name + " | " + miss.SData.Name.ToLower());
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(e);
-            //    }
-            //};
         }
     }
 }

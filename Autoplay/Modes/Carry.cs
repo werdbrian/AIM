@@ -20,7 +20,7 @@ namespace AIM.Autoplay.Modes
 
         public override void OnGameLoad(EventArgs args)
         {
-            new AutoLevel(Util.Data.AutoLevel.GetSequence());
+            FileHandler.DoChecks();
         }
 
         public override void OnGameUpdate(EventArgs args)
@@ -30,8 +30,6 @@ namespace AIM.Autoplay.Modes
 
             ImpingAintEasy();
             RefreshMinions();
-
-            IsInDanger = ObjectManager.Player.UnderTurret(true) && InDangerUnderEnemyTurret();
         }
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -41,7 +39,7 @@ namespace AIM.Autoplay.Modes
                 return;
             }
 
-            var target = args.Target as Obj_AI_Hero;
+            var target = args.Target;
 
             if (target == null || !target.IsValid)
             {
@@ -50,26 +48,27 @@ namespace AIM.Autoplay.Modes
 
             if (sender.IsMe && sender.UnderTurret(true) && target.IsEnemy)
             {
-                IsInDanger = true;
+
             }
 
             if (sender is Obj_AI_Turret && target.IsMe)
             {
-                IsInDanger = true;
+                
             }
 
             if (sender is Obj_AI_Minion && target.IsMe)
             {
-                var orbwalkingPos = new Vector2();
-                orbwalkingPos.X = ObjectManager.Player.Position.X + ObjConstants.DefensiveAdditioner;
-                orbwalkingPos.Y = ObjectManager.Player.Position.Y + ObjConstants.DefensiveAdditioner;
+                var orbwalkingPos = new Vector2
+                {
+                    X = ObjectManager.Player.Position.X + ObjConstants.DefensiveAdditioner,
+                    Y = ObjectManager.Player.Position.Y + ObjConstants.DefensiveAdditioner
+                };
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, orbwalkingPos.To3D());
             }
         }
 
         public void ImpingAintEasy()
         {
-            new AutoLevel(Util.Data.AutoLevel.GetSequence());
             MetaHandler.DoChecks(); //#TODO rewrite MetaHandler with BehaviorSharp
 
             Behaviors.MainBehavior.Root.Tick();

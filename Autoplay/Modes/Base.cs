@@ -14,7 +14,6 @@ namespace AIM.Autoplay.Modes
     {
         private static readonly Obj_AI_Hero Player = ObjectManager.Player;
         public static int LastMove;
-        public static bool IsInDanger = false;
         public static Menu Menu;
         public static Menu Orbwalker;
         public static Obj_AI_Minion LeadingMinion;
@@ -26,6 +25,7 @@ namespace AIM.Autoplay.Modes
             ObjHeroes = new Heroes();
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
+            ObjHQ = new HQ();
             Orbwalker = Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
             OrbW = new Orbwalking.Orbwalker(Orbwalker);
 
@@ -37,21 +37,27 @@ namespace AIM.Autoplay.Modes
         public static Heroes ObjHeroes { get; protected set; }
         public static Minions ObjMinions { get; protected set; }
         public static Turrets ObjTurrets { get; protected set; }
+        public static HQ ObjHQ { get; protected set; }
         public static Orbwalking.Orbwalker OrbW { get; set; }
-        public virtual void OnGameLoad(EventArgs args) {}
-        public virtual void OnGameUpdate(EventArgs args) {}
+        public virtual void OnGameLoad(EventArgs args) { }
+        public virtual void OnGameUpdate(EventArgs args) { }
 
         #region Minions
 
         private static void Obj_AI_Base_OnIssueOrder(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
         {
-            if (sender == null || !sender.IsValid || !sender.IsMe || args.Order != GameObjectOrder.MoveTo ||
-                !Menu.Item("MovementEnabled").GetValue<bool>())
+            if (sender == null || !sender.IsValid || !sender.IsMe)
             {
                 return;
             }
 
-            if (Environment.TickCount - LastMove < Menu.Item("MovementDelay").GetValue<Slider>().Value)
+            if (args.Target.IsEnemy && sender.UnderTurret(true) && (args.Order == GameObjectOrder.AutoAttack || args.Order == GameObjectOrder.AttackUnit))
+            {
+                args.Process = false;
+            }
+
+            if (Environment.TickCount - LastMove < Menu.Item("MovementDelay").GetValue<Slider>().Value && args.Order == GameObjectOrder.MoveTo &&
+                Menu.Item("MovementEnabled").GetValue<bool>())
             {
                 args.Process = false;
                 return;

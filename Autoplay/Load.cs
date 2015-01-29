@@ -4,15 +4,14 @@ using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Helpers;
 using LeagueSharp;
 using LeagueSharp.Common;
+using AutoLevel = LeagueSharp.Common.AutoLevel;
 using Orbwalking = AIM.Autoplay.Util.Orbwalking;
 
 namespace AIM.Autoplay
 {
     internal class Load
     {
-        private static int _loadTickCount;
-        public static bool ModeLoaded = false;
-
+        public static int LoadedTime = 0;
         public Load()
         {
             Game.OnWndProc += OnWndProc;
@@ -27,27 +26,36 @@ namespace AIM.Autoplay
 
         public void OnGameLoad(EventArgs args)
         {
-            Utils.ClearConsole();
+            try
+            {
+                Utils.ClearConsole();
 
-            _loadTickCount = Environment.TickCount;
+                LoadedTime = Environment.TickCount;
 
-            Base.Menu = new Menu("AIM", "AIM", true);
+                new Carry(); Console.WriteLine("Carry Init Success!");
+                new AutoLevel(Util.Data.AutoLevel.GetSequence()); Console.WriteLine("AutoLevel Init Success!");
 
-            //AIM Settings
-            Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
-            Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
-            
-            //Humanizer
-            var move = Base.Menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
-            move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
-            move.AddItem(new MenuItem("MovementDelay", "Movement Delay")).SetValue(new Slider(400, 0, 1000));
+                Base.Menu = new Menu("AIM", "AIM", true);
 
-            Base.Menu.AddToMainMenu();
+                //AIM Settings
+                Base.Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
+                Base.Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
 
-            FileHandler.DoChecks();
+                //Humanizer
+                var move = Base.Menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
+                move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
+                move.AddItem(new MenuItem("MovementDelay", "Movement Delay")).SetValue(new Slider(400, 0, 1000));
 
-            Game.PrintChat("AIM {0} Loaded!", Program.Version);
-            Game.PrintChat("Don't panic, the bot will start at 60 seconds in the game.");
+                Base.Menu.AddToMainMenu();
+                Console.WriteLine("Menu Init Success!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+
+            Game.PrintChat("AIM {0} Successfuly Loaded, Enjoy!", Program.Version);
         }
 
         public static void OnGameUpdate(EventArgs args)
@@ -55,25 +63,6 @@ namespace AIM.Autoplay
             if (Utility.Map.GetMap().Type == Utility.Map.MapType.HowlingAbyss)
             {
                 UsePorosnax();
-
-                try
-                {
-                    if (!ModeLoaded &&
-                        (Environment.TickCount - _loadTickCount > 60000 || ObjectManager.Player.Level > 3))
-                    {
-                        new Carry();
-                    }
-                }
-
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-            else
-            {
-                //Console.WriteLine("Map not yet supported, use AutoSharpporting ;)");
-                new Carry();
             }
         }
 

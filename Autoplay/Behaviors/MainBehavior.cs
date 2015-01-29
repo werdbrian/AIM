@@ -7,6 +7,7 @@ using AIM.Autoplay.Behaviors.Strategy;
 using AIM.Autoplay.Util.Objects;
 using BehaviorSharp;
 using BehaviorSharp.Components.Composites;
+using BehaviorSharp.Components.Conditionals;
 using LeagueSharp.Common;
 
 namespace AIM.Autoplay.Behaviors
@@ -16,22 +17,27 @@ namespace AIM.Autoplay.Behaviors
         internal static Behavior Root = new Behavior(new IndexSelector(
             () =>
             {
-                var heroes = new Heroes();
-                var minions = new Minions();
-
+                if (new Conditionals().NoMinions.Tick() == BehaviorState.Success)
+                {
+                    return 5;
+                }
+                if (new Conditionals().JoinTeamFight.Tick() == BehaviorState.Success)
+                {
+                    return 1;
+                }
                 if (Heroes.Me.IsDead)
                 {
                     return 0;
                 }
-                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible) || (float)(Heroes.Me.ChampionsKilled+Heroes.Me.Assists)/((Heroes.Me.Deaths == 0) ? 1:Heroes.Me.Deaths) > 2.5f || !minions.EnemyMinions.Any(m => m.IsVisible))
-                {
-                    return 1;
-                }
-                if (Heroes.Me.HealthPercentage() < Modes.Base.Menu.Item("LowHealth").GetValue<Slider>().Value && Relics.ClosestRelic() != null)
+                if (new Conditionals().ShouldPushLane.Tick() == BehaviorState.Success)
                 {
                     return 2;
                 }
-                return 3;
-            }, new Sequence(),  new Sequences().LanePush, new Sequences().CollectHealthPack, new Sequences().StayWithinExpRange));
+                if (new Conditionals().ShouldCollectHealthRelic.Tick() == BehaviorState.Success)
+                {
+                    return 3;
+                }
+                return 4;
+            }, new Sequence(), new Sequences().TeamFight, new Sequences().LanePush, new Sequences().CollectHealthPack, new Sequences().StayWithinExpRange, new Sequences().WalkToLane));
     }
 }

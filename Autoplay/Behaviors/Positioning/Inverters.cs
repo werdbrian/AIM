@@ -8,12 +8,11 @@ using BehaviorSharp.Components.Conditionals;
 using BehaviorSharp.Components.Decorators;
 using LeagueSharp.Common;
 
-namespace AIM.Autoplay.Behaviors.Strategy
+namespace AIM.Autoplay.Behaviors.Positioning
 {
     internal class Inverters
     {
         internal Inverter LowHealth = new Inverter(new Conditionals().LowHealth);
         internal Inverter MinionsHaveSpawned = new Inverter(new Conditionals().NoMinions);
-        internal Inverter AlliesAreDead = new Inverter(new Conditionals().AlliesAreDead);
     }
 }

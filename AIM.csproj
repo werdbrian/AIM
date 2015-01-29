@@ -82,6 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autoplay\Behaviors\MainBehavior.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Laning.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Teamfight.cs" />
     <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Util.cs" />
     <Compile Include="Autoplay\Behaviors\Strategy\Actions.cs" />
     <Compile Include="Autoplay\Behaviors\Strategy\Conditionals.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Autoplay\Util\Helpers\FileHandler.cs" />
     <Compile Include="Autoplay\Util\Data\AutoLevel.cs" />
     <Compile Include="Autoplay\Util\Objects\Heroes.cs" />
+    <Compile Include="Autoplay\Util\Objects\HQ.cs" />
     <Compile Include="Autoplay\Util\Objects\Minions.cs" />
     <Compile Include="Autoplay\Util\Objects\Relics.cs" />
     <Compile Include="Autoplay\Util\Objects\Turrets.cs" />

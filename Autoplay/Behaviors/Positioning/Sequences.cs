@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BehaviorSharp.Components.Composites;
 using BehaviorSharp.Components.Conditionals;
-using BehaviorSharp.Components.Decorators;
 
-namespace AIM.Autoplay.Behaviors.Strategy
+namespace AIM.Autoplay.Behaviors.Positioning
 {
     internal class Sequences
     {
@@ -16,6 +15,5 @@ namespace AIM.Autoplay.Behaviors.Strategy
         internal Sequence CollectHealthPack = new Sequence(new Actions().CollectHealthRelic, new Conditionals().ShouldCollectHealthRelic);
         internal Sequence TryToKill = new Sequence(new Actions().KillEnemy);
         internal Sequence WalkToLane = new Sequence(new Actions().ProtectFarthestTurret, new Conditionals().NoMinions, new Inverters().MinionsHaveSpawned);
-        internal Sequence TeamFight = new Sequence(new Actions().Teamfight, new Inverters().AlliesAreDead);
     }
 }
