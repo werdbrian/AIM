@@ -48,7 +48,6 @@ namespace AIM
 
                     if (type != null)
                     {
-                        Protector.Init();
                         Activator.CreateInstance(type);
                         return;
                     }
@@ -57,7 +56,6 @@ namespace AIM
 
                     if (type != null)
                     {
-                        Protector.Init();
                         Activator.CreateInstance(type);
                     }
                 }

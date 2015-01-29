@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BehaviorSharp.Components.Composites;
 using BehaviorSharp.Components.Conditionals;
 
-namespace AIM.Autoplay.Behaviors.Positioning
+namespace AIM.Autoplay.Behaviors.Strategy
 {
     internal class Sequences
     {

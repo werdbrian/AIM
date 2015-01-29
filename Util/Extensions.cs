@@ -157,11 +157,6 @@ namespace AIM.Util
             return caster.GetSpellDamage(target, spell.Name) >= target.HealthBuffer(buffer);
         }
 
-        public static bool WillKill(this Obj_AI_Base caster, Obj_AI_Base target, Evade.SpellData spell, int buffer = 10)
-        {
-            return caster.GetSpellDamage(target, spell.SpellName) >= target.HealthBuffer(buffer);
-        }
-
         public static void AddList(this Menu menu, string name, string displayName, string[] list)
         {
             menu.AddItem(

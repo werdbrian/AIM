@@ -13,7 +13,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using Orbwalking = AIM.Autoplay.Util.Orbwalking;
 
-namespace AIM.Autoplay.Behaviors.Positioning
+namespace AIM.Autoplay.Behaviors.Strategy
 {
     internal class Actions
     {

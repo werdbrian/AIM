@@ -8,7 +8,7 @@ using BehaviorSharp.Components.Conditionals;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace AIM.Autoplay.Behaviors.Positioning
+namespace AIM.Autoplay.Behaviors.Strategy
 {
     internal class Conditionals
     {

@@ -7,7 +7,7 @@ using AIM.Autoplay.Util.Objects;
 using BehaviorSharp.Components.Decorators;
 using LeagueSharp.Common;
 
-namespace AIM.Autoplay.Behaviors.Positioning
+namespace AIM.Autoplay.Behaviors.Strategy
 {
     internal class Inverters
     {

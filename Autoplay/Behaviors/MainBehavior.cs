@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AIM.Autoplay.Behaviors.Positioning;
+using AIM.Autoplay.Behaviors.Strategy;
 using AIM.Autoplay.Util.Objects;
 using BehaviorSharp;
 using BehaviorSharp.Components.Composites;

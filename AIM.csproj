@@ -82,10 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autoplay\Behaviors\MainBehavior.cs" />
-    <Compile Include="Autoplay\Behaviors\Positioning\Actions.cs" />
-    <Compile Include="Autoplay\Behaviors\Positioning\Conditionals.cs" />
-    <Compile Include="Autoplay\Behaviors\Positioning\Inverters.cs" />
-    <Compile Include="Autoplay\Behaviors\Positioning\Sequences.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Util.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Actions.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Conditionals.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Inverters.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Sequences.cs" />
     <Compile Include="Autoplay\Load.cs" />
     <Compile Include="Autoplay\Modes\Base.cs" />
     <Compile Include="Autoplay\Modes\Carry.cs" />
@@ -143,18 +144,7 @@
     <Compile Include="Util\AutoBushRevealer.cs" />
     <Compile Include="Util\AutoPot.cs" />
     <Compile Include="Util\DamageBoostDatabase.cs" />
-    <Compile Include="Evade\Collision.cs" />
-    <Compile Include="Evade\Config.cs" />
     <Compile Include="Plugins\Nunu.cs" />
-    <Compile Include="Protector.cs" />
-    <Compile Include="Evade\EvadeSpellData.cs" />
-    <Compile Include="Evade\EvadeSpellDatabase.cs" />
-    <Compile Include="Evade\Geometry.cs" />
-    <Compile Include="Evade\Skillshot.cs" />
-    <Compile Include="Evade\SkillshotDetector.cs" />
-    <Compile Include="Evade\SpellData.cs" />
-    <Compile Include="Evade\SpellDatabase.cs" />
-    <Compile Include="Evade\Utils.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="Plugins\Annie.cs" />
     <Compile Include="Plugins\Alistar.cs" />

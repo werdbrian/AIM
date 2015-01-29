@@ -24,15 +24,10 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using AIM.Evade;
 using AIM.Util;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
 using ActiveGapcloser = AIM.Util.ActiveGapcloser;
-using SpellData = LeagueSharp.SpellData;
 
 namespace AIM.Plugins
 {
@@ -53,125 +48,11 @@ namespace AIM.Plugins
 
             Q.SetSkillshot(0.25f, 60f, 1700f, true, SkillshotType.SkillshotLine);
             R.SetSkillshot(0.5f, 115f, 1400f, false, SkillshotType.SkillshotLine);
-            Protector.OnSkillshotProtection += ProtectorOnSkillshotProtection;
-            Protector.OnTargetedProtection += ProtectorOnTargetedProtection;
         }
 
-        private bool IsShieldActive { get; set; }
 
-        private void CastShield(Vector3 v)
-        {
-            if (!E.IsReady())
-            {
-                return;
-            }
-
-            E.Cast(v);
-            IsShieldActive = true;
-            Utility.DelayAction.Add(4000, () => IsShieldActive = false);
-        }
-
-        private void ProtectorOnTargetedProtection(Obj_AI_Base caster, Obj_AI_Hero target, SpellData spell)
-        {
-            try
-            {
-                if (!ConfigValue<bool>("Misc.Shield.Target"))
-                {
-                    return;
-                }
-
-                if (Orbwalking.IsAutoAttack(spell.Name) &&
-                    target.HealthPercentage() > ConfigValue<Slider>("Misc.Shield.Health").Value)
-                {
-                    return;
-                }
-
-                if (spell.MissileSpeed > 2000 || spell.MissileSpeed == 0)
-                {
-                    return;
-                }
-
-                // TODO: blacklist FiddleQ, FioraQ/R, LeonaE, VladQ, ZileanQ
-
-                if (target.IsMe && E.IsReady())
-                {
-                    CastShield(caster.Position);
-                }
-
-                if (!target.IsMe && W.IsReady() && W.IsInRange(target) && (IsShieldActive || E.IsReady()))
-                {
-                    var jumpTime = (Player.Distance(target) * 1000 / W.Instance.SData.MissileSpeed) +
-                                   (W.Instance.SData.SpellCastTime * 1000);
-                    var missileTime = caster.Distance(target) * 1000 / spell.MissileSpeed;
-
-                    if (jumpTime > missileTime)
-                    {
-                        Console.WriteLine("Abort Jump - Missile too Fast: {0} {1}", jumpTime, missileTime);
-                        return;
-                    }
-
-                    W.CastOnUnit(target);
-                    Utility.DelayAction.Add((int) jumpTime, () => CastShield(caster.Position));
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        private void ProtectorOnSkillshotProtection(Obj_AI_Hero target, List<Skillshot> skillshots)
-        {
-            try
-            {
-                if (!ConfigValue<bool>("Misc.Shield.Skill"))
-                {
-                    return;
-                }
-
-                // get most dangerous skillshot
-                var max = skillshots.First();
-                foreach (var spell in
-                    skillshots.Where(
-                        s =>
-                            s.SpellData.Type == SkillShotType.SkillshotMissileLine ||
-                            s.SpellData.Type == SkillShotType.SkillshotMissileCone))
-                {
-                    if (spell.Unit.GetSpellDamage(target, spell.SpellData.SpellName) >
-                        max.Unit.GetSpellDamage(target, max.SpellData.SpellName))
-                    {
-                        max = spell;
-                    }
-                }
-
-                if (target.IsMe && E.IsReady())
-                {
-                    CastShield(max.Start.To3D());
-                }
-
-                if (!target.IsMe && W.IsReady() && W.IsInRange(target) && (IsShieldActive || E.IsReady()))
-                {
-                    var jumpTime = (Player.Distance(target) * 1000 / W.Instance.SData.MissileSpeed) +
-                                   (W.Instance.SData.SpellCastTime * 1000);
-                    var missileTime = target.Distance(max.MissilePosition) * 1000 / max.SpellData.MissileSpeed;
-
-                    if (jumpTime > missileTime)
-                    {
-                        Console.WriteLine("Abort Jump - Missile too Fast: {0} {1}", jumpTime, missileTime);
-                        return;
-                    }
-
-                    W.CastOnUnit(target);
-                    Utility.DelayAction.Add((int) jumpTime, () => CastShield(max.Start.To3D()));
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        public override void OnUpdate(EventArgs args)
+        public override
+            void OnUpdate(EventArgs args)
         {
             if (ComboMode)
             {
