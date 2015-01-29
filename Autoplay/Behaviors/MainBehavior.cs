@@ -8,6 +8,7 @@ using AIM.Autoplay.Util.Objects;
 using BehaviorSharp;
 using BehaviorSharp.Components.Composites;
 using BehaviorSharp.Components.Conditionals;
+using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace AIM.Autoplay.Behaviors
@@ -17,11 +18,15 @@ namespace AIM.Autoplay.Behaviors
         internal static Behavior Root = new Behavior(new IndexSelector(
             () =>
             {
-                if (new Conditionals().NoMinions.Tick() == BehaviorState.Success)
+                var heroes = new Heroes();
+                var minions = new Minions();
+
+                if (!ObjectManager.Get<Obj_AI_Minion>().Any())
                 {
+                    Console.WriteLine("5");
                     return 5;
                 }
-                if (new Conditionals().JoinTeamFight.Tick() == BehaviorState.Success)
+                if (ObjectManager.Get<Obj_AI_Hero>().Any(h => h.IsAlly && !h.IsMe && !h.InFountain()))
                 {
                     return 1;
                 }
@@ -29,11 +34,11 @@ namespace AIM.Autoplay.Behaviors
                 {
                     return 0;
                 }
-                if (new Conditionals().ShouldPushLane.Tick() == BehaviorState.Success)
+                if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible) || (float)(Heroes.Me.ChampionsKilled + Heroes.Me.Assists) / ((Heroes.Me.Deaths == 0) ? 1 : Heroes.Me.Deaths) > 2.5f || !minions.EnemyMinions.Any(m => m.IsVisible))
                 {
                     return 2;
                 }
-                if (new Conditionals().ShouldCollectHealthRelic.Tick() == BehaviorState.Success)
+                if (Heroes.Me.HealthPercentage() < Modes.Base.Menu.Item("LowHealth").GetValue<Slider>().Value && Relics.ClosestRelic() != null)
                 {
                     return 3;
                 }

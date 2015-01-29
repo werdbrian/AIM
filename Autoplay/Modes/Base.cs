@@ -25,6 +25,22 @@ namespace AIM.Autoplay.Modes
             ObjHeroes = new Heroes();
             ObjMinions = new Minions();
             ObjTurrets = new Turrets();
+            Menu = new Menu("AIM", "AIM", true);
+
+
+            //AIM Settings
+            Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind(32, KeyBindType.Toggle)));
+            Menu.AddItem(new MenuItem("LowHealth", "Self Low Health %").SetValue(new Slider(20, 10, 50)));
+
+            //Humanizer
+            var move = Menu.AddSubMenu(new Menu("Humanizer", "humanizer"));
+            move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
+            move.AddItem(new MenuItem("MovementDelay", "Movement Delay")).SetValue(new Slider(400, 0, 1000));
+
+            Menu.AddToMainMenu();
+
+            Console.WriteLine("Menu Init Success!");
+
             ObjHQ = new HQ();
             Orbwalker = Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
             OrbW = new Orbwalking.Orbwalker(Orbwalker);
@@ -42,29 +58,36 @@ namespace AIM.Autoplay.Modes
         public virtual void OnGameLoad(EventArgs args) { }
         public virtual void OnGameUpdate(EventArgs args) { }
 
-        #region Minions
-
+        #region Humanizer
         private static void Obj_AI_Base_OnIssueOrder(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
         {
             if (sender == null || !sender.IsValid || !sender.IsMe)
             {
                 return;
             }
-
-            if (args.Target.IsEnemy && sender.UnderTurret(true) && (args.Order == GameObjectOrder.AutoAttack || args.Order == GameObjectOrder.AttackUnit))
+            if (args.Order == GameObjectOrder.MoveTo)
             {
-                args.Process = false;
+                if (Environment.TickCount - LastMove < Menu.Item("MovementDelay").GetValue<Slider>().Value &&
+                    Menu.Item("MovementEnabled").GetValue<bool>())
+                {
+                    args.Process = false;
+                    return;
+                }
+                LastMove = Environment.TickCount;
             }
 
-            if (Environment.TickCount - LastMove < Menu.Item("MovementDelay").GetValue<Slider>().Value && args.Order == GameObjectOrder.MoveTo &&
-                Menu.Item("MovementEnabled").GetValue<bool>())
+            if (args.Target == null)
             {
-                args.Process = false;
                 return;
             }
-
-            LastMove = Environment.TickCount;
+            if (args.Target.IsEnemy && args.Target is Obj_AI_Hero && sender.UnderTurret(true) && (args.Order == GameObjectOrder.AutoAttack || args.Order == GameObjectOrder.AttackUnit))
+            {
+                args.Process = false;
+            }
         }
+        #endregion
+
+        #region Minions
 
         public void RefreshMinions()
         {

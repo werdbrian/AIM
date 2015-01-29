@@ -57,6 +57,7 @@ namespace AIM.Autoplay.Behaviors.Strategy
                         Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
                         Modes.Base.OrbW.SetAttack(true);
                         Modes.Base.OrbW.SetMovement(true);
+                        Orbwalking.SetMovementDelay(Modes.Base.Menu.Item("MovementDelay").GetValue<Slider>().Value);
                         return BehaviorState.Success;
                     }
                     return BehaviorState.Failure;
@@ -107,6 +108,7 @@ namespace AIM.Autoplay.Behaviors.Strategy
                     Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
                     Modes.Base.OrbW.SetAttack(true);
                     Modes.Base.OrbW.SetMovement(true);
+                    Orbwalking.SetMovementDelay(Modes.Base.Menu.Item("MovementDelay").GetValue<Slider>().Value);
                     return BehaviorState.Success;
                 }
                 return BehaviorState.Success;
@@ -139,6 +141,7 @@ namespace AIM.Autoplay.Behaviors.Strategy
                         Modes.Base.ObjConstants.DefensiveMultiplier
                 };
                 Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos);
+                Orbwalking.SetMovementDelay(Modes.Base.Menu.Item("MovementDelay").GetValue<Slider>().Value);
                 return BehaviorState.Success;
             });
         internal BehaviorAction CollectHealthRelic = new BehaviorAction(
@@ -153,12 +156,13 @@ namespace AIM.Autoplay.Behaviors.Strategy
                 }
                 Modes.Base.OrbW.SetAttack(true);
                 Modes.Base.OrbW.SetMovement(true);
+                Orbwalking.SetMovementDelay(Modes.Base.Menu.Item("MovementDelay").GetValue<Slider>().Value);
                 return BehaviorState.Success;
             });
         internal BehaviorAction ProtectFarthestTurret = new BehaviorAction(
             () =>
             {
-                var farthestTurret = Turrets.AllyTurrets.OrderByDescending(t => t.Distance(Heroes.Me)).FirstOrDefault();
+                var farthestTurret = Turrets.AllyTurrets.OrderByDescending(t => t.Distance(HQ.AllyHQ)).FirstOrDefault();
                 var objConstants = new Constants();
                 var orbwalkingPos = new Vector2();
                 if (farthestTurret != null)
@@ -175,7 +179,10 @@ namespace AIM.Autoplay.Behaviors.Strategy
                     orbwalkingPos.Y = HQ.AllyHQ.Position.Y + (objConstants.DefensiveAdditioner / 8f) +
                                       Randoms.Rand.Next(-100, 100);
                 }
+
                 Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D());
+                Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
+                Orbwalking.SetMovementDelay(Modes.Base.Menu.Item("MovementDelay").GetValue<Slider>().Value);
                 return BehaviorState.Success;
             });
 
@@ -184,6 +191,8 @@ namespace AIM.Autoplay.Behaviors.Strategy
             {
                 var orbwalkingPos = Positioning.Teamfight.GetPos();
                 Modes.Base.OrbW.SetOrbwalkingPoint(orbwalkingPos.To3D());
+                Modes.Base.OrbW.ActiveMode = Orbwalking.OrbwalkingMode.Mixed;
+                Orbwalking.SetMovementDelay(Modes.Base.Menu.Item("MovementDelay").GetValue<Slider>().Value);
                 return BehaviorState.Success;
             });
     }
