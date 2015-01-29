@@ -11,6 +11,7 @@ namespace AIM.Autoplay
 {
     internal class Load
     {
+        public static readonly bool ShouldUsePoroSnaxThisGame = Randoms.RandomDecision();
         public static int LoadedTime = 0;
         public Load()
         {
@@ -55,7 +56,7 @@ namespace AIM.Autoplay
         public static bool UsePorosnax()
         {
             var trinket = ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Trinket);
-            return trinket != null && trinket.IsReady() && ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Trinket);
+            return trinket != null && trinket.IsReady() && ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Trinket) && ShouldUsePoroSnaxThisGame;
         }
     }
 }
