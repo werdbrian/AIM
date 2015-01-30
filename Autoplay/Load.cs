@@ -56,7 +56,7 @@ namespace AIM.Autoplay
         public static bool UsePorosnax()
         {
             var trinket = ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Trinket);
-            return trinket != null && trinket.IsReady() && ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Trinket) && ShouldUsePoroSnaxThisGame;
+            return trinket != null && trinket.IsReady() && ShouldUsePoroSnaxThisGame && ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Trinket);
         }
     }
 }
