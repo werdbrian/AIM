@@ -31,9 +31,19 @@ namespace AIM.Autoplay
             {
                 Utils.ClearConsole();
 
-                LoadedTime = Environment.TickCount; 
-                new Carry(); Console.WriteLine("Carry Init Success!");
-                new AutoLevel(Util.Data.AutoLevel.GetSequence()); Console.WriteLine("AutoLevel Init Success!");
+                LoadedTime = Environment.TickCount;
+                Utility.DelayAction.Add(
+                    Randoms.Rand.Next(1000, 30000), () =>
+                    {
+                        new Carry();
+                        Console.WriteLine("Carry Init Success!");
+                    });
+                Utility.DelayAction.Add(
+                    Randoms.Rand.Next(1000, 10000), () =>
+                {
+                    new AutoLevel(Util.Data.AutoLevel.GetSequence());
+                    Console.WriteLine("AutoLevel Init Success!");
+                });
 
             }
             catch (Exception e)
