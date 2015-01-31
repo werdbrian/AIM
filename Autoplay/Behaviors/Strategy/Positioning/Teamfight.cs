@@ -31,6 +31,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
                 var v2 = new Vector2();
                 v2.X = randomPoint.X;
                 v2.Y = randomPoint.Y;
+                return v2;
             }
             Console.WriteLine("Utils.AllyZone is null");
             return Utils.GetAllyPosList().OrderByDescending(h => h.Distance(HQ.AllyHQ.Position)).FirstOrDefault();
