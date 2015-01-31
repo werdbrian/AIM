@@ -19,12 +19,12 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         /// </summary>
         internal static Paths AllyZone()
         {
-            var heroPolygons = new List<Geometry.Polygon>();
+            var teamPolygons = new List<Geometry.Polygon>();
             foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly && !h.IsDead && !h.IsMe && !(h.InFountain() || h.InShop())))
             {
-                heroPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
+                teamPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
             }
-            return Geometry.ClipPolygons(heroPolygons);
+            return Geometry.ClipPolygons(teamPolygons);
         }
 
         /// <summary>
@@ -32,12 +32,12 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         /// </summary>
         internal static Paths EnemyZone()
         {
-            var heroPolygons = new List<Geometry.Polygon>();
+            var teamPolygons = new List<Geometry.Polygon>();
             foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => !h.IsAlly && !h.IsDead && h.IsVisible))
             {
-                heroPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
+                teamPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
             }
-            return Geometry.ClipPolygons(heroPolygons);
+            return Geometry.ClipPolygons(teamPolygons);
         }
         
         /// <summary>
