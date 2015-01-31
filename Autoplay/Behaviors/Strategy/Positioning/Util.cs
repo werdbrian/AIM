@@ -20,7 +20,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         internal Paths AllyZone()
         {
             var heroPolygons = new List<Geometry.Polygon>();
-            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly && !h.IsMe && !(h.InFountain() || h.InShop())))
+            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly && !h.IsDead && !h.IsMe && !(h.InFountain() || h.InShop())))
             {
                 heroPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
             }
@@ -33,7 +33,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         internal Paths EnemyZone()
         {
             var heroPolygons = new List<Geometry.Polygon>();
-            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => !h.IsAlly))
+            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => !h.IsAlly && !h.IsDead && h.IsVisible))
             {
                 heroPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
             }
