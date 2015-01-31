@@ -17,7 +17,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         /// <summary>
         /// Returns a list of points in the Ally Zone
         /// </summary>
-        internal Paths AllyZone()
+        internal static Paths AllyZone()
         {
             var heroPolygons = new List<Geometry.Polygon>();
             foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly && !h.IsDead && !h.IsMe && !(h.InFountain() || h.InShop())))
@@ -30,7 +30,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         /// <summary>
         /// Returns a list of points in the Enemy Zone
         /// </summary>
-        internal Paths EnemyZone()
+        internal static Paths EnemyZone()
         {
             var heroPolygons = new List<Geometry.Polygon>();
             foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => !h.IsAlly && !h.IsDead && h.IsVisible))
@@ -46,19 +46,19 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         /// <param name="hero">The target hero.</param>
         internal static Geometry.Circle GetChampionRangeCircle(Obj_AI_Hero hero)
         {
-            var heroSpells = new List<SpellData>();
-            heroSpells.Add(SpellData.GetSpellData(hero.GetSpell(SpellSlot.Q).Name));
-            heroSpells.Add(SpellData.GetSpellData(hero.GetSpell(SpellSlot.W).Name));
-            heroSpells.Add(SpellData.GetSpellData(hero.GetSpell(SpellSlot.E).Name));
-            /*var ultimate = hero.GetSpell(SpellSlot.R);
-            var ultimateSpellData = SpellData.GetSpellData(ultimate.Name);
-            if (ultimate.IsReady() && ultimateSpellData.CastRange.FirstOrDefault() < 1500)
+            var heroSpells = new List<SpellData>
             {
-                heroSpells.Add(ultimateSpellData);
-            }*/
-            var highestSpellRange =
-                heroSpells.OrderBy(s => s.CastRange).FirstOrDefault().CastRange.OrderByDescending(lvl => Convert.ToInt32(lvl.ToString())).FirstOrDefault();
-            return new Geometry.Circle(hero.ServerPosition.To2D(), highestSpellRange > hero.AttackRange ? highestSpellRange : hero.AttackRange);
+                SpellData.GetSpellData(hero.GetSpell(SpellSlot.Q).Name),
+                SpellData.GetSpellData(hero.GetSpell(SpellSlot.W).Name),
+                SpellData.GetSpellData(hero.GetSpell(SpellSlot.E).Name),
+            };
+            var spellsOrderedByRange = heroSpells.OrderBy(s => s.CastRange).FirstOrDefault();
+            if (spellsOrderedByRange != null) {
+                var highestSpellRange =
+                    spellsOrderedByRange.CastRange.OrderByDescending(lvl => Convert.ToInt32(lvl.ToString())).FirstOrDefault();
+                return new Geometry.Circle(hero.ServerPosition.To2D(), highestSpellRange > hero.AttackRange ? highestSpellRange : hero.AttackRange);
+            }
+            return new Geometry.Circle(hero.ServerPosition.To2D(), hero.AttackRange);
         }
 
         /// <summary>
