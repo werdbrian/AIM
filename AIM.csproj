@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autoplay\Behaviors\MainBehavior.cs" />
+    <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Geometry.cs" />
     <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Laning.cs" />
     <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Teamfight.cs" />
     <Compile Include="Autoplay\Behaviors\Strategy\Positioning\Util.cs" />
