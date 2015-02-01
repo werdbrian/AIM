@@ -37,7 +37,10 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
                 }
             }*/
             //Console.WriteLine("Utils.AllyZone is null");
-            return Utils.GetAllyPosList().OrderByDescending(h => h.Distance(HQ.AllyHQ.Position)).FirstOrDefault();
+            var hfPos = Utils.GetAllyPosList().OrderByDescending(h => h.Distance(HQ.AllyHQ.Position)).FirstOrDefault();
+            hfPos.X = hfPos.X + Randoms.Rand.Next(-200, 200);
+            hfPos.Y = hfPos.Y + Randoms.Rand.Next(-200, 200);
+            return hfPos;
         }
     }
 }
