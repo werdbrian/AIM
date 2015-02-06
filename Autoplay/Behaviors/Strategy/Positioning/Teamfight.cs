@@ -8,6 +8,7 @@ using AIM.Autoplay.Util.Objects;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using Color = System.Drawing.Color;
 
 namespace AIM.Autoplay.Behaviors.Strategy.Positioning
 {
@@ -25,7 +26,7 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         /// </summary>
         internal static Vector2 GetPos()
         {
-            /*if (Util.AllyZone() != null)
+            if (Util.AllyZone() != null)
             {
                 var randomPoint = Util.AllyZone().OrderBy(p => Randoms.Rand.Next()).FirstOrDefault().FirstOrDefault();
                 if (randomPoint != null)
@@ -33,9 +34,12 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
                     var v2 = new Vector2();
                     v2.X = randomPoint.X;
                     v2.Y = randomPoint.Y;
-                    return v2;
+                    if (!v2.IsWall())
+                    {
+                        return v2;
+                    }
                 }
-            }*/
+            }
             //Console.WriteLine("Utils.AllyZone is null");
             var hfPos = Utils.GetAllyPosList().OrderByDescending(h => h.Distance(HQ.AllyHQ.Position)).FirstOrDefault();
             hfPos.X = hfPos.X + Randoms.Rand.Next(-200, 200);

@@ -20,11 +20,25 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
         internal static Paths AllyZone()
         {
             var teamPolygons = new List<Geometry.Polygon>();
-            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().FindAll(h => h.IsAlly && !h.IsDead && !h.IsMe && !(h.InFountain() || h.InShop())))
+            foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsAlly && !h.IsDead && !h.IsMe && !(h.InFountain() || h.InShop())))
             {
                 teamPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
             }
-            return Geometry.ClipPolygons(teamPolygons);
+            var teamPaths = Geometry.ClipPolygons(teamPolygons);
+            var newTeamPaths = teamPaths;
+            foreach (var paths in teamPaths)
+            {
+                Path wall = new Path();
+                foreach (var path in paths)
+                {
+                    if (Utility.IsWall(new Vector2(path.X, path.Y)))
+                    {
+                        wall.Add(path);
+                    }
+                }
+                newTeamPaths.Remove(wall);
+            }
+            return newTeamPaths;
         }
 
         /// <summary>
@@ -52,11 +66,11 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
                 SpellData.GetSpellData(hero.GetSpell(SpellSlot.W).Name),
                 SpellData.GetSpellData(hero.GetSpell(SpellSlot.E).Name),
             };
-            var spellsOrderedByRange = heroSpells.OrderBy(s => s.CastRange).FirstOrDefault();
-            if (spellsOrderedByRange != null) {
-                var highestSpellRange =
-                    spellsOrderedByRange.CastRange.OrderByDescending(lvl => Convert.ToInt32(lvl.ToString())).FirstOrDefault();
-                return new Geometry.Circle(hero.ServerPosition.To2D(), highestSpellRange > hero.AttackRange ? highestSpellRange : hero.AttackRange);
+            var spellsOrderedByRange = heroSpells.OrderBy(s => s.CastRange.FirstOrDefault());
+            if (spellsOrderedByRange.FirstOrDefault() != null)
+            {
+                var highestSpellRange = spellsOrderedByRange.FirstOrDefault().CastRange;
+                return new Geometry.Circle(hero.ServerPosition.To2D(), highestSpellRange[0] > hero.AttackRange ? highestSpellRange[0] : hero.AttackRange);
             }
             return new Geometry.Circle(hero.ServerPosition.To2D(), hero.AttackRange);
         }
