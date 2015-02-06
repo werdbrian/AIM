@@ -26,10 +26,10 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
             }
             var teamPaths = Geometry.ClipPolygons(teamPolygons);
             var newTeamPaths = teamPaths;
-            foreach (var paths in teamPaths)
+            foreach (var pathList in teamPaths)
             {
                 Path wall = new Path();
-                foreach (var path in paths)
+                foreach (var path in pathList)
                 {
                     if (Utility.IsWall(new Vector2(path.X, path.Y)))
                     {
@@ -51,7 +51,21 @@ namespace AIM.Autoplay.Behaviors.Strategy.Positioning
             {
                 teamPolygons.Add(GetChampionRangeCircle(hero).ToPolygon());
             }
-            return Geometry.ClipPolygons(teamPolygons);
+            var teamPaths = Geometry.ClipPolygons(teamPolygons);
+            var newTeamPaths = teamPaths;
+            foreach (var pathList in teamPaths)
+            {
+                Path wall = new Path();
+                foreach (var path in pathList)
+                {
+                    if (Utility.IsWall(new Vector2(path.X, path.Y)))
+                    {
+                        wall.Add(path);
+                    }
+                }
+                newTeamPaths.Remove(wall);
+            }
+            return newTeamPaths;
         }
         
         /// <summary>
