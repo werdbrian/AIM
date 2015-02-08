@@ -14,6 +14,7 @@ using AIM.Autoplay.Util.Data;
 using AIM.Autoplay.Util.Objects;
 using LeagueSharp;
 using LeagueSharp.Common;
+using LeagueSharp.Common.Data;
 using SharpDX;
 
 namespace AIM.Autoplay.Util.Helpers
@@ -56,8 +57,7 @@ namespace AIM.Autoplay.Util.Helpers
         {
             ItemId.Zhonyas_Hourglass, ItemId.Rabadons_Deathcap,
             ItemId.Rod_of_Ages, ItemId.Needlessly_Large_Rod, ItemId.Chalice_of_Harmony, ItemId.Rylais_Crystal_Scepter,
-            ItemId.Will_of_the_Ancients, ItemId.Zekes_Herald, ItemId.Locket_of_the_Iron_Solari, ItemId.Void_Staff,
-            ItemId.Hextech_Sweeper, ItemId.Iceborn_Gauntlet, ItemId.Abyssal_Scepter, ItemId.Sorcerers_Shoes
+            ItemId.Will_of_the_Ancients, ItemId.Locket_of_the_Iron_Solari, ItemId.Void_Staff, ItemId.Iceborn_Gauntlet, ItemId.Abyssal_Scepter, ItemId.Sorcerers_Shoes
         };
 
         private static readonly ItemId[] ARAMShopListAD =
