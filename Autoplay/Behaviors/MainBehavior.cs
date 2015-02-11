@@ -20,8 +20,11 @@ namespace AIM.Autoplay.Behaviors
             {
                 var heroes = new Heroes();
                 var minions = new Minions();
-
-                if (!ObjectManager.Get<Obj_AI_Minion>().Any())
+                if (Heroes.Me.IsDead)
+                {
+                    return 0;
+                }
+                if (!ObjectManager.Get<Obj_AI_Minion>().Any() && !ObjectManager.Get<Obj_AI_Hero>())
                 {
                     Console.WriteLine("5");
                     return 5;
@@ -30,10 +33,7 @@ namespace AIM.Autoplay.Behaviors
                 {
                     return 1;
                 }
-                if (Heroes.Me.IsDead)
-                {
-                    return 0;
-                }
+
                 if (heroes.AllyHeroes.All(h => h.InFountain()) || Heroes.Me.Level >= 16 || !heroes.EnemyHeroes.Any(h => h.IsVisible) || (float)(Heroes.Me.ChampionsKilled + Heroes.Me.Assists) / ((Heroes.Me.Deaths == 0) ? 1 : Heroes.Me.Deaths) > 2.5f || !minions.EnemyMinions.Any(m => m.IsVisible))
                 {
                     return 2;
